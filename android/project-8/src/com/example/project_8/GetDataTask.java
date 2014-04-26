@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
+public class GetDataTask extends AsyncTask<Boolean, Void, Boolean> {
 
 	private static final String URL = "http://ganev.bg/project-8/www/api";
 	public Context context;
@@ -28,7 +28,9 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected Boolean doInBackground(Void... params) {
+	protected Boolean doInBackground(Boolean... params) {
+
+		boolean update = params[0];
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(URL);
@@ -47,7 +49,7 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 				int count = db.getCount();
 				if (count <= 0) {
-					db.insertCampaigns(list);
+					db.insertCampaigns(list, update);
 				}
 
 				db.close();

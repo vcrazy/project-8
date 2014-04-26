@@ -10,6 +10,7 @@
         android:orientation="horizontal" >
 
         <LinearLayout
+            android:id="@+id/tab_people"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -27,7 +28,6 @@
                 android:src="@drawable/people_icon" />
 
             <TextView
-                android:id="@+id/tab_people"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -42,52 +42,102 @@
             android:layout_height="match_parent"
             android:background="@color/separator_color" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/tab_organisations"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.8"
             android:background="@drawable/text_state"
             android:clickable="true"
-            android:gravity="center"
-            android:text="@string/tab_organisations"
-            android:textColor="@color/white"
-            android:textSize="13sp" />
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/people_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/tab_organisations"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/separator_color" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/tab_special"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.9"
             android:background="@drawable/text_state"
             android:clickable="true"
-            android:gravity="center"
-            android:text="@string/tab_specials"
-            android:textColor="@color/white"
-            android:textSize="13sp" />
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/people_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/tab_specials"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/separator_color" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/tab_other"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/text_state"
             android:clickable="true"
-            android:gravity="center"
-            android:text="@string/tab_other"
-            android:textColor="@color/white"
-            android:textSize="13sp" />
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/people_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/tab_other"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separator_list_color" />
 
     <ListView
         android:id="@+id/list_view"

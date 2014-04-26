@@ -10,43 +10,36 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-public class GetDataVersion extends AsyncTask<Void, Void, Boolean> {
+public class TrackTask extends AsyncTask<String, Void, Boolean> {
 
-	private static final String URL = "http://ganev.bg/project-8/www/api/version";
-	public Context context;
-	private String version;
-
-	public GetDataVersion(Context context) {
-
-		this.context = context;
-	}
+	// ./track?phone_id=...&campaign_id=.
+	private static final String URL = "http://ganev.bg/project-8/www/track";
+	private static final String PHONE_ID_PARAM = "?phone_id=";
+	private static final String CAMPAIGN_ID_PARAM = "&campaign_id=";
 
 	@Override
-	protected Boolean doInBackground(Void... params) {
-		boolean result = false;
+	protected Boolean doInBackground(String... params) {
+
+		String phoneID = params[0];
+		String campaignID = params[1];
+
+		String url = URL + PHONE_ID_PARAM + phoneID + CAMPAIGN_ID_PARAM
+				+ campaignID;
+
 		DefaultHttpClient client = new DefaultHttpClient();
-		HttpGet get = new HttpGet(URL);
+		HttpGet get = new HttpGet(url);
 
 		try {
 			HttpResponse response = client.execute(get);
 			String jsonResponse = EntityUtils.toString(response.getEntity());
-			JSONObject json = new JSONObject(jsonResponse);
-			version = json.getString("version");
 
-			if (version != null) {
-				// insert in db
-				DatabaseHelper db = new DatabaseHelper(this.context);
-
-				result = db.insertVersion(version);
-
-				db.close();
-
-			} else {
+			if (response.getStatusLine().getStatusCode() > 300) {
 				return false;
 			}
+
+			JSONObject json = new JSONObject(jsonResponse);
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -59,7 +52,7 @@ public class GetDataVersion extends AsyncTask<Void, Void, Boolean> {
 			return false;
 		}
 
-		return result;
-
+		return true;
 	}
+
 }

@@ -85,6 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/* ====== VERSION ====== */
 	public boolean insertVersion(String version) {
+
 		String selectQuery = "SELECT * FROM " + TABLE_VERSION;
 
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -93,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (c != null && c.getCount() > 0) {
 			c.moveToFirst();
 			String currentVersion = c.getString(c.getColumnIndex(KEY_VERSION));
-			if (currentVersion != version) {
+			if (!currentVersion.equals(version)) {
 				ContentValues values = new ContentValues();
 				values.put(KEY_VERSION, version);
 				int result = db.update(TABLE_VERSION, values, null, null);
@@ -119,9 +120,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * Creating a campaign
 	 */
-	public void insertCampaigns(ArrayList<FullInfo> list) {
+	public void insertCampaigns(ArrayList<FullInfo> list, boolean update) {
 
 		SQLiteDatabase db = this.getWritableDatabase();
+
+		if (update) {
+			db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CAMPAIGNS_INFO + "'");
+			db.execSQL(CREATE_TABLE_CAMPAIGNS);
+		}
 
 		for (int i = 0; i < list.size(); i++) {
 			FullInfo info = list.get(i);
@@ -161,7 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS_INFO
 				+ " WHERE " + KEY_CAMPAIGN_TYPE + " = '" + campaignType + "' "
-				+ " ORDER BY " + KEY_START_DATE + " DESC";
+				+ "ORDER BY " + KEY_START_DATE + " DESC";
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);

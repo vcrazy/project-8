@@ -64,8 +64,8 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 		BasicInfo info = this.data.get(position);
 
-		viewHolder.imageView.setImageBitmap(BasicInfo
-				.getImageBitmap(info.imageUri));
+		viewHolder.imageView
+				.setImageBitmap(Utils.getImageBitmap(info.imageUri));
 		viewHolder.textViewTitle.setText(info.campaignName);
 		viewHolder.textViewInfo.setText(info.campaignSubName);
 
