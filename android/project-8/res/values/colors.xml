@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="black">#ffffff</color>
 	<color name="light_blue">#4fc1e9</color>
 	<color name="dark_blue">#3bafda</color>
+	<color name="white">#ffffff</color>
+	<color name="dark_grey">#6A7381</color>
+	<color name="shady_blue">#43A7C9</color>
+	<color name="separator_color">#2FA9D3</color>
+	<color name="separator_list_color">#C5CFDB</color>
+	<color name="white_grey">#EAEAEE</color>
 </resources>

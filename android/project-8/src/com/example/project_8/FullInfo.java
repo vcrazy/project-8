@@ -1,12 +1,15 @@
 package com.example.project_8;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class FullInfo extends BasicInfo {
+public class FullInfo extends BasicInfo implements Serializable {
+	private static final long serialVersionUID = -997713783095087974L;
+
 	public int phoneNumber;
 	// public int campaignId;
 	public double priceSMS;

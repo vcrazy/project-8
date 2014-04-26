@@ -5,9 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="image_user">Снимка на кампания</string>
-    <string name="tab_people">Хора</string>
-    <string name="tab_organisations">Организации</string>
-    <string name="tab_specials">Спецални</string>
-    <string name="tab_other">Други</string>
+    <string name="tab_people">ХОРА</string>
+    <string name="tab_organisations">ОРГАНИЗАЦИИ</string>
+    <string name="tab_specials">СПЕЦИАЛНИ</string>
+    <string name="tab_other">ДРУГИ</string>
     <string name="send_sms_button">Изпрати SMS</string>
 </resources>

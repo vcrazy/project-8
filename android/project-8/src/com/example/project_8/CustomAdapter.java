@@ -52,9 +52,9 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 			viewHolder.imageView = (ImageView) convertView
 					.findViewById(R.id.item_image);
 			viewHolder.textViewTitle = (TextView) convertView
-					.findViewById(R.id.item_title);
+					.findViewById(R.id.item_name);
 			viewHolder.textViewInfo = (TextView) convertView
-					.findViewById(R.id.item_more_info);
+					.findViewById(R.id.item_subname);
 
 			convertView.setTag(viewHolder);
 
@@ -66,8 +66,8 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 		viewHolder.imageView.setImageBitmap(BasicInfo
 				.getImageBitmap(info.imageUri));
-		viewHolder.textViewTitle.setText(info.campaignSubName);
-		viewHolder.textViewInfo.setText(info.campaignName);
+		viewHolder.textViewTitle.setText(info.campaignName);
+		viewHolder.textViewInfo.setText(info.campaignSubName);
 
 		convertView.setTag(R.id.item_image, info.campaignId);
 

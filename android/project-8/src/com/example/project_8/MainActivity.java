@@ -3,8 +3,8 @@ package com.example.project_8;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	// people, organization, other, special
 	String TYPE_PEOPLE = "people";
-	String TYPE_ORGANIZATION = "organization";
+	String TYPE_ORGANIZATION = "organizations";
 	String TYPE_OTHER = "other";
 	String TYPE_SPECIAL = "special";
 
@@ -37,16 +37,21 @@ public class MainActivity extends Activity {
 
 		setContentView(R.layout.tab_navigation);
 		mlistView = (ListView) findViewById(R.id.list_view);
+
 		textViewPeople = (TextView) findViewById(R.id.tab_people);
+		textViewPeople.setSelected(true);
 		textViewPeople.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				textViewOther.setSelected(false);
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(true);
+
+				chosenType = TYPE_PEOPLE;
+				loadData();
 			};
 		});
 
@@ -55,11 +60,14 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				textViewOther.setSelected(false);
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(true);
 				textViewPeople.setSelected(false);
+
+				chosenType = TYPE_ORGANIZATION;
+				loadData();
 			};
 		});
 
@@ -68,11 +76,14 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				textViewOther.setSelected(false);
 				textViewSpecial.setSelected(true);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(false);
+
+				chosenType = TYPE_SPECIAL;
+				loadData();
 			};
 		});
 
@@ -81,14 +92,17 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+
 				textViewOther.setSelected(true);
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(false);
+
+				chosenType = TYPE_OTHER;
+				loadData();
 			};
 		});
-		loadData();
+		getData();
 
 		mlistView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -101,14 +115,17 @@ public class MainActivity extends Activity {
 				FullInfo fullInfo = db.getCampaignByID(campaignID);
 				db.close();
 				if (fullInfo != null) {
-					Log.e("FULL", fullInfo.campaignName);
+					Intent intent = new Intent(MainActivity.this,
+							CampaignProfileActivity.class);
+					intent.putExtra("full", fullInfo);
+					startActivity(intent);
 				}
 
 			}
 		});
 	}
 
-	public void loadData() {
+	public void getData() {
 
 		GetDataTask task = new GetDataTask(this) {
 
@@ -116,11 +133,7 @@ public class MainActivity extends Activity {
 			protected void onPostExecute(Boolean result) {
 				super.onPostExecute(result);
 
-				getBasicInfoFromDB();
-
-				adapter = new CustomAdapter(MainActivity.this,
-						R.layout.list_item, list);
-				mlistView.setAdapter(adapter);
+				loadData();
 			}
 
 		};
@@ -133,10 +146,7 @@ public class MainActivity extends Activity {
 			task.execute();
 		else {
 
-			getBasicInfoFromDB();
-
-			this.adapter = new CustomAdapter(this, R.layout.list_item, list);
-			mlistView.setAdapter(adapter);
+			loadData();
 		}
 
 	}
@@ -152,5 +162,12 @@ public class MainActivity extends Activity {
 		if (list == null)
 			list = new ArrayList<BasicInfo>();
 
+	}
+
+	private void loadData() {
+		getBasicInfoFromDB();
+
+		this.adapter = new CustomAdapter(this, R.layout.list_item, list);
+		mlistView.setAdapter(adapter);
 	}
 }
