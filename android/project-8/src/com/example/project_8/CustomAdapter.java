@@ -13,14 +13,14 @@ import com.squareup.picasso.Picasso;
 
 public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
-	private Context contet;
+	private Context context;
 	private ArrayList<BasicInfo> data;
 	private Picasso picasso;
 
 	public CustomAdapter(Context context, int resource,
 			ArrayList<BasicInfo> objects) {
 		super(context, resource, objects);
-		this.contet = context;
+		this.context = context;
 		this.data = objects;
 		this.picasso = Picasso.with(context);
 	}
@@ -47,7 +47,7 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 		if (convertView == null) {
 
-			convertView = View.inflate(contet, R.layout.list_item, null);
+			convertView = View.inflate(context, R.layout.list_item, null);
 
 			viewHolder.imageView = (ImageView) convertView
 					.findViewById(R.id.item_image);
