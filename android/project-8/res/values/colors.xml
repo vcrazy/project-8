@@ -8,4 +8,10 @@
 	<color name="separator_color">#2FA9D3</color>
 	<color name="separator_list_color">#C5CFDB</color>
 	<color name="white_grey">#EAEAEE</color>
+	<color name="details_title">#2E6182</color>
+	<color name="date_title">#32637E</color>
+	<color name="details_background">#EAEAEE</color>
+	<color name="pricesms_title">#2C5F80</color>
+	<color name="pricesms_price">#40A5C9</color>
+	<color name="separator_details_top">#C5CFDB</color>
 </resources>

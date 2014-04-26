@@ -46,7 +46,6 @@ public class CampaignProfileActivity extends Activity {
 		textViewcampaignSubName = (TextView) findViewById(R.id.campaignSubName);
 		textViewDescription = (TextView) findViewById(R.id.description);
 		textViewStartDate = (TextView) findViewById(R.id.startDate);
-		textViewEndDate = (TextView) findViewById(R.id.endDate);
 		textViewPriceSMS = (TextView) findViewById(R.id.pricesms);
 		textViewNumberSMS = (TextView) findViewById(R.id.numbersms);
 		textViewLinkToWeb = (TextView) findViewById(R.id.link_to_web);

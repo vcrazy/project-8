@@ -6,22 +6,27 @@
     <LinearLayout
         android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/send_sms"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/send_sms_button" />
+            android:textSize="31sp"
+            android:textColor="@color/white"
+            android:background="@color/light_blue"
+            android:text="@string/send_sms_button"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp" />
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_layout" >
+        android:layout_above="@id/bottom_layout"
+        android:background="@color/details_background" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,14 +37,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/light_blue"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="15dp" >
+                android:paddingBottom="35dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="35dp" >
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="20dp"
                     android:src="@drawable/ic_launcher" />
 
                 <LinearLayout
@@ -52,90 +61,129 @@
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="DMS Name"
-                        android:textColor="#000000"
+                        android:textColor="@color/details_title"
+                        android:textSize="26sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/campaignSubName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Subtitle"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/startDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="DMS start date"
-                        android:textColor="#000000"
+                        android:textColor="@color/white"
+                        android:textSize="27sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/endDate"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="DMS end date"
-                        android:textColor="#000000"
-                        android:textStyle="bold" />
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/startdate_title"
+                            android:textColor="@color/date_title"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/startDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DMS start date"
+                            android:textColor="@color/date_title"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-			
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/separator_details_top" />
+
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-                <TextView
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/pricesms_title"
-                android:textColor="#000000"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:padding="20dp" >
+
                 <TextView
-                android:layout_weight="1"
-                android:id="@+id/pricesms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Price SMS"
-                android:textColor="#000000"
-                android:textStyle="bold" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/pricesms_title"
+                    android:textColor="@color/pricesms_title"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/pricesms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/pricesms_price"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
             </LinearLayout>
             
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-                <TextView
-                android:layout_weight="1"
+             <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/numbersms_title"
-                android:textColor="#000000"
-                android:textStyle="bold" />
-                <TextView
-                android:layout_weight="1"
-                android:id="@+id/numbersms"
+                android:layout_height="1.5dp"
+                android:background="@color/separator_details_top" />
+             <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Number SMS"
-                android:textColor="#000000"
-                android:textStyle="bold" />
-            </LinearLayout>
+                android:layout_height="2dp"
+                android:background="@color/white" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp" >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/numbersms_title"
+                    android:textColor="@color/pricesms_title"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/numbersms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/pricesms_title"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+			
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/separator_details_top" />
+            
             <TextView
                 android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="description here\n\n\n\ndescription here\n\n\n\nMoooore description here\n\n\n\nMoooore description here" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/date_title"
+                android:textSize="23sp" />
+
             <TextView
                 android:id="@+id/link_to_web"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:clickable="true"
+                android:textSize="25sp"
+                android:textColor="@color/pricesms_price"
                 android:text="@string/title_link_to_web"
-                android:clickable="true" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="30dp"
+                android:paddingTop="20dp" />
         </LinearLayout>
     </ScrollView>
 
