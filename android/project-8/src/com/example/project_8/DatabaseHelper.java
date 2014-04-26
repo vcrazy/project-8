@@ -22,6 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	// Table Names
 	private static final String TABLE_CAMPAIGNS_INFO = "Campaigns";
 
+	private static final String TABLE_VERSION = "Version";
+
 	// Common column names
 	private static final String KEY_ID = "id";
 	private static final String KEY_CREATED_AT = "created_at";
@@ -39,6 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String KEY_TEXT_CAMPAIGN = "text_campaign";
 	private static final String KEY_IMAGE = "image";
 	private static final String KEY_CAMPAIGN_LINK = "campaign_link";
+	private static final String KEY_VERSION = "version";
 
 	// Table Create Statements
 	// Campaigns table create statement
@@ -52,6 +55,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ KEY_IMAGE + " TEXT," + KEY_CAMPAIGN_LINK + " TEXT,"
 			+ KEY_CREATED_AT + " DATETIME" + ")";
 
+	private static final String CREATE_TABLE_VERSION = "CREATE TABLE "
+			+ TABLE_VERSION + "(" + KEY_VERSION + " TEXT PRIMARY KEY)";
+
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -61,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		// creating required tables
 		db.execSQL(CREATE_TABLE_CAMPAIGNS);
-
+		db.execSQL(CREATE_TABLE_VERSION);
 	}
 
 	@Override
@@ -70,9 +76,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// on upgrade drop older tables
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAMPAIGNS_INFO);
 
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_VERSION);
+
 		// create new tables
 		onCreate(db);
 
+	}
+
+	/* ====== VERSION ====== */
+	public boolean insertVersion(String version) {
+		String selectQuery = "SELECT * FROM " + TABLE_VERSION;
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c != null && c.getCount() > 0) {
+			c.moveToFirst();
+			String currentVersion = c.getString(c.getColumnIndex(KEY_VERSION));
+			if (currentVersion != version) {
+				ContentValues values = new ContentValues();
+				values.put(KEY_VERSION, version);
+				int result = db.update(TABLE_VERSION, values, null, null);
+				if (result > 0)
+					return true;
+			}
+		} else {
+			ContentValues values = new ContentValues();
+			values.put(KEY_VERSION, version);
+			long result = -1;
+			result = db.insert(TABLE_VERSION, null, values);
+			if (result > -1)
+				return true;
+		}
+
+		c.close();
+		db.close();
+		return false;
 	}
 
 	/* ====== Campaign info ====== */
