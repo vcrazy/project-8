@@ -77,6 +77,8 @@ class Home extends MY_Controller {
 			}
 		}
 
+		sort($data['campaign_keys']);
+
 		$data['months'] = array('Януари', 'Февруари', 'Март', 'Април', 'Май', 'Юни', 'Юли', 'Август', 'Септември', 'Октомври', 'Ноември', 'Декември');
 
 		$this->load->view('home', $data);
