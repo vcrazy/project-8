@@ -64,6 +64,12 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+if($_SERVER['HTTP_HOST'] !== 'localhost')
+{
+	$db['default']['database'] = 't3stovet_dbosem';
+	$db['default']['username'] = 't3stovet_osemuse';
+	$db['default']['password'] = 'aI()}PQ{Uefq';
+}
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

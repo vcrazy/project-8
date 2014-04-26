@@ -16,10 +16,13 @@ class Worker extends MY_Controller {
 		$dms_data = $this->worker_dms();
 		$unicef_data = $this->worker_unicef();
 		$redcross_data = $this->worker_redcross();
+		$bgkoleda_data = $this->worker_bgkoleda();
 
-		$data = array_merge($dms_data, $unicef_data, $redcross_data);
+		$data = array_merge($dms_data, $unicef_data, $redcross_data, $bgkoleda_data);
 
-		$this->Model_worker->save($data);
+		$result = $this->Model_worker->save($data);
+
+		echo 'Result: ' . (int)$result;
 	}
 
 	public function worker_dms()
@@ -41,5 +44,12 @@ class Worker extends MY_Controller {
 		$this->load->library('redcross');
 
 		return $this->redcross->get();
+	}
+
+	public function worker_bgkoleda()
+	{
+		$this->load->library('bgkoleda');
+
+		return $this->bgkoleda->get();
 	}
 }
