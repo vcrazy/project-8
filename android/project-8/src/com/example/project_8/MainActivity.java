@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tab_navigation);
+		setContentView(R.layout.activity_main);
 
 		loader = new Loader(MainActivity.this);
 
