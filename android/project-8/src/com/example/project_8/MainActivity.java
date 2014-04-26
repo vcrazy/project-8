@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.tab_navigation);
+		setContentView(R.layout.activity_main);
 		mlistView = (ListView) findViewById(R.id.list_view);
 
 		textViewPeople = (TextView) findViewById(R.id.tab_people);

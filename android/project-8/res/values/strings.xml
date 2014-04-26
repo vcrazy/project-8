@@ -10,4 +10,8 @@
     <string name="tab_specials">СПЕЦИАЛНИ</string>
     <string name="tab_other">ДРУГИ</string>
     <string name="send_sms_button">Изпрати SMS</string>
+    <string name="bg_money">лв.</string>
+    <string name="pricesms_title">Стойност на SMS</string>
+    <string name="numbersms_title">Номер</string>
+    <string name="title_link_to_web">Линк към страницата</string>
 </resources>

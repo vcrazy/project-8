@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,9 @@ public class CampaignProfileActivity extends Activity {
 	private TextView textViewDescription;
 	private TextView textViewStartDate;
 	private TextView textViewEndDate;
+	private TextView textViewPriceSMS;
+	private TextView textViewNumberSMS;
+	private TextView textViewLinkToWeb;
 	private Button btnSendSms;
 
 	/* Full data */
@@ -43,7 +47,34 @@ public class CampaignProfileActivity extends Activity {
 		textViewDescription = (TextView) findViewById(R.id.description);
 		textViewStartDate = (TextView) findViewById(R.id.startDate);
 		textViewEndDate = (TextView) findViewById(R.id.endDate);
+		textViewPriceSMS = (TextView) findViewById(R.id.pricesms);
+		textViewNumberSMS = (TextView) findViewById(R.id.numbersms);
+		textViewLinkToWeb = (TextView) findViewById(R.id.link_to_web);
 		btnSendSms = (Button) findViewById(R.id.send_sms);
+
+		textViewName.setText(campaignInfo.campaignName);
+		textViewcampaignSubName.setText(campaignInfo.campaignSubName);
+		String moneyConverted = String.valueOf(campaignInfo.priceSMS);
+		textViewPriceSMS.setText(moneyConverted + " "
+				+ getString(R.string.bg_money));
+
+		textViewDescription.setText(campaignInfo.txtCampaign);
+
+		textViewNumberSMS.setText(Integer.toString(campaignInfo.phoneNumber));
+
+		textViewLinkToWeb.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			}
+		});
+		// java.util.Date startTime = new java.util.Date(
+		// (long) campaignInfo.startDate * 1000);
+		// textViewStartDate.setText(startTime);
+		//
+		// java.util.Date endTime = new java.util.Date(
+		// (long) campaignInfo.startDate * 1000);
+		// textViewEndDate.setText(endTime.toString());
 
 		btnSendSms.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
