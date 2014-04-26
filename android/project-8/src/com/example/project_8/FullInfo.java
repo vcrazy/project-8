@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 public class FullInfo extends BasicInfo {
 	public int phoneNumber;
-	public int campaignId;
+	// public int campaignId;
 	public double priceSMS;
 	public String txtSMS;
 	public int startDate;
@@ -22,10 +22,10 @@ public class FullInfo extends BasicInfo {
 			int startDate, int endDate, String campaignType,
 			String txtCampaign, String image, String campaignLink) {
 
-		super(image, campaignName, campaignSubName);
+		super(campaignId, image, campaignName, campaignSubName);
 
 		this.phoneNumber = phoneNumber;
-		this.campaignId = campaignId;
+		// this.campaignId = campaignId;
 		this.priceSMS = priceSMS;
 		this.txtSMS = txtSMS;
 		this.startDate = startDate;
