@@ -1,24 +1,88 @@
 package com.example.project_8;
 
-public class FullInfo extends BasicInfo {
-	private int phoneNumber;
-	private int compaignId;
-	private double priceSMS;
-	private String txtSMS;
-	private String compaignName;
-	private String compaignSubName;
-	private String startDate;
-	private String endDate;
-	private String campaignType;
-	private String txtCompaign;
-	private String image;
-	private String compaignLink;
+import java.util.ArrayList;
 
-	public FullInfo(int phoneNumber, int compaignId, double priceSMS,
-			String txtSMS, String compaignName, String compaignSubName,
-			String startDate, String endDate, String campaignType,
-			String txtCompaign, String image, String compaignLink) {
-		super(image, compaignName, compaignSubName);
-		// TODO Auto-generated constructor stub
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class FullInfo extends BasicInfo {
+	public int phoneNumber;
+	public int campaignId;
+	public double priceSMS;
+	public String txtSMS;
+	public int startDate;
+	public int endDate;
+	public String campaignType;
+	public String txtCampaign;
+	public String campaignLink;
+
+	public FullInfo(int phoneNumber, int campaignId, double priceSMS,
+			String txtSMS, String campaignName, String campaignSubName,
+			int startDate, int endDate, String campaignType,
+			String txtCampaign, String image, String campaignLink) {
+
+		super(image, campaignName, campaignSubName);
+
+		this.phoneNumber = phoneNumber;
+		this.campaignId = campaignId;
+		this.priceSMS = priceSMS;
+		this.txtSMS = txtSMS;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.campaignType = campaignType;
+		this.txtCampaign = txtCampaign;
+		this.campaignLink = campaignLink;
+
+	}
+
+	public static ArrayList<FullInfo> parseData(JSONArray json) {
+
+		ArrayList<FullInfo> list = new ArrayList<FullInfo>();
+
+		// get json object from json array
+		for (int i = 0; i < json.length(); i++) {
+
+			try {
+				JSONObject jsonData = json.getJSONObject(i);
+				// 'id'
+				int campaignId = jsonData.getInt("id");
+				// 'name'
+				String campaignName = jsonData.getString("name");
+				// 'subname'
+				String campaignSubname = jsonData.getString("subname");
+				// 'type'
+				String campaignType = jsonData.getString("type");
+				// 'text'
+				String txtCampaign = jsonData.getString("text");
+				// 'donation'
+				double priceSMS = Double.valueOf(jsonData.getInt("donation"));
+				// 'picture'
+				String image = jsonData.getString("picture");
+				// 'link'
+				String campaignLink = jsonData.getString("link");
+				// 'sms_text'
+				String txtSms = jsonData.getString("sms_text");
+				// 'sms_number'
+				int phoneNumber = jsonData.getInt("sms_number");
+				// 'date_from'
+				int startDate = jsonData.getInt("date_from");
+				int endDate = 0;
+
+				// create new object
+				FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS,
+						txtSms, campaignName, campaignSubname, startDate,
+						endDate, campaignType, txtCampaign, image, campaignLink);
+
+				list.add(info);
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		return list;
+
 	}
 }

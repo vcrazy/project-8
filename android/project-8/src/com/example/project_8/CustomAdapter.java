@@ -64,9 +64,10 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 		BasicInfo info = this.data.get(position);
 
-		picasso.load(info.imageUri).into(viewHolder.imageView);
-		viewHolder.textViewTitle.setText(info.title);
-		viewHolder.textViewInfo.setText(info.info);
+		viewHolder.imageView.setImageBitmap(BasicInfo
+				.getImageBitmap(info.imageUri));
+		viewHolder.textViewTitle.setText(info.campaignSubName);
+		viewHolder.textViewInfo.setText(info.campaignName);
 
 		convertView.setTag(R.id.item_image, info);
 
@@ -75,6 +76,7 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 	}
 
 	static class ViewHolder {
+
 		protected ImageView imageView;
 		protected TextView textViewTitle;
 		protected TextView textViewInfo;
