@@ -2,7 +2,7 @@ package com.example.project_8;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -10,7 +10,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 
 public class MainActivity extends SherlockActivity implements
 		ActionBar.TabListener {
-	private TextView mSelected;
+	private ListView mSelected;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MainActivity extends SherlockActivity implements
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.tab_navigation);
-		mSelected = (TextView) findViewById(R.id.text);
+		mSelected = (ListView) findViewById(R.id.list_view);
 
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		for (int i = 1; i <= 3; i++) {
@@ -39,7 +39,7 @@ public class MainActivity extends SherlockActivity implements
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction transaction) {
-		mSelected.setText("Selected: " + tab.getText());
+		// mSelected.setText("Selected: " + tab.getText());
 	}
 
 	@Override
