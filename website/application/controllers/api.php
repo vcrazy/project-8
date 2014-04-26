@@ -18,4 +18,15 @@ class Api extends MY_Controller {
 
 		echo json_encode($data);
 	}
+
+	public function version()
+	{
+		$version = $this->Model_api->get_version();
+
+		$data = array(
+			'version' => $version
+		);
+
+		echo json_encode($data);
+	}
 }

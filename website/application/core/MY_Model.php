@@ -2,7 +2,7 @@
 
 class MY_Model extends CI_Model
 {
-	protected function results($query)
+	protected function results($query, $key_sort = FALSE)
 	{
 		if(!$query->num_rows()) return FALSE;
 
@@ -10,6 +10,11 @@ class MY_Model extends CI_Model
 
 		foreach($query->result_array() as $row)
 		{
+			if($key_sort)
+			{
+				ksort($row);
+			}
+
 			$arr[] = $row;
 		}
 
