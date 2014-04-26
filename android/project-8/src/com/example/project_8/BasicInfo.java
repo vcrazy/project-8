@@ -1,10 +1,13 @@
 package com.example.project_8;
 
+import java.io.Serializable;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
-public class BasicInfo {
+public class BasicInfo implements Serializable {
+	private static final long serialVersionUID = 7112406630921673067L;
 
 	public int campaignId;
 	public String imageUri;

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	// people, organization, other, special
+	// people, organizations, other, special
 	String TYPE_PEOPLE = "people";
 	String TYPE_ORGANIZATION = "organizations";
 	String TYPE_OTHER = "other";
