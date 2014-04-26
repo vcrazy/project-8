@@ -2,7 +2,7 @@
 
 class Model_worker extends MY_Model
 {
-	public function save($data)
+	public function insert($data)
 	{
 		$result = TRUE;
 
@@ -13,5 +13,25 @@ class Model_worker extends MY_Model
 		}
 
 		return $result;
+	}
+
+	public function update($data)
+	{
+		$result = TRUE;
+
+		foreach($data as $data_part)
+		{
+			$this->db->where('subname', $data_part['subname']);
+			$result = $this->db->update('campaigns', $data_part) && $result;
+			sleep(1);
+		}
+
+		return $result;
+	}
+
+	public function delete($data)
+	{
+		$this->db->where_in('subname', $data);
+		return $this->db->delete('campaigns');
 	}
 }

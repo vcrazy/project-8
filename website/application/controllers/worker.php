@@ -9,6 +9,7 @@ class Worker extends MY_Controller {
 		set_time_limit(0);
 
 		$this->load->model('Model_worker');
+		$this->load->model('Model_api');
 	}
 
 	public function index()
@@ -18,9 +19,50 @@ class Worker extends MY_Controller {
 		$redcross_data = $this->worker_redcross();
 		$bgkoleda_data = $this->worker_bgkoleda();
 
-		$data = array_merge($dms_data, $unicef_data, $redcross_data, $bgkoleda_data);
+		$new_data = array_merge($dms_data, $unicef_data, $redcross_data, $bgkoleda_data);
+		$old_data = $this->Model_api->get_campaigns();
 
-		$result = $this->Model_worker->save($data);
+		$new_data_transformed = array();
+		foreach($new_data as $e)
+		{
+			$new_data_transformed[$e['subname']] = $new_data;
+		}
+
+		$old_data_transformed = array();
+		foreach($old_data as $e)
+		{
+			$old_data_transformed[$e['subname']] = $old_data;
+		}
+
+		$data_to_insert = array();
+		$data_to_update = array();
+		$data_to_delete = array();
+
+		foreach($new_data_transformed as $subname => $new_data_element)
+		{
+			if(!isset($old_data_transformed[$subname]))
+			{
+				$data_to_insert[] = $new_data_element;
+			}
+			else
+			{
+				$data_to_update[] = $new_data_element;
+			}
+		}
+
+		foreach(array_keys($old_data_transformed) as $subname)
+		{
+			if(!isset($new_data_transformed[$subname]))
+			{
+				$data_to_delete[] = $subname;
+			}
+		}
+
+		$insert_result = $this->Model_worker->insert($data_to_insert);
+		$update_result = $this->Model_worker->update($data_to_update);
+		$delete_result = $this->Model_worker->delete($data_to_delete);
+
+		$result = $insert_result && $update_result && $delete_result;
 
 		echo 'Result: ' . (int)$result;
 	}
