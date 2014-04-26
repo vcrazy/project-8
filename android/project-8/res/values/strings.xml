@@ -9,4 +9,5 @@
     <string name="tab_organisations">Организации</string>
     <string name="tab_specials">Спецални</string>
     <string name="tab_other">Други</string>
+    <string name="send_sms_button">Изпрати SMS</string>
 </resources>
