@@ -93,14 +93,18 @@ class Dms
 				break;
 			}
 
-			$strong_data = array();
-			foreach(pq('.nd_text p:first strong') as $c)
+			$sms_number = 17777;
+			$sms_text = '';
+			foreach(pq('.cd_code:first') as $c)
 			{
-				$strong_data[] = trim($c->nodeValue);
+				$sms_text = trim($c->nodeValue);
+				break;
 			}
-			$sms_number = array_pop($strong_data);
-			$sms_number = (int)preg_replace('/\D/', '', $sms_number);
-			$sms_text = implode(' ', $strong_data);
+
+			if(!$sms_text)
+			{
+				continue;
+			}
 
 			foreach(pq('.nd_date:last') as $c)
 			{
@@ -115,6 +119,7 @@ class Dms
 			{
 				$paragraphs[] = trim($c->nodeValue);
 			}
+
 			$paragraphs = array_filter($paragraphs, function($paragraph)
 			{
 				$regex = '/да намерите тук\.$/';
