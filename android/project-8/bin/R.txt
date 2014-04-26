@@ -291,6 +291,10 @@ int id showCustom 0x7f040008
 int id showHome 0x7f040005
 int id showTitle 0x7f040007
 int id tabMode 0x7f040003
+<<<<<<< HEAD
+=======
+int id text 0x7f040033
+>>>>>>> 2b0275ccb5efc60c168ce74e5f3c2c05e680dd8a
 int id useLogo 0x7f040004
 int id wrap_content 0x7f040000
 int integer abs__max_action_buttons 0x7f080000
@@ -316,9 +320,15 @@ int layout abs__search_dropdown_item_icons_2line 0x7f030012
 int layout abs__search_view 0x7f030013
 int layout abs__simple_dropdown_hint 0x7f030014
 int layout activity_main 0x7f030015
+<<<<<<< HEAD
 int layout fragment_main 0x7f030016
 int layout sherlock_spinner_dropdown_item 0x7f030017
 int layout sherlock_spinner_item 0x7f030018
+=======
+int layout sherlock_spinner_dropdown_item 0x7f030016
+int layout sherlock_spinner_item 0x7f030017
+int layout tab_navigation 0x7f030018
+>>>>>>> 2b0275ccb5efc60c168ce74e5f3c2c05e680dd8a
 int string abs__action_bar_home_description 0x7f090000
 int string abs__action_bar_up_description 0x7f090001
 int string abs__action_menu_overflow_description 0x7f090002
@@ -332,9 +342,91 @@ int string abs__searchview_description_submit 0x7f09000b
 int string abs__searchview_description_voice 0x7f09000c
 int string abs__shareactionprovider_share_with 0x7f090006
 int string abs__shareactionprovider_share_with_application 0x7f090007
+<<<<<<< HEAD
 int string action_settings 0x7f09000f
 int string app_name 0x7f09000d
 int string hello_world 0x7f09000e
+=======
+int string action_bar_share_with 0x7f09003f
+int string action_items 0x7f090012
+int string action_items_content 0x7f090013
+int string action_modes 0x7f090014
+int string action_modes_content 0x7f090015
+int string action_modes_no_action_bar 0x7f090016
+int string action_providers 0x7f090019
+int string action_providers_content 0x7f09001a
+int string action_settings 0x7f09000f
+int string activity_name 0x7f090011
+int string app_name 0x7f09000d
+int string application_name 0x7f090010
+int string collapsible 0x7f09001b
+int string collapsible_content 0x7f09001c
+int string context_menus 0x7f09001d
+int string context_menus_content 0x7f09001e
+int string custom_navigation 0x7f09001f
+int string custom_navigation_content 0x7f090020
+int string default_value_edittext_preference 0x7f09005b
+int string default_value_list_preference 0x7f09005a
+int string dialog 0x7f090021
+int string dialog_based_preferences 0x7f090041
+int string dialog_content 0x7f090022
+int string dialog_title_edittext_preference 0x7f090048
+int string dialog_title_list_preference 0x7f09004b
+int string example_preference_dependency 0x7f090057
+int string feature_toggles 0x7f090023
+int string feature_toggles_content 0x7f090024
+int string hello_world 0x7f09000e
+int string inline_preferences 0x7f090040
+int string iprogress 0x7f090025
+int string iprogress_content 0x7f090026
+int string launch_preferences 0x7f090042
+int string list_navigation 0x7f090027
+int string list_navigation_content 0x7f090028
+int string overlay 0x7f090029
+int string overlay_content 0x7f09002a
+int string preference 0x7f09002b
+int string preference_attributes 0x7f090043
+int string preference_content 0x7f09002c
+int string progress 0x7f09002d
+int string progress_content 0x7f09002e
+int string search_views 0x7f09002f
+int string search_views_content 0x7f090030
+int string share_action_providers 0x7f090017
+int string share_action_providers_content 0x7f090018
+int string simple 0x7f090031
+int string simple_content 0x7f090032
+int string split 0x7f090033
+int string split_action_modes 0x7f090035
+int string split_content 0x7f090034
+int string static_attach 0x7f090036
+int string static_attach_content 0x7f090037
+int string styled 0x7f090038
+int string styled_content 0x7f090039
+int string submenus 0x7f09003a
+int string submenus_content 0x7f09003b
+int string summary_checkbox_preference 0x7f090045
+int string summary_child_preference 0x7f090056
+int string summary_edittext_preference 0x7f090047
+int string summary_intent_preference 0x7f09004d
+int string summary_list_preference 0x7f09004a
+int string summary_my_preference 0x7f09004f
+int string summary_off_advanced_toggle_preference 0x7f090052
+int string summary_on_advanced_toggle_preference 0x7f090051
+int string summary_parent_preference 0x7f090054
+int string tab_navigation 0x7f09003c
+int string tab_navigation_collapsed 0x7f09003e
+int string tab_navigation_content 0x7f09003d
+int string title_advanced_toggle_preference 0x7f090050
+int string title_checkbox_preference 0x7f090044
+int string title_child_preference 0x7f090055
+int string title_edittext_preference 0x7f090046
+int string title_intent_preference 0x7f09004c
+int string title_list_preference 0x7f090049
+int string title_my_preference 0x7f09004e
+int string title_parent_preference 0x7f090053
+int string title_wifi 0x7f090058
+int string title_wifi_settings 0x7f090059
+>>>>>>> 2b0275ccb5efc60c168ce74e5f3c2c05e680dd8a
 int style AppBaseTheme 0x7f0a0059
 int style AppTheme 0x7f0a005a
 int style Sherlock___TextAppearance_Small 0x7f0a0046

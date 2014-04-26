@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <!--
@@ -10,6 +11,14 @@
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         -->
+<<<<<<< HEAD
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+=======
+>>>>>>> 2b0275ccb5efc60c168ce74e5f3c2c05e680dd8a
     </style>
 
     <!-- Application theme. -->
