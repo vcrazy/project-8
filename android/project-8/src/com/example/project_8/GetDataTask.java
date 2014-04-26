@@ -44,7 +44,12 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 			if (list != null) {
 				// insert in db
 				DatabaseHelper db = new DatabaseHelper(this.context);
-				db.insertCampaigns(list);
+
+				int count = db.getCount();
+				if (count <= 0) {
+					db.insertCampaigns(list);
+				}
+
 				db.close();
 
 			} else {

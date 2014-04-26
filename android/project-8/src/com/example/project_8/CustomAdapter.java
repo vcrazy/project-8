@@ -69,7 +69,7 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 		viewHolder.textViewTitle.setText(info.campaignSubName);
 		viewHolder.textViewInfo.setText(info.campaignName);
 
-		convertView.setTag(R.id.item_image, info);
+		convertView.setTag(R.id.item_image, info.campaignId);
 
 		return convertView;
 

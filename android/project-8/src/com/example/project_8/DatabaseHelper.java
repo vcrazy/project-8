@@ -114,6 +114,101 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * getting basic info
+	 * */
+	public ArrayList<BasicInfo> getBasicInfoByType(String campaignType) {
+
+		ArrayList<BasicInfo> list = new ArrayList<BasicInfo>();
+
+		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS_INFO
+				+ " WHERE " + KEY_CAMPAIGN_TYPE + " = '" + campaignType + "' "
+				+ " ORDER BY " + KEY_START_DATE + " DESC";
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (c.moveToFirst()) {
+			do {
+
+				// 'id'
+				int campaignId = c.getInt(c.getColumnIndex(KEY_CAMPAIGN_ID));
+				// 'name'
+				String campaignName = c.getString(c
+						.getColumnIndex(KEY_CAMPAIGN_NAME));
+				// 'subname'
+				String campaignSubname = c.getString(c
+						.getColumnIndex(KEY_CAMPAIGN_SUBNAME));
+				// 'picture'
+				String image = c.getString(c.getColumnIndex(KEY_IMAGE));
+
+				BasicInfo info = new BasicInfo(campaignId, image, campaignName,
+						campaignSubname);
+				// adding to list
+				list.add(info);
+
+			} while (c.moveToNext());
+		}
+
+		c.close();
+		db.close();
+		return list;
+
+	}
+
+	/**
+	 * get single codeset
+	 */
+	public FullInfo getCampaignByID(int campaignID) {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS_INFO
+				+ " WHERE " + KEY_CAMPAIGN_ID + " = " + campaignID;
+
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c != null && c.getCount() > 0)
+			c.moveToFirst();
+		else
+			return null;
+
+		// 'id'
+		int campaignId = c.getInt(c.getColumnIndex(KEY_CAMPAIGN_ID));
+		// 'name'
+		String campaignName = c.getString(c.getColumnIndex(KEY_CAMPAIGN_NAME));
+		// 'subname'
+		String campaignSubname = c.getString(c
+				.getColumnIndex(KEY_CAMPAIGN_SUBNAME));
+		// 'type'
+		String campaignType = c.getString(c.getColumnIndex(KEY_CAMPAIGN_TYPE));
+		// 'text'
+		String txtCampaign = c.getString(c.getColumnIndex(KEY_TEXT_CAMPAIGN));
+		// 'donation'
+		double priceSMS = c.getDouble(c.getColumnIndex(KEY_PRICE_SMS));
+		// 'picture'
+		String image = c.getString(c.getColumnIndex(KEY_IMAGE));
+		// 'link'
+		String campaignLink = c.getString(c.getColumnIndex(KEY_CAMPAIGN_LINK));
+		// 'sms_text'
+		String txtSms = c.getString(c.getColumnIndex(KEY_TEXT_SMS));
+		// 'sms_number'
+		int phoneNumber = c.getInt(c.getColumnIndex(KEY_PHONE_NUMBER));
+		// 'date_from'
+		int startDate = c.getInt(c.getColumnIndex(KEY_START_DATE));
+		int endDate = c.getInt(c.getColumnIndex(KEY_END_DATE));
+
+		// create new object
+		FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS, txtSms,
+				campaignName, campaignSubname, startDate, endDate,
+				campaignType, txtCampaign, image, campaignLink);
+		c.close();
+		db.close();
+		return info;
+
+	}
+
+	/**
 	 * getting all campaigns
 	 * */
 	public ArrayList<FullInfo> getAllCampaigns() {
@@ -173,6 +268,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.close();
 		db.close();
 		return list;
+
+	}
+
+	/**
+	 * getting campaigns count
+	 */
+	public int getCount() {
+
+		String countQuery = "SELECT  * FROM " + TABLE_CAMPAIGNS_INFO;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(countQuery, null);
+
+		int count = cursor.getCount();
+		cursor.close();
+		db.close();
+		// return count
+		return count;
 
 	}
 

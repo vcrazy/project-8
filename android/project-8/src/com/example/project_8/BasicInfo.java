@@ -6,12 +6,14 @@ import android.util.Base64;
 
 public class BasicInfo {
 
+	public int campaignId;
 	public String imageUri;
 	public String campaignName;
 	public String campaignSubName;
 
-	public BasicInfo(String imageUri, String campaignName,
+	public BasicInfo(int campaignId, String imageUri, String campaignName,
 			String campaignSubName) {
+		this.campaignId = campaignId;
 		this.imageUri = imageUri;
 		this.campaignName = campaignName;
 		this.campaignSubName = campaignSubName;
