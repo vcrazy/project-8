@@ -94,9 +94,10 @@ class Dms
 			}
 
 			$sms_number = 17777;
+			$sms_text = '';
 			foreach(pq('.cd_code:first') as $c)
 			{
-				$sms_text = $c->nodeValue;
+				$sms_text = trim($c->nodeValue);
 				break;
 			}
 
