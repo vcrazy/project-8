@@ -31,7 +31,15 @@ class Model_worker extends MY_Model
 
 	public function delete($data)
 	{
-		$this->db->where_in('subname', $data);
-		return $this->db->delete('campaigns');
+		$result = TRUE;
+
+		if(!empty($data))
+		{
+			$this->db->where_in('subname', $data);
+			$result = $this->db->delete('campaigns');
+			sleep(1);
+		}
+
+		return $result;
 	}
 }

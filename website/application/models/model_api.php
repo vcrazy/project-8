@@ -21,4 +21,18 @@ class Model_api extends MY_Model
 
 		return $this->results($query);
 	}
+
+	public function get_version()
+	{
+		$this->db->select('id');
+		$this->db->from('campaigns');
+		$this->db->order_by('id', 'asc');
+		$query = $this->db->get();
+
+		$data = $this->results($query, TRUE);
+
+		$version = md5(json_encode($data));
+
+		return $version;
+	}
 }
