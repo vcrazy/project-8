@@ -14,6 +14,11 @@ class Api extends MY_Controller {
 		$campaigns = $this->Model_api->get_campaigns();
 		$rating = $this->Model_api->get_ratings();
 
+		if(!$rating)
+		{
+			$rating = array();
+		}
+
 		$data = array('campaigns' => $campaigns, 'ratings' => $rating);
 
 		echo json_encode($data);
