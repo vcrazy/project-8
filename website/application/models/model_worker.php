@@ -4,6 +4,14 @@ class Model_worker extends MY_Model
 {
 	public function save($data)
 	{
-		var_dump($data);
+		$result = TRUE;
+
+		foreach($data as $data_part)
+		{
+			$result = $this->db->insert('campaigns', $data_part) && $result;
+			sleep(1);
+		}
+
+		return $result;
 	}
 }
