@@ -1,1 +1,1 @@
-<?php var_dump($campaigns); ?>
+<?php // var_dump($people, $organizations, $other, $special); ?>
