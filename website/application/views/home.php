@@ -1,1 +1,1 @@
-home page
+<?php var_dump($campaigns); ?>
