@@ -1,6 +1,7 @@
 package com.example.project_8;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.view.View;
@@ -50,8 +51,6 @@ public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 					.findViewById(R.id.item_image);
 			viewHolder.textViewTitle = (TextView) convertView
 					.findViewById(R.id.item_name);
-			viewHolder.textViewInfo = (TextView) convertView
-					.findViewById(R.id.item_subname);
 			viewHolder.textViewSendDate = (TextView) convertView
 					.findViewById(R.id.send_date);
 
@@ -66,8 +65,10 @@ public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 		viewHolder.imageView
 				.setImageBitmap(Utils.getImageBitmap(info.imageUri));
 		viewHolder.textViewTitle.setText(info.campaignName);
-		viewHolder.textViewInfo.setText(info.campaignSubName);
-		// viewHolder.textViewInfo.setText(info.smsSendDate);
+		viewHolder.textViewSendDate.setText(context
+				.getString(R.string.send_sms_title));
+		// + " "
+		// + parseUnixTimeToDateStatistics(info.smsSendDate));
 
 		convertView.setTag(R.id.item_image, info.campaignId);
 
@@ -75,11 +76,27 @@ public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 
 	}
 
+	public String parseUnixTimeToDateStatistics(long unixTimeStamp) {
+
+		long time = unixTimeStamp * (long) 1000;
+		java.util.Date date = new java.util.Date(time);
+		Calendar myCalendar = Calendar.getInstance();
+		myCalendar.setTime(date);
+		int day = myCalendar.get(Calendar.DAY_OF_MONTH);
+		int month = myCalendar.get(Calendar.MONTH);
+		int year = myCalendar.get(Calendar.YEAR);
+		String onlyDate = String.valueOf(day)
+				+ " "
+				+ context.getResources().getStringArray(R.array.months_names)[month]
+				+ " " + String.valueOf(year);
+
+		return onlyDate;
+	}
+
 	static class ViewHolder {
 
 		protected ImageView imageView;
 		protected TextView textViewTitle;
-		protected TextView textViewInfo;
 		protected TextView textViewSendDate;
 
 	}
