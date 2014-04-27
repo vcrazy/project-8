@@ -33,4 +33,6 @@
         <item>Декември</item>
     </string-array>
 
+    <string name="title_activity_show_statistics">ShowStatistics</string>
+
 </resources>

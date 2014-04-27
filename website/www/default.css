@@ -652,7 +652,7 @@ ul.contact li a.icon-rss:before
 {
 	padding-top: 30px;
 	color: #32637e;
-	background: #FFF;
+	background: #EBEBEB;
 	text-align: center;
 }
 
@@ -1001,4 +1001,115 @@ ul.contact li a.icon-rss:before
 	border: 0px;
 	height: 2px;
 	width: 957px;
+}
+
+a.detailed_info
+{
+	text-decoration: none;
+}
+
+.itemcontent
+{
+	display: block;
+}
+
+.data
+{
+	width: 958px;
+	border:0px;
+}
+
+.white
+{
+	background:#FFFFFF;
+}
+
+td
+{
+	text-transform: uppercase;
+	font-size: 15px;
+	line-height: 135%;
+}
+
+.itemcontent
+{
+	display: none;
+}
+
+.cstart
+{
+	padding: 8px;
+	margin-bottom: 5px;
+	color: white;
+	background-color: #43A7C9;
+	font-size: 17px;
+}
+
+.ccode
+{
+	padding: 16px;
+	color: white;
+	background-color: #33BAA9;
+	font-size: 25px;
+	margin-bottom: 5px;
+}
+
+.ccode span
+{
+	color: #205370;
+	font-size: 17px;
+}
+
+.ctxt, .ctxts
+{
+	padding: 10px 0px;
+	font-size: 17px;
+	background-color: white;
+	margin-bottom: 5px;
+}
+
+.ctxt span
+{
+	color: #42A6C6;
+}
+
+.cname
+{
+	margin-left: 10px;
+	margin-bottom: 5px;
+	text-align: left;
+	font-size: 23px;
+	color: #42A6C6;
+	padding: 17px 20px 18px 20px;
+	background-color: white;
+	text-transform: none;
+}
+
+.ctext
+{
+	margin-left: 10px;
+	text-align: left;
+	font-size: 14px;
+	color: #205370;
+	padding: 15px 20px;
+	background-color: white;
+	text-transform: none;
+}
+
+.clink
+{
+	text-decoration: none;
+	color: #43A7C9;
+	font-size: 17px;
+}
+
+.cimage img
+{
+	max-width: 189px;
+}
+
+#statistics
+{
+	width: 958px;
+	height: 600px;
 }

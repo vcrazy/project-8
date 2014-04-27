@@ -9,20 +9,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 	private Context context;
 	private ArrayList<BasicInfo> data;
-	private Picasso picasso;
 
 	public CustomAdapter(Context context, int resource,
 			ArrayList<BasicInfo> objects) {
 		super(context, resource, objects);
 		this.context = context;
 		this.data = objects;
-		this.picasso = Picasso.with(context);
 	}
 
 	@Override
