@@ -17,7 +17,10 @@
 		$('.menuheader').click(function(){
 			$('.menucontent').hide();
 			$('#' + $(this).data('show')).show();
+			$('.contentheader .menutext').text($(this).text());
 		});
+
+		$('#organizations, #special, #other, #statistics').hide();
 	});
 </script>
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
@@ -46,7 +49,7 @@
 				<li><a href="#" accesskey="5" title="" class="menuheader" data-show="statistics">Статистики</a></li>
 			</ul>
 		</div>
-		<div id="menu_btn">
+		<div class="menu_btn">
 			<img src="images/google.png" />
 			<a href="#"><img src="images/facebook.png" /></a>
 			<img src="images/twitter.png" />
@@ -69,6 +72,12 @@
 <div id="featured-wrapper">
 	<div id="featured" class="container">
 
+		<div class="contentheader">
+			<span class="menutext">
+				Хора
+			</span>
+			<hr />
+		</div>
 		<?php foreach(array('people' => $people, 'organizations' => $organizations, 'other' => $other, 'special' => $special) as $ck => $data): ?>
 		<div id="<?php echo $ck; ?>" class="menucontent">
 		<?php foreach($data as $dk => $dv): ?>
@@ -85,7 +94,7 @@
 		<?php endforeach; ?>
 
 		<div id="statistics" class="menucontent">
-			<table class="highchart" data-graph-container-before="1" data-graph-type="line" style="display: none;" data-graph-xaxis-end-on-tick="1">
+			<table class="highchart" data-graph-container-before="1" data-graph-type="line" style="display: none; width: 100%;" data-graph-xaxis-end-on-tick="1">
 				<thead>
 					<tr>
 						<th></th>
@@ -128,6 +137,11 @@
 				<li><a href="#" accesskey="4" title="">Други</a></li>
 				<li><a href="#" accesskey="4" title="">Статистики</a></li>
 			</ul>
+			<div class="menu_btn" style="right: 0px;">
+				<img src="images/google.png" />
+				<a href="#"><img src="images/facebook.png" /></a>
+				<img src="images/twitter.png" />
+			</div>
 		</div>
 	</div>
 </footer>
