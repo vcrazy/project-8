@@ -41,7 +41,6 @@
 		<?php endforeach; ?>
 
 		var series = [];
-
 		<?php $nums = array(); ?>
 		<?php foreach($campaign_keys as $chartdata_key): ?>
 			<?php foreach($chartdata as $date => $data): ?>
@@ -127,6 +126,7 @@
 			<img src="images/google.png" />
 			<a href="#"><img src="images/facebook.png" /></a>
 			<img src="images/twitter.png" />
+			<a href="#"><img src="images/playstore.png" /></a>
 		</div>
 	</div>
 </div>
@@ -266,6 +266,7 @@
 				<img src="images/google.png" />
 				<a href="#"><img src="images/facebook.png" /></a>
 				<img src="images/twitter.png" />
+				<a href="#"><img src="images/playstore.png" /></a>
 			</div>
 		</div>
 	</div>
