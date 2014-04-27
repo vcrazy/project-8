@@ -392,14 +392,20 @@ ul.contact li a.icon-rss:before
 	height:1px;
 }
 
+.wide
+{
+	width: 960px;
+	text-align: center;
+	margin: 0 auto;
+}
+
 #p_text
 {
+	top: 305px;
 	position: relative;
 	width:380px;
 	height:125px;
 	background-color: rgba(27,64,83,0.69);
-	top:305px;
-	left: 200px;
 	font-family: 'Roboto', sans-serif;
 	font-size: 24px;
 	font-weight: normal;
@@ -704,10 +710,11 @@ ul.contact li a.icon-rss:before
 	color: #FFF;
 }
 
-.column1,  .column2,  .column3,  .column4
+.column1
 {
-	width: 282px;
-	display: inline;
+	width: 190px;
+	display: inline-block;
+	float: left;
 }
 
 
