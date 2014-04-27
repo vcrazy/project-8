@@ -96,7 +96,11 @@ public class CampaignProfileActivity extends Activity {
 						campaignInfo.txtSMS);
 				DatabaseHelper db = new DatabaseHelper(
 						CampaignProfileActivity.this);
-				db.insertStatistics((int) System.currentTimeMillis(), 0,
+				java.util.Date date = new java.util.Date();
+				// System.out.println(new Timestamp(date.getTime()));
+
+				// (int) System.currentTimeMillis()
+				db.insertStatistics((int) date.getTime(), 0,
 						campaignInfo.campaignId);
 			}
 		});
