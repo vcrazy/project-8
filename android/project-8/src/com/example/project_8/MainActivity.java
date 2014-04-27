@@ -3,7 +3,9 @@ package com.example.project_8;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -140,6 +142,28 @@ public class MainActivity extends Activity {
 
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		Log.e("TEST", "Request code is now " + requestCode + " RESULT = "
+				+ resultCode + " is result canceled "
+				+ (resultCode == RESULT_CANCELED));
+	}
+
+	private void sendSMS(String formattedNumbers, String txtSms) {
+
+		try {
+			String uri = "smsto:" + formattedNumbers;
+			Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse(uri));
+			smsIntent.putExtra("sms_body", txtSms);
+			smsIntent.putExtra("compose_mode", true);
+			startActivityForResult(smsIntent, 10);
+		} catch (ActivityNotFoundException e) {
+
+		}
+	}
+
 	public void getDataAndLoad(boolean update) {
 
 		GetDataTask task = new GetDataTask(this) {
@@ -193,7 +217,6 @@ public class MainActivity extends Activity {
 
 				Log.e("TEST", "INTERNET NO, EMPTY DB");
 				/* DB is EMPTY, Show Internet Message */
-				// TODO Dialog
 				if (loader.isShowing())
 					loader.dismiss();
 

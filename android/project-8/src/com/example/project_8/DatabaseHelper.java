@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ KEY_CAMPAIGN_NAME + " TEXT," + KEY_CAMPAIGN_SUBNAME + " TEXT,"
 			+ KEY_START_DATE + " INTEGER," + KEY_END_DATE + " INTEGER,"
 			+ KEY_CAMPAIGN_TYPE + " TEXT," + KEY_TEXT_CAMPAIGN + " TEXT,"
-			+ KEY_IMAGE + " TEXT," + KEY_CAMPAIGN_LINK + " TEXT,"
+			+ KEY_IMAGE + " MEDIUMTEXT," + KEY_CAMPAIGN_LINK + " TEXT,"
 			+ KEY_CREATED_AT + " DATETIME" + ")";
 
 	private static final String CREATE_TABLE_VERSION = "CREATE TABLE "
