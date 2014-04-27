@@ -76,9 +76,7 @@
                 text: 'Брой изпратени SMS-и на цена 1 лв.'
             },
             xAxis: {
-                categories: categories,
-				min: 0.5,
-				max: 10.5
+                categories: categories
             },
 			yAxis: {
                 title: {
