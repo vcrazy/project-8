@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 import android.content.ContentValues;
@@ -12,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -135,7 +135,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 
-		HashMap<String, Integer> hm = new HashMap<String, Integer>();
 		ArrayList<HashMap<String, Integer>> allList = new ArrayList<HashMap<String, Integer>>();
 
 		// looping through all rows and adding to list
@@ -144,6 +143,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				// 'id'
 				int campaignId = c.getInt(c.getColumnIndex(KEY_CAMPAIGN_ID));
 				int sendDate = c.getInt(c.getColumnIndex(KEY_STATISTICS_DATE));
+				HashMap<String, Integer> hm = new HashMap<String, Integer>();
 				hm.put("id", campaignId);
 				hm.put("date", sendDate);
 				allList.add(hm);
@@ -152,13 +152,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.close();
 		db.close();
 
-		Iterator<HashMap<String, Integer>> it = allList.iterator();
-		while (it.hasNext()) {
-			HashMap<String, Integer> obj = it.next();
-			FullInfo getCompaignInfo = getCampaignByID(obj.get("id"));
-			getCompaignInfo.smsSendDate = obj.get("date");
+		for (int i = 0; i < allList.size(); i++) {
+			FullInfo getCompaignInfo = getCampaignByID(allList.get(i).get("id"));
+			getCompaignInfo.smsSendDate = allList.get(i).get("date");
+			Log.e("test", String.valueOf(allList.get(i).get("id")));
 			list.add(getCompaignInfo);
 		}
+
+		// Iterator<HashMap<String, Integer>> it = allList.iterator();
+		// while (it.hasNext()) {
+		// HashMap<String, Integer> obj = it.next();
+		// FullInfo getCompaignInfo = getCampaignByID(obj.get("id"));
+		// getCompaignInfo.smsSendDate = obj.get("date");
+		// list.add(getCompaignInfo);
+		// }
 		return list;
 
 	}
