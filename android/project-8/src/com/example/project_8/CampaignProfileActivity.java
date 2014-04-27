@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -122,13 +121,10 @@ public class CampaignProfileActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		Log.e("TEST", "Request code " + requestCode + " RESULT = " + resultCode
-				+ " is result canceled " + (resultCode == RESULT_CANCELED));
-
 		if (requestCode == REQUEST_CODE_SMS) {
-			// if (resultCode == RESULT_OK) {
+
 			sendTrackInfo(campaignInfo.campaignId);
-			// }
+
 		}
 	}
 

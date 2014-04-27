@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class TrackTask extends AsyncTask<String, Void, Boolean> {
 
@@ -53,7 +52,6 @@ public class TrackTask extends AsyncTask<String, Void, Boolean> {
 			return false;
 		}
 
-		Log.e("TEST", "track info sent");
 		return true;
 	}
 
