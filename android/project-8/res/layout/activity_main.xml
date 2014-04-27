@@ -33,11 +33,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:paddingTop="20dp"
                 android:paddingBottom="10dp"
+                android:paddingTop="20dp"
                 android:text="@string/tab_people"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <View
@@ -69,11 +70,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:paddingTop="20dp"
                 android:paddingBottom="10dp"
+                android:paddingTop="20dp"
                 android:text="@string/tab_organisations"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <View
@@ -105,11 +107,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:paddingTop="20dp"
                 android:paddingBottom="10dp"
+                android:paddingTop="20dp"
                 android:text="@string/tab_specials"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <View
@@ -141,11 +144,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:paddingTop="20dp"
                 android:paddingBottom="10dp"
+                android:paddingTop="20dp"
                 android:text="@string/tab_other"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
