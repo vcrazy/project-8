@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
 	private LinearLayout textViewOrganisation;
 	private LinearLayout textViewSpecial;
 	private LinearLayout textViewOther;
+	private LinearLayout textViewMore;
 
 	private ArrayList<BasicInfo> list = new ArrayList<BasicInfo>();
 
@@ -54,6 +55,7 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(true);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_PEOPLE;
 				loadData();
@@ -70,6 +72,7 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(true);
 				textViewPeople.setSelected(false);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_ORGANIZATION;
 				loadData();
@@ -86,6 +89,7 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(true);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(false);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_SPECIAL;
 				loadData();
@@ -102,9 +106,21 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(false);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_OTHER;
 				loadData();
+			};
+		});
+
+		textViewMore = (LinearLayout) findViewById(R.id.tab_more);
+		textViewMore.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						ShowStatistics.class);
+				startActivity(intent);
 			};
 		});
 
