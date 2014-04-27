@@ -14,13 +14,20 @@
 	$(document).ready(function() {
 		$('table.highchart').highchartTable();
 
+		$('#organizations, #special, #other, #statistics').hide();
+
 		$('.menuheader').click(function(){
-			$('.menucontent').hide();
+			$('.menucontent, .itemcontent').hide();
 			$('#' + $(this).data('show')).show();
+			$('.column1, .contentheader').show();
 			$('.contentheader .menutext').text($(this).text());
 		});
 
-		$('#organizations, #special, #other, #statistics').hide();
+		$('.detailed_info').click(function(){
+			$('.column1, .itemcontent, .contentheader').hide();
+			$('#detailed_info_' + $(this).data('id')).show();
+			return false;
+		});
 	});
 </script>
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
@@ -64,8 +71,7 @@
 		</div>
 		<div class="clearfix"></div>
 	</div>
- </div>
-
+</div>
 
 <div id="dline">&nbsp;</div>
 
@@ -83,11 +89,91 @@
 		<?php foreach($data as $dk => $dv): ?>
 		<div class="column1">
 			<div class="imgholder">
-				<img src="data:image/png;base64,<?php echo $dv['picture']; ?>" alt="" />
+				<a href="#" class="detailed_info" data-id="<?php echo $dv['id']; ?>">
+					<img src="data:image/png;base64,<?php echo $dv['picture']; ?>" alt="" />
+				</a>
 			</div>
 			<div>
-				<p><?php echo $dv['subname']; ?></p>
+				<a href="#" class="detailed_info" data-id="<?php echo $dv['id']; ?>">
+					<p><?php echo $dv['subname']; ?></p>
+				</a>
 			</div>
+		</div>
+		<div class="itemcontent" id="detailed_info_<?php echo $dv['id']; ?>">
+			<table>
+				<tr>
+					<td style="vertical-align: top;">
+						<table>
+							<?php if($dv['date_from']): ?>
+							<tr>
+								<td>
+									<div class="cstart">
+										<?php
+											$whole_date = $dv['date_from'];
+											$month = $months[date("n", $whole_date) - 1];
+											$year = date("Y", $whole_date);
+										?>
+										Стартирала на <br />
+										<?php echo date("j", $dv['date_from']) . '. ' . $month . ' ' . $year; ?>
+									</div>
+								</td>
+							</tr>
+							<?php endif; ?>
+							<tr>
+								<td>
+									<div class="cimage">
+										<img src="data:image/png;base64,<?php echo $dv['picture']; ?>" alt="" />
+									</div>
+								</td>
+							</tr>
+							<?php if($dv['sms_text']): ?>
+							<tr>
+								<td>
+									<div class="ccode">
+										<span>Код на SMS</span> <br />
+										<?php echo $dv['sms_text']; ?>
+									</div>
+								</td>
+							</tr>
+							<?php endif; ?>
+							<tr>
+								<td>
+									<div class="ctxt">
+										<span>Номер -</span> <?php echo $dv['sms_number']; ?>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="ctxt">
+										<span>Стойност -</span> <?php echo $dv['donation']; ?> <span class="ctxts" style="text-transform: none;">лв.</span>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td style="vertical-align: top;">
+						<table class="cell">
+							<tr>
+								<td>
+									<div class="cname">
+										<?php echo $dv['name']; ?>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="ctext">
+										<?php echo str_replace("\n", '<br /><br />', $dv['text']); ?>
+										<br /><br />
+										<a href="<?php echo $dv['link']; ?>" target="_blank" class="clink">Линк към страницата</a>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
 		</div>
 		<?php endforeach; ?>
 		</div>
@@ -131,11 +217,11 @@
 	<div id="footer">
 		<div id="menu_footer">
 			<ul>
-				<li class="current_page_item"><a href="#" accesskey="1" title="">Хора</a></li>
-				<li><a href="#" accesskey="2" title="">Организации</a></li>
-				<li><a href="#" accesskey="3" title="">Специални</a></li>
-				<li><a href="#" accesskey="4" title="">Други</a></li>
-				<li><a href="#" accesskey="4" title="">Статистики</a></li>
+				<li class="current_page_item"><a href="#" accesskey="1" title="" class="menuheader" data-show="people">Хора</a></li>
+				<li><a href="#" accesskey="2" title="" class="menuheader" data-show="organizations">Организации</a></li>
+				<li><a href="#" accesskey="3" title="" class="menuheader" data-show="special">Специални</a></li>
+				<li><a href="#" accesskey="4" title="" class="menuheader" data-show="other">Други</a></li>
+				<li><a href="#" accesskey="5" title="" class="menuheader" data-show="statistics">Статистики</a></li>
 			</ul>
 			<div class="menu_btn" style="right: 0px;">
 				<img src="images/google.png" />
