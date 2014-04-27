@@ -11,7 +11,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -155,7 +154,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		for (int i = 0; i < allList.size(); i++) {
 			FullInfo getCompaignInfo = getCampaignByID(allList.get(i).get("id"));
 			getCompaignInfo.smsSendDate = allList.get(i).get("date");
-			Log.e("test", String.valueOf(allList.get(i).get("id")));
 			list.add(getCompaignInfo);
 		}
 

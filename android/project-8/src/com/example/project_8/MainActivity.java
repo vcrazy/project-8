@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -181,17 +180,15 @@ public class MainActivity extends Activity {
 
 		if (Utils.haveNetworkConnection(this)) {
 
-			Log.e("TEST", "INTERNET YES");
 			/* Internet YES, Check DB */
 
 			if (count == 0) {
-				Log.e("TEST", "INTERNET YES, EMPTY DB");
+
 				/* DB is EMPTY, Get DB from API */
 				getDataAndLoad(false);
 
 			} else {
 
-				Log.e("TEST", "INTERNET YES, CHECK FOR NEW DB");
 				/* DB is NOT EMPTY, Check for new version */
 				checkForNewDB();
 
@@ -199,12 +196,10 @@ public class MainActivity extends Activity {
 
 		} else {
 
-			Log.e("TEST", "INTERNET NO");
 			/* Internet NO, Check DB */
 
 			if (count == 0) {
 
-				Log.e("TEST", "INTERNET NO, EMPTY DB");
 				/* DB is EMPTY, Show Internet Message */
 				if (loader.isShowing())
 					loader.dismiss();
@@ -212,7 +207,7 @@ public class MainActivity extends Activity {
 				Utils.noInternetDialog(MainActivity.this);
 
 			} else {
-				Log.e("TEST", "INTERNET NO, LOAD DB");
+
 				/* DB is NOT EMPTY, Load data from DB */
 				loadData();
 			}
@@ -230,11 +225,11 @@ public class MainActivity extends Activity {
 
 				/* DB is NOT EMPTY, Check for new DB */
 				if (getData) {
-					Log.e("TEST", "CHECK FOR NEW DB, NEW DB");
+
 					/* NEW DB, Update DB */
 					getDataAndLoad(true);
 				} else {
-					Log.e("TEST", "CHECK FOR NEW DB, NO NEW DB");
+
 					/* NO NEW DB, Load data from DB */
 					loadData();
 
