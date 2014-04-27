@@ -8,12 +8,12 @@
 <meta name="description" content="" />
 <script type="text/javascript" src="jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="jquery.slidertron-1.3.js"></script>
-<script src="highcharts.js"></script>
-<script src="jquery.highchartTable-min.js"></script>
+
+<script type="text/javascript" src="highcharts.js"></script>
+<script type="text/javascript" src="exporting.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('table.highchart').highchartTable();
-
 		$('#organizations, #special, #other, #statistics').hide();
 
 		$('.menuheader').click(function(){
@@ -28,12 +28,81 @@
 			$('#detailed_info_' + $(this).data('id')).show();
 			return false;
 		});
+
+		var categories = [];
+
+		<?php foreach(array_keys($chartdata) as $date): ?>
+			<?php
+				$whole_date = strtotime($date . '-01');
+				$month = $months[date("n", $whole_date) - 1];
+				$year = date("Y", $whole_date);
+			?>
+			categories.push('<?php echo $month . ' ' . $year; ?>');
+		<?php endforeach; ?>
+
+		var series = [];
+
+		<?php $nums = array(); ?>
+		<?php foreach($campaign_keys as $chartdata_key): ?>
+			<?php foreach($chartdata as $date => $data): ?>
+				<?php
+					if(!isset($nums[$chartdata_key])) $nums[$chartdata_key] = 0;
+
+					$nums[$chartdata_key] += $data[$chartdata_key];
+				?>
+			<?php endforeach; ?>
+		<?php endforeach; ?>
+		<?php rsort($nums); ?>
+		var visible_limit = <?php echo $nums[9] ?: 0; ?>,
+			max = 0;
+
+		<?php foreach($campaign_keys as $chartdata_key): ?>
+			var d = [],
+				sum = 0;
+				<?php foreach($chartdata as $date => $data): ?>
+					sum += <?php echo $data[$chartdata_key]; ?>;
+					max = Math.max(max, <?php echo $data[$chartdata_key]; ?>);
+					d.push(<?php echo $data[$chartdata_key]; ?>);
+				<?php endforeach; ?>
+			series.push({
+				name: '<?php echo $chartdata_key; ?>',
+				data: d,
+				visible: visible_limit ? sum >= visible_limit : false
+			});
+		<?php endforeach; ?>
+
+		$('#statistics').highcharts({
+            title: {
+                text: 'Брой изпратени SMS-и на цена 1 лв.'
+            },
+            xAxis: {
+                categories: categories,
+				min: 0.5,
+				max: 10.5
+            },
+			yAxis: {
+                title: {
+                    text: 'Брой'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1
+                }],
+				min: 0,
+				max: max
+            },
+            legend: {
+                align: 'bottom',
+                borderWidth: 0
+            },
+            series: series
+        });
 	});
 </script>
-<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
 <link href="reset.css" rel="stylesheet" type="text/css" media="all" />
 <link href="default.css" rel="stylesheet" type="text/css" media="all" />
 <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+<link href="fonts_1.css" rel="stylesheet" type="text/css" media="all" />
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
@@ -180,35 +249,7 @@
 		<?php endforeach; ?>
 
 		<div id="statistics" class="menucontent">
-			<table class="highchart" data-graph-container-before="1" data-graph-type="line" style="display: none; width: 100%;" data-graph-xaxis-end-on-tick="1">
-				<thead>
-					<tr>
-						<th></th>
-						<?php foreach($campaign_keys as $chartdata_key): ?>
-							<th><?php echo $chartdata_key; ?></th>
-						<?php endforeach; ?>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach($chartdata as $date => $data): ?>
-						<tr>
-							<td>
-								<?php
-									$whole_date = strtotime($date . '-01');
-									$month = $months[date("n", $whole_date) - 1];
-									$year = date("Y", $whole_date);
-									echo $month . ' ' . $year;
-								?>
-							</td>
-							<?php foreach($campaign_keys as $chartdata_key): ?>
-							<td>
-								<?php echo $data[$chartdata_key]; ?>
-							</td>
-							<?php endforeach; ?>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
+			
 		</div>
 	</div>
 </div>
