@@ -13,6 +13,11 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('table.highchart').highchartTable();
+
+		$('.menuheader').click(function(){
+			$('.menucontent').hide();
+			$('#' + $(this).data('show')).show();
+		});
 	});
 </script>
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
@@ -28,15 +33,23 @@
 	<div id="topline">&nbsp;</div>
 	<div id="header" class="container">
 		<div id="logo">
-			<img src="images/Logo.png" />
+			<a href="#">
+				<img src="images/Logo.png" />
+			</a>
 		</div>
 		<div id="menu">
 			<ul>
-				<li class="current_page_item"><a href="#" accesskey="1" title="">Хора</a></li>
-				<li><a href="#" accesskey="2" title="">Организации</a></li>
-				<li><a href="#" accesskey="3" title="">Специални</a></li>
-				<li><a href="#" accesskey="4" title="">Други</a></li>
+				<li class="current_page_item"><a href="#" accesskey="1" title="" class="menuheader" data-show="people">Хора</a></li>
+				<li><a href="#" accesskey="2" title="" class="menuheader" data-show="organizations">Организации</a></li>
+				<li><a href="#" accesskey="3" title="" class="menuheader" data-show="special">Специални</a></li>
+				<li><a href="#" accesskey="4" title="" class="menuheader" data-show="other">Други</a></li>
+				<li><a href="#" accesskey="5" title="" class="menuheader" data-show="statistics">Статистики</a></li>
 			</ul>
+		</div>
+		<div id="menu_btn">
+			<img src="images/google.png" />
+			<a href="#"><img src="images/facebook.png" /></a>
+			<img src="images/twitter.png" />
 		</div>
 	</div>
 </div>
@@ -56,60 +69,68 @@
 <div id="featured-wrapper">
 	<div id="featured" class="container">
 
-		<?php foreach(array('people' => $people, 'organization' => $organization, 'other' => $other, 'special' => $special) as $ck => $data): ?>
-		<div id="<?php echo $ck; ?>">
+		<?php foreach(array('people' => $people, 'organizations' => $organizations, 'other' => $other, 'special' => $special) as $ck => $data): ?>
+		<div id="<?php echo $ck; ?>" class="menucontent">
 		<?php foreach($data as $dk => $dv): ?>
-			<?php echo $dv['picture']; ?>
 		<div class="column1">
-			<img src="data:image/png;base64,<?php echo $dv['picture']; ?>" alt="" />
+			<div class="imgholder">
+				<img src="data:image/png;base64,<?php echo $dv['picture']; ?>" alt="" />
+			</div>
 			<div>
 				<p><?php echo $dv['subname']; ?></p>
 			</div>
-			<div id="123"> &nbsp;</div>
 		</div>
 		<?php endforeach; ?>
 		</div>
 		<?php endforeach; ?>
+
+		<div id="statistics" class="menucontent">
+			<table class="highchart" data-graph-container-before="1" data-graph-type="line" style="display: none;" data-graph-xaxis-end-on-tick="1">
+				<thead>
+					<tr>
+						<th></th>
+						<?php foreach($campaign_keys as $chartdata_key): ?>
+							<th><?php echo $chartdata_key; ?></th>
+						<?php endforeach; ?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($chartdata as $date => $data): ?>
+						<tr>
+							<td>
+								<?php
+									$whole_date = strtotime($date . '-01');
+									$month = $months[date("n", $whole_date) - 1];
+									$year = date("Y", $whole_date);
+									echo $month . ' ' . $year;
+								?>
+							</td>
+							<?php foreach($campaign_keys as $chartdata_key): ?>
+							<td>
+								<?php echo $data[$chartdata_key]; ?>
+							</td>
+							<?php endforeach; ?>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
-<div id="copyright" class="container">
-	<p>Copyright (c) 2013 SMSHelp.com. All rights reserved.</p>
-</div>
-
-<div id="chartdata">
-	<table class="highchart" data-graph-container-before="1" data-graph-type="line" style="display:none" data-graph-xaxis-end-on-tick="1">
-		<thead>
-			<tr>
-				<th></th>
-				<?php foreach($campaign_keys as $chartdata_key): ?>
-					<th><?php echo $chartdata_key; ?></th>
-				<?php endforeach; ?>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach($chartdata as $date => $data): ?>
-				<tr>
-					<td>
-						<?php
-							$whole_date = strtotime($date . '-01');
-							$month = $months[date("n", $whole_date) - 1];
-							$year = date("Y", $whole_date);
-							echo $month . ' ' . $year;
-						?>
-					</td>
-					<?php foreach($campaign_keys as $chartdata_key): ?>
-					<td>
-						<?php echo $data[$chartdata_key]; ?>
-					</td>
-					<?php endforeach; ?>
-				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
-</div>
+<footer>
+	<div id="footer">
+		<div id="menu_footer">
+			<ul>
+				<li class="current_page_item"><a href="#" accesskey="1" title="">Хора</a></li>
+				<li><a href="#" accesskey="2" title="">Организации</a></li>
+				<li><a href="#" accesskey="3" title="">Специални</a></li>
+				<li><a href="#" accesskey="4" title="">Други</a></li>
+				<li><a href="#" accesskey="4" title="">Статистики</a></li>
+			</ul>
+		</div>
+	</div>
+</footer>
 
 </body>
 </html>
-
-<?php // var_dump($people, $organizations, $other, $special); ?>
