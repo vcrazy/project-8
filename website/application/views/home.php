@@ -16,6 +16,7 @@
 	});
 </script>
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="reset.css" rel="stylesheet" type="text/css" media="all" />
 <link href="default.css" rel="stylesheet" type="text/css" media="all" />
 <link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -41,8 +42,11 @@
 </div>
 <div id="bline">&nbsp;</div>
 <div id="header-featured">
-	<div id="p_text">
-		Дарения чрез <span id="blue">SMS</span> в подпкрепа на кампании за хора, каузи и инициативи на организации и на институции.
+	<div class="wide">
+		<div id="p_text">
+			Дарения чрез <span id="blue">SMS</span> в подкрепа на кампании за хора, каузи и инициативи на организации и на институции.
+		</div>
+		<div class="clearfix"></div>
 	</div>
  </div>
 
@@ -52,42 +56,20 @@
 <div id="featured-wrapper">
 	<div id="featured" class="container">
 
-		<div class="column1"> <span class="icon icon-key"></span>
-			<div class="title">
+		<?php foreach(array('people' => $people, 'organization' => $organization, 'other' => $other, 'special' => $special) as $ck => $data): ?>
+		<div id="<?php echo $ck; ?>">
+		<?php foreach($data as $dk => $dv): ?>
+			<?php echo $dv['picture']; ?>
+		<div class="column1">
+			<img src="data:image/png;base64,<?php echo $dv['picture']; ?>" alt="" />
 			<div>
-				<p>Etiam posuere augue</p>
+				<p><?php echo $dv['subname']; ?></p>
 			</div>
 			<div id="123"> &nbsp;</div>
 		</div>
-
-		<div class="column2"> <span class="icon icon-legal"></span>
-			<div>
-				<p>Etiam posuere augue</p>
-			</div>
-			<div id="123"> &nbsp;</div>
+		<?php endforeach; ?>
 		</div>
-
-		<div class="column3"> <span class="icon icon-unlock"></span>
-			<div>
-				<p>Etiam posuere augue</p>
-			</div>
-			<div id="123"> &nbsp;</div>
-		</div>
-
-		<div class="column4"> <span class="icon icon-wrench"></span>
-			<div>
-				<p>Etiam posuere augue</p>
-			</div>
-			<div id="123"> &nbsp;</div>
-		</div>
-
-		<div class="column5"> <span class="icon icon-wrench"></span>
-			<div>
-				<p>Etiam posuere augue</p>
-			</div>
-			<div id="123"> &nbsp;</div>
-		</div>
-
+		<?php endforeach; ?>
 	</div>
 </div>
 

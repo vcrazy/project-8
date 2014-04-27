@@ -1,5 +1,7 @@
 package com.example.project_8;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -67,6 +69,7 @@ public class CampaignProfileActivity extends Activity {
 				// TODO Auto-generated method stub
 			}
 		});
+		textViewStartDate.setText(parseUnixTimeToDate(campaignInfo.startDate));
 		// java.util.Date startTime = new java.util.Date(
 		// (long) campaignInfo.startDate * 1000);
 		// textViewStartDate.setText(startTime);
@@ -81,6 +84,22 @@ public class CampaignProfileActivity extends Activity {
 						campaignInfo.txtSMS);
 			}
 		});
+	}
+
+	public String parseUnixTimeToDate(long unixTimeStamp) {
+
+		long time = unixTimeStamp * (long) 1000;
+		java.util.Date date = new java.util.Date(time);
+		Calendar myCalendar = Calendar.getInstance();
+		myCalendar.setTime(date);
+		int day = myCalendar.get(Calendar.DAY_OF_MONTH);
+		int month = myCalendar.get(Calendar.MONTH);
+		int year = myCalendar.get(Calendar.YEAR);
+		String onlyDate = String.valueOf(day) + " "
+				+ getResources().getStringArray(R.array.months_names)[month]
+				+ " " + String.valueOf(year);
+
+		return onlyDate;
 	}
 
 	@Override

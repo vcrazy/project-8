@@ -15,4 +15,20 @@
     <string name="numbersms_title">Номер</string>
     <string name="title_link_to_web">Линк към страницата</string>
     <string name="startdate_title">Стартирала на &#160;</string>
+
+    <string-array name="months_names">
+        <item>Януари</item>
+        <item>Февруари</item>
+        <item>Март</item>
+        <item>Април</item>
+        <item>Май</item>
+        <item>Юни</item>
+        <item>Юли</item>
+        <item>Август</item>
+        <item>Септември</item>
+        <item>Октомври</item>
+        <item>Ноември</item>
+        <item>Декември</item>
+    </string-array>
+
 </resources>
