@@ -650,7 +650,8 @@ ul.contact li a.icon-rss:before
 
 #featured-wrapper
 {
-	padding: 5em 0em;
+	padding-top: 30px;
+	color: #32637e;
 	background: #FFF;
 	text-align: center;
 }
@@ -659,6 +660,8 @@ ul.contact li a.icon-rss:before
 #featured
 {
 	overflow: hidden;
+	min-height: 400px;
+	padding-bottom: 40px;
 }
 
 #featured .major
@@ -712,7 +715,7 @@ ul.contact li a.icon-rss:before
 
 .column1
 {
-	width: 190px;
+	width: 192px;
 	display: inline-block;
 	float: left;
 	height: 233px;
@@ -948,12 +951,7 @@ ul.contact li a.icon-rss:before
 	float: right;
 }
 
-#organizations, #special, #other, #statistics
-{
-	display: none;
-}
-
-#menu_btn
+.menu_btn
 {
 	float:right;
 	top: 8px;
@@ -963,25 +961,23 @@ ul.contact li a.icon-rss:before
 
 #menu_footer
 {
-	position: relative;
-	left:204px;
-	height:10em;
-	display:inline-block;
-
-
+	width: 960px;
+	margin: 0 auto;
+	text-align: center;
 }
 #menu_footer li
 {
 	display: block;
 	float: left;
 	text-align: center;
-	line-height: 51px;
-	margin-rght:5px;
+	line-height: 40px;
+	margin-right:5px;
 }
 
 #menu_footer ul li a
 {
-	color: #41aaca;
+	color: #6694A4;
+	text-decoration: none;
 }
 
 #footer
@@ -990,4 +986,19 @@ ul.contact li a.icon-rss:before
 	width:100%;
 	height:40px;
 	background:#1a3d51;
+}
+
+.contentheader
+{
+	text-align: left;
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+.contentheader hr
+{
+	background-color: #4FC0E8;
+	border: 0px;
+	height: 2px;
+	width: 957px;
 }
