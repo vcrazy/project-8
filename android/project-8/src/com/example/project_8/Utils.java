@@ -3,13 +3,14 @@ package com.example.project_8;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class Utils {
 
@@ -44,25 +45,29 @@ public class Utils {
 
 	public static void noInternetDialog(final Context context) {
 
+		View customView = View.inflate(context, R.layout.custom_dialog, null);
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setCancelable(false);
 
-		builder.setTitle(R.string.app_name);
+		builder.setCustomTitle(customView);
 
-		builder.setMessage("Необходима е връзка с Интернет");
+		final AlertDialog dialog = builder.create();
+		// View v = dialog.getWindow().getDecorView();
+		// v.setBackgroundResource(android.R.color.transparent);
 
-		builder.setNeutralButton("Ok", new OnClickListener() {
+		Button okButton = (Button) customView.findViewById(R.id.button);
+		okButton.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
+			public void onClick(View v) {
 				dialog.dismiss();
 				((Activity) context).finish();
 
 			}
 		});
 
-		builder.create().show();
+		dialog.show();
 
 	}
 }

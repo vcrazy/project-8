@@ -15,6 +15,8 @@
     <string name="numbersms_title">Номер</string>
     <string name="title_link_to_web">Линк към страницата</string>
     <string name="startdate_title">Стартирала на &#160;</string>
+    <string name="internet_title">Необходима е връзка с Интернет</string>
+    <string name="ok">Добре</string>
 
     <string-array name="months_names">
         <item>Януари</item>
