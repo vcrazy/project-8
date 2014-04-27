@@ -15,7 +15,7 @@ import android.os.AsyncTask;
 public class TrackTask extends AsyncTask<String, Void, Boolean> {
 
 	// ./track?phone_id=...&campaign_id=.
-	private static final String URL = "http://ganev.bg/project-8/www/track";
+	private static final String URL = "http://ganev.bg/project-8/track";
 	private static final String PHONE_ID_PARAM = "?phone_id=";
 	private static final String CAMPAIGN_ID_PARAM = "&campaign_id=";
 

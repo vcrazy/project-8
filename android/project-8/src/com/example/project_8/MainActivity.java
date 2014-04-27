@@ -120,6 +120,7 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(MainActivity.this,
 						ShowStatistics.class);
 				startActivity(intent);
+				overridePendingTransition(R.anim.in_campaign, R.anim.out_main);
 			};
 		});
 
