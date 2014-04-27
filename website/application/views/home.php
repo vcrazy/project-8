@@ -52,7 +52,7 @@
 			<?php endforeach; ?>
 		<?php endforeach; ?>
 		<?php rsort($nums); ?>
-		var visible_limit = <?php echo $nums[9] ?: 0; ?>,
+		var visible_limit = <?php echo $nums[4] ?: 0; ?>,
 			max = 0;
 
 		<?php foreach($campaign_keys as $chartdata_key): ?>
@@ -109,7 +109,7 @@
 	<div id="topline">&nbsp;</div>
 	<div id="header" class="container">
 		<div id="logo">
-			<a href="#">
+			<a href="">
 				<img src="images/Logo.png" />
 			</a>
 		</div>
@@ -233,7 +233,7 @@
 									<div class="ctext">
 										<?php echo str_replace("\n", '<br /><br />', $dv['text']); ?>
 										<br /><br />
-										<a href="<?php echo $dv['link']; ?>" target="_blank" class="clink">Линк към страницата</a>
+										<a href="<?php echo $dv['link']; ?>" target="_blank" class="clink">Препратка към кампанията</a>
 									</div>
 								</td>
 							</tr>
