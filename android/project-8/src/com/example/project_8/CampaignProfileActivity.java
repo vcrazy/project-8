@@ -1,5 +1,6 @@
 package com.example.project_8;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -61,7 +62,9 @@ public class CampaignProfileActivity extends Activity {
 
 		textViewName.setText(campaignInfo.campaignName);
 		textViewcampaignSubName.setText(campaignInfo.campaignSubName);
-		String moneyConverted = String.valueOf(campaignInfo.priceSMS);
+		DecimalFormat df = new DecimalFormat("#.##");
+		String moneyConverted = String
+				.valueOf(df.format(campaignInfo.priceSMS));
 		textViewPriceSMS.setText(moneyConverted + " "
 				+ getString(R.string.bg_money));
 
