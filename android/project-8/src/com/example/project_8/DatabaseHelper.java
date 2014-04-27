@@ -3,6 +3,8 @@ package com.example.project_8;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 
 import android.content.ContentValues;
@@ -24,6 +26,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String TABLE_VERSION = "Version";
 
+	private static final String TABLE_STATISTICS = "Statistics";
+
 	// Common column names
 	private static final String KEY_ID = "id";
 	private static final String KEY_CREATED_AT = "created_at";
@@ -42,6 +46,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String KEY_IMAGE = "image";
 	private static final String KEY_CAMPAIGN_LINK = "campaign_link";
 	private static final String KEY_VERSION = "version";
+	private static final String KEY_STATISTICS_ID = "statistic_id";
+	private static final String KEY_STATISTICS_DATE = "statistic_date";
+	private static final String KEY_SEND_STATISTICS = "statistic_flag";
 
 	// Table Create Statements
 	// Campaigns table create statement
@@ -58,6 +65,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_VERSION = "CREATE TABLE "
 			+ TABLE_VERSION + "(" + KEY_VERSION + " TEXT PRIMARY KEY)";
 
+	private static final String CREATE_TABLE_STATISTICS = "CREATE TABLE "
+			+ TABLE_STATISTICS + "(" + KEY_STATISTICS_ID
+			+ " INTEGER PRIMARY KEY," + KEY_CAMPAIGN_ID + " INTEGER,"
+			+ KEY_STATISTICS_DATE + " INTEGER," + KEY_SEND_STATISTICS
+			+ " SMALLINT)";
+
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -68,6 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// creating required tables
 		db.execSQL(CREATE_TABLE_CAMPAIGNS);
 		db.execSQL(CREATE_TABLE_VERSION);
+		db.execSQL(CREATE_TABLE_STATISTICS);
 	}
 
 	@Override
@@ -78,8 +92,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_VERSION);
 
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_STATISTICS);
+
 		// create new tables
 		onCreate(db);
+
+	}
+
+	/* ====== STATISTICS ====== */
+	public boolean insertStatistics(int statistics_date, int statistics_flag,
+			int campaign_id) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_STATISTICS_DATE, statistics_date);
+		values.put(KEY_CAMPAIGN_ID, campaign_id);
+		values.put(KEY_SEND_STATISTICS, statistics_flag);
+		db.insert(TABLE_STATISTICS, null, values);
+		db.close();
+		return true;
+	}
+
+	public boolean updateStatistics(int statistics_id, int statistics_date,
+			int statistics_flag) {
+		String whereId = KEY_STATISTICS_ID + "=?";
+
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_SEND_STATISTICS, statistics_flag);
+		db.update(TABLE_STATISTICS, values, whereId,
+				new String[] { String.valueOf(statistics_id) });
+		db.close();
+		return true;
+	}
+
+	public ArrayList<FullInfo> getAllStatistics() {
+
+		ArrayList<FullInfo> list = new ArrayList<FullInfo>();
+
+		String selectQuery = "SELECT * FROM " + TABLE_STATISTICS + " ORDER BY "
+				+ KEY_STATISTICS_DATE + " DESC";
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		ArrayList<HashMap<String, Integer>> allList = new ArrayList<HashMap<String, Integer>>();
+
+		// looping through all rows and adding to list
+		if (c.moveToFirst()) {
+			do {
+				// 'id'
+				int campaignId = c.getInt(c.getColumnIndex(KEY_CAMPAIGN_ID));
+				int sendDate = c.getInt(c.getColumnIndex(KEY_STATISTICS_DATE));
+				hm.put("id", campaignId);
+				hm.put("date", sendDate);
+				allList.add(hm);
+			} while (c.moveToNext());
+		}
+		c.close();
+		db.close();
+
+		Iterator<HashMap<String, Integer>> it = allList.iterator();
+		while (it.hasNext()) {
+			HashMap<String, Integer> obj = it.next();
+			FullInfo getCompaignInfo = getCampaignByID(obj.get("id"));
+			getCompaignInfo.smsSendDate = obj.get("date");
+			list.add(getCompaignInfo);
+		}
+		return list;
 
 	}
 

@@ -94,6 +94,10 @@ public class CampaignProfileActivity extends Activity {
 			public void onClick(View v) {
 				sendSMS(String.valueOf(campaignInfo.phoneNumber),
 						campaignInfo.txtSMS);
+				DatabaseHelper db = new DatabaseHelper(
+						CampaignProfileActivity.this);
+				db.insertStatistics((int) System.currentTimeMillis(), 0,
+						campaignInfo.campaignId);
 			}
 		});
 	}

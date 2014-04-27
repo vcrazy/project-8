@@ -9,13 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CustomAdapter extends ArrayAdapter<BasicInfo> {
+public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 
 	private Context context;
-	private ArrayList<BasicInfo> data;
+	private ArrayList<FullInfo> data;
 
-	public CustomAdapter(Context context, int resource,
-			ArrayList<BasicInfo> objects) {
+	public CustomAdapterStatistics(Context context, int resource,
+			ArrayList<FullInfo> objects) {
 		super(context, resource, objects);
 		this.context = context;
 		this.data = objects;
@@ -27,7 +27,7 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 	}
 
 	@Override
-	public BasicInfo getItem(int position) {
+	public FullInfo getItem(int position) {
 		return this.data.get(position);
 	}
 
@@ -43,7 +43,8 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 		if (convertView == null) {
 
-			convertView = View.inflate(context, R.layout.list_item, null);
+			convertView = View.inflate(context, R.layout.list_item_statistics,
+					null);
 
 			viewHolder.imageView = (ImageView) convertView
 					.findViewById(R.id.item_image);
@@ -51,6 +52,8 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 					.findViewById(R.id.item_name);
 			viewHolder.textViewInfo = (TextView) convertView
 					.findViewById(R.id.item_subname);
+			viewHolder.textViewSendDate = (TextView) convertView
+					.findViewById(R.id.send_date);
 
 			convertView.setTag(viewHolder);
 
@@ -58,12 +61,13 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		BasicInfo info = this.data.get(position);
+		FullInfo info = this.data.get(position);
 
 		viewHolder.imageView
 				.setImageBitmap(Utils.getImageBitmap(info.imageUri));
 		viewHolder.textViewTitle.setText(info.campaignName);
 		viewHolder.textViewInfo.setText(info.campaignSubName);
+		// viewHolder.textViewInfo.setText(info.smsSendDate);
 
 		convertView.setTag(R.id.item_image, info.campaignId);
 
@@ -76,6 +80,7 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 		protected ImageView imageView;
 		protected TextView textViewTitle;
 		protected TextView textViewInfo;
+		protected TextView textViewSendDate;
 
 	}
 
