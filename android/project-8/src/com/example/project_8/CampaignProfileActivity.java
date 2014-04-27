@@ -149,4 +149,11 @@ public class CampaignProfileActivity extends Activity {
 		task.execute(deviceID, String.valueOf(campaignID));
 
 	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		overridePendingTransition(R.anim.in_main, R.anim.out_campaign);
+	}
 }

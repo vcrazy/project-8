@@ -124,6 +124,10 @@ public class MainActivity extends Activity {
 							CampaignProfileActivity.class);
 					intent.putExtra("full", fullInfo);
 					startActivity(intent);
+					// first one pushes the new activity in
+					// second one pushes the old activity out
+					overridePendingTransition(R.anim.in_campaign,
+							R.anim.out_main);
 				}
 
 			}
@@ -254,4 +258,5 @@ public class MainActivity extends Activity {
 			loader.dismiss();
 
 	}
+
 }
