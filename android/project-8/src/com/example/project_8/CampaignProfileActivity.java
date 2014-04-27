@@ -27,6 +27,7 @@ public class CampaignProfileActivity extends Activity {
 	private TextView textViewDescription;
 	private TextView textViewStartDate;
 	private TextView textViewEndDate;
+	private TextView textViewStartDateTitle;
 	private TextView textViewPriceSMS;
 	private TextView textViewNumberSMS;
 	private TextView textViewLinkToWeb;
@@ -51,6 +52,8 @@ public class CampaignProfileActivity extends Activity {
 		textViewcampaignSubName = (TextView) findViewById(R.id.campaignSubName);
 		textViewDescription = (TextView) findViewById(R.id.description);
 		textViewStartDate = (TextView) findViewById(R.id.startDate);
+		textViewStartDateTitle = (TextView) findViewById(R.id.startDateTitle);
+
 		textViewPriceSMS = (TextView) findViewById(R.id.pricesms);
 		textViewNumberSMS = (TextView) findViewById(R.id.numbersms);
 		textViewLinkToWeb = (TextView) findViewById(R.id.link_to_web);
@@ -62,6 +65,8 @@ public class CampaignProfileActivity extends Activity {
 		textViewPriceSMS.setText(moneyConverted + " "
 				+ getString(R.string.bg_money));
 
+		imageView.setImageBitmap(Utils.getImageBitmap(campaignInfo.imageUri));
+
 		textViewDescription.setText(campaignInfo.txtCampaign);
 
 		textViewNumberSMS.setText(Integer.toString(campaignInfo.phoneNumber));
@@ -69,17 +74,18 @@ public class CampaignProfileActivity extends Activity {
 		textViewLinkToWeb.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri
+						.parse(campaignInfo.campaignLink));
+				startActivity(browserIntent);
 			}
 		});
-		textViewStartDate.setText(parseUnixTimeToDate(campaignInfo.startDate));
-		// java.util.Date startTime = new java.util.Date(
-		// (long) campaignInfo.startDate * 1000);
-		// textViewStartDate.setText(startTime);
-		//
-		// java.util.Date endTime = new java.util.Date(
-		// (long) campaignInfo.startDate * 1000);
-		// textViewEndDate.setText(endTime.toString());
+		if (campaignInfo.startDate != 0) {
+			textViewStartDate
+					.setText(parseUnixTimeToDate(campaignInfo.startDate));
+		} else {
+			textViewStartDate.setVisibility(View.GONE);
+			textViewStartDateTitle.setVisibility(View.GONE);
+		}
 
 		btnSendSms.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
