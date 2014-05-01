@@ -38,9 +38,10 @@
 |
 */
 
-$route['default_controller'] = "home";
+$route['default_controller'] = "people";
 $route['404_override'] = '';
 
+$route['(people|organizations|special|other)/(:num)'] = '$1/index/$2';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

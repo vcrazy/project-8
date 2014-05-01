@@ -2,6 +2,7 @@
 
 class Model_api extends MY_Model
 {
+
 	public function get_campaigns()
 	{
 		$this->db->from('campaigns');

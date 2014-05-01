@@ -34,4 +34,18 @@ class Api extends MY_Controller {
 
 		echo json_encode($data);
 	}
+
+	public function people($id = FALSE)
+	{
+		$full_info = $this->input->get('full');
+
+		$data = $this->Model_api->get_people((int)$id, (bool)$full_info);
+
+		if($data === FALSE)
+		{
+			$data = array();
+		}
+
+		echo json_encode($data);
+	}
 }
