@@ -152,6 +152,29 @@
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/separator_color" />
+        
+        <LinearLayout
+            android:id="@+id/tab_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/text_state"
+            android:clickable="true"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_action_overflow"/>
+        </LinearLayout>
+        
     </LinearLayout>
 
     <View

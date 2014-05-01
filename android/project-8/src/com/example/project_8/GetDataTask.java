@@ -17,7 +17,7 @@ import android.os.AsyncTask;
 
 public class GetDataTask extends AsyncTask<Boolean, Void, Boolean> {
 
-	private static final String URL = "http://ganev.bg/project-8/www/api";
+	private static final String URL = "http://ganev.bg/project-8/api";
 	public Context context;
 	private ArrayList<FullInfo> list;
 

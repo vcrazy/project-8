@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -29,6 +28,7 @@ public class MainActivity extends Activity {
 	private LinearLayout textViewOrganisation;
 	private LinearLayout textViewSpecial;
 	private LinearLayout textViewOther;
+	private LinearLayout textViewMore;
 
 	private ArrayList<BasicInfo> list = new ArrayList<BasicInfo>();
 
@@ -54,6 +54,7 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(true);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_PEOPLE;
 				loadData();
@@ -70,6 +71,7 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(true);
 				textViewPeople.setSelected(false);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_ORGANIZATION;
 				loadData();
@@ -86,6 +88,7 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(true);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(false);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_SPECIAL;
 				loadData();
@@ -102,9 +105,22 @@ public class MainActivity extends Activity {
 				textViewSpecial.setSelected(false);
 				textViewOrganisation.setSelected(false);
 				textViewPeople.setSelected(false);
+				textViewMore.setSelected(false);
 
 				chosenType = TYPE_OTHER;
 				loadData();
+			};
+		});
+
+		textViewMore = (LinearLayout) findViewById(R.id.tab_more);
+		textViewMore.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						ShowStatistics.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.in_campaign, R.anim.out_main);
 			};
 		});
 
@@ -165,17 +181,15 @@ public class MainActivity extends Activity {
 
 		if (Utils.haveNetworkConnection(this)) {
 
-			Log.e("TEST", "INTERNET YES");
 			/* Internet YES, Check DB */
 
 			if (count == 0) {
-				Log.e("TEST", "INTERNET YES, EMPTY DB");
+
 				/* DB is EMPTY, Get DB from API */
 				getDataAndLoad(false);
 
 			} else {
 
-				Log.e("TEST", "INTERNET YES, CHECK FOR NEW DB");
 				/* DB is NOT EMPTY, Check for new version */
 				checkForNewDB();
 
@@ -183,12 +197,10 @@ public class MainActivity extends Activity {
 
 		} else {
 
-			Log.e("TEST", "INTERNET NO");
 			/* Internet NO, Check DB */
 
 			if (count == 0) {
 
-				Log.e("TEST", "INTERNET NO, EMPTY DB");
 				/* DB is EMPTY, Show Internet Message */
 				if (loader.isShowing())
 					loader.dismiss();
@@ -196,7 +208,7 @@ public class MainActivity extends Activity {
 				Utils.noInternetDialog(MainActivity.this);
 
 			} else {
-				Log.e("TEST", "INTERNET NO, LOAD DB");
+
 				/* DB is NOT EMPTY, Load data from DB */
 				loadData();
 			}
@@ -214,11 +226,11 @@ public class MainActivity extends Activity {
 
 				/* DB is NOT EMPTY, Check for new DB */
 				if (getData) {
-					Log.e("TEST", "CHECK FOR NEW DB, NEW DB");
+
 					/* NEW DB, Update DB */
 					getDataAndLoad(true);
 				} else {
-					Log.e("TEST", "CHECK FOR NEW DB, NO NEW DB");
+
 					/* NO NEW DB, Load data from DB */
 					loadData();
 

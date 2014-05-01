@@ -15,7 +15,7 @@ import android.os.AsyncTask;
 
 public class GetDataVersion extends AsyncTask<Void, Void, Boolean> {
 
-	private static final String URL = "http://ganev.bg/project-8/www/api/version";
+	private static final String URL = "http://ganev.bg/project-8/api/version";
 	public Context context;
 	private String version;
 

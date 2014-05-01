@@ -47,4 +47,11 @@ public class ShowStatistics extends Activity {
 
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		overridePendingTransition(R.anim.in_main, R.anim.out_campaign);
+	}
+
 }

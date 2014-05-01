@@ -17,7 +17,9 @@
     <string name="startdate_title">Стартирала на &#160;</string>
     <string name="internet_title">Необходима е връзка с Интернет</string>
     <string name="ok">Добре</string>
+    <string name="new_data">Изтеглят се нови данни</string>
     <string name="send_sms_title">SMS изпратен на 27 Април 2014</string>
+    <string name="history">Изпратени SMS-и</string>
 
     <string-array name="months_names">
         <item>Януари</item>
