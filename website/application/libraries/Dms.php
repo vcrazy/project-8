@@ -23,7 +23,7 @@ class Dms
 
 	public function __call($name, $arguments)
 	{
-		if(!in_array($name, array_keys($this->campaigns)))
+		if(!isset($this->campaigns[$name]))
 		{
 			return;
 		}
@@ -31,6 +31,11 @@ class Dms
 		$url = $this->base_url . $this->campaigns[$name];
 
 		$url_content = file_get_contents($url);
+
+		if($url_content === FALSE)
+		{
+			return;
+		}
 
 		phpQuery::newDocumentHTML($url_content);
 
@@ -85,6 +90,11 @@ class Dms
 		{
 			$link_content = file_get_contents($this->base_url . $link);
 
+			if($link_content === FALSE)
+			{
+				continue;
+			}
+
 			phpQuery::newDocumentHTML($link_content);
 
 			foreach(pq('.container > h1') as $c)
@@ -137,7 +147,6 @@ class Dms
 					if($att_k === 'src')
 					{
 						$picture = $att_v->value;
-						$picture_base64 = base64_encode(file_get_contents($picture));
 						break;
 					}
 				}
@@ -151,7 +160,7 @@ class Dms
 				'type' => $campaign_type,
 				'text' => implode("\n", $paragraphs),
 				'donation' => $donation,
-				'picture' => $picture_base64,
+				'picture' => $picture,
 				'link' => $campaign_link,
 				'sms_text' => $sms_text,
 				'sms_number' => $sms_number,

@@ -2,49 +2,35 @@
 
 class Api extends MY_Controller {
 
-	 public function __construct()
-	 {
-		 parent::__construct();
+	public function __construct()
+	{
+		parent::__construct();
 
-		 $this->load->model('Model_api');
-	 }
+		$this->load->model('Model_campaigns');
+	}
 
 	public function index()
 	{
-		$campaigns = $this->Model_api->get_campaigns();
-		$rating = $this->Model_api->get_ratings();
+		$this->load->model('Model_ratings');
 
-		if(!$rating)
-		{
-			$rating = array();
-		}
+		$user_version = (int)$this->input->get('version');
+		$current_version = (int)$this->Model_campaigns->get_version();
 
-		$data = array('campaigns' => $campaigns, 'ratings' => $rating);
+		$campaigns_diff = $this->Model_campaigns->get_diff($user_version, $current_version);
+		$rating = $this->Model_ratings->get();
+
+		$data = array('campaigns' => $campaigns_diff, 'ratings' => $rating, 'version' => $current_version);
 
 		echo json_encode($data);
 	}
 
 	public function version()
 	{
-		$version = $this->Model_api->get_version();
+		$version = (int)$this->Model_campaigns->get_version();
 
 		$data = array(
 			'version' => $version
 		);
-
-		echo json_encode($data);
-	}
-
-	public function people($id = FALSE)
-	{
-		$full_info = $this->input->get('full');
-
-		$data = $this->Model_api->get_people((int)$id, (bool)$full_info);
-
-		if($data === FALSE)
-		{
-			$data = array();
-		}
 
 		echo json_encode($data);
 	}
