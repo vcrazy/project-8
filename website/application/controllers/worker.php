@@ -1,7 +1,10 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-class Worker extends MY_Controller {
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
+class Worker extends MY_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -94,7 +97,7 @@ class Worker extends MY_Controller {
 		$this->email->to('vihren.k.ganev@gmail.com');
 
 		$this->email->subject('Morning SMShelp report');
-		$this->email->message('Inserted: ' . count($data_to_insert) . '; Updated: ' . count($data_to_update) . '; Deleted: ' . count($data_to_delete) . '; Result: ' . (int)$result . '; Time: ' . ($end - $start) . 's.');
+		$this->email->message('Inserted: ' . count($data_to_insert) . '; Updated: ' . count($data_to_update) . '; Deleted: ' . count($data_to_delete) . '; Result: ' . (int) $result . '; Time: ' . ($end - $start) . 's.');
 
 		$this->email->send();
 

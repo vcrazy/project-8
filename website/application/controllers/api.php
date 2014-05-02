@@ -1,7 +1,10 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-class Api extends MY_Controller {
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
+class Api extends MY_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -13,10 +16,18 @@ class Api extends MY_Controller {
 	{
 		$this->load->model('Model_ratings');
 
-		$user_version = (int)$this->input->get('version');
-		$current_version = (int)$this->Model_campaigns->get_version();
+		$user_version = (int) $this->input->get('version');
+		$current_version = (int) $this->Model_campaigns->get_version();
 
-		$campaigns_diff = $this->Model_campaigns->get_diff($user_version, $current_version);
+		if(!$user_version)
+		{
+			$campaigns_diff = $this->Model_campaigns->get();
+		}
+		else
+		{
+			$campaigns_diff = $this->Model_campaigns->get_diff($user_version, $current_version);
+		}
+
 		$rating = $this->Model_ratings->get();
 
 		$data = array('campaigns' => $campaigns_diff, 'ratings' => $rating, 'version' => $current_version);
@@ -26,7 +37,7 @@ class Api extends MY_Controller {
 
 	public function version()
 	{
-		$version = (int)$this->Model_campaigns->get_version();
+		$version = (int) $this->Model_campaigns->get_version();
 
 		$data = array(
 			'version' => $version

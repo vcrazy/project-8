@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class Model_ratings extends MY_Model
 {

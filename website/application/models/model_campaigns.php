@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class Model_campaigns extends MY_Model
 {
@@ -36,27 +39,27 @@ class Model_campaigns extends MY_Model
 
 	public function get_version()
 	{
-		$this->db->select('MAX(version) AS version');
+		$this->db->select('MAX(id) AS version');
 		$this->db->from('campaigns_log');
 		$query = $this->db->get();
 
 		$result = $this->single($query, 'version');
 
-		return $result ?: 0;
+		return $result ? : 0;
 	}
 
 	public function get_diff($from_version, $to_version)
 	{
 		$this->db->select('*');
 		$this->db->from('campaigns_log');
-		$this->db->where('version >', $from_version);
-		$this->db->where('version <=', $to_version);
-		$this->db->order_by('version', 'desc');
+		$this->db->where('id >', $from_version);
+		$this->db->where('id <=', $to_version);
+		$this->db->order_by('id', 'desc');
 
 		$query = $this->db->get();
 
 		$result = $this->results($query);
-		
+
 		if($result === FALSE)
 		{
 			$result = array();
@@ -70,7 +73,6 @@ class Model_campaigns extends MY_Model
 
 			unset($change['id']);
 			unset($change['campaign_id']);
-			unset($change['version']);
 			unset($change['date_change']);
 
 			if(!isset($diff[$id]))
@@ -109,16 +111,9 @@ class Model_campaigns extends MY_Model
 		{
 			$result = $this->db->insert('campaigns', $data_part) && $result;
 			sleep(1);
-		}
 
-		$version = $this->get_version();
-
-		foreach($data as $data_part)
-		{
-			$data_part['version'] = $version + 1;
-			$data_part['campaign_id'] = $data_part['id'];
+			$data_part['campaign_id'] = $this->db->insert_id();
 			$data_part['status'] = 'insert';
-			unset($data_part['id']);
 
 			$result = $this->db->insert('campaigns_log', $data_part) && $result;
 			sleep(1);
@@ -138,11 +133,8 @@ class Model_campaigns extends MY_Model
 			sleep(1);
 		}
 
-		$version = $this->get_version();
-
 		foreach($data as $id => $data_part)
 		{
-			$data_part['version'] = $version + 1;
 			$data_part['campaign_id'] = $id;
 			$data_part['status'] = 'update';
 
@@ -164,12 +156,9 @@ class Model_campaigns extends MY_Model
 			sleep(1);
 		}
 
-		$version = $this->get_version();
-
 		foreach($data as $id)
 		{
 			$data_part = array(
-				'version' => $version + 1,
 				'campaign_id' => $id,
 				'status' => 'delete'
 			);

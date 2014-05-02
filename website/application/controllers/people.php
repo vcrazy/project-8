@@ -1,7 +1,11 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 require_once 'types.php';
 
-class People extends Types {
+class People extends Types
+{
 	
 }

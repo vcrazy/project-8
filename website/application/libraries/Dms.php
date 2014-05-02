@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class Dms
 {
@@ -131,10 +134,10 @@ class Dms
 			}
 
 			$paragraphs = array_filter($paragraphs, function($paragraph)
-			{
-				$regex = '/да намерите тук\.$/';
-				return !preg_match($regex, $paragraph);
-			});
+					{
+						$regex = '/да намерите тук\.$/';
+						return !preg_match($regex, $paragraph);
+					});
 
 			$donation = 1; // 1 lv
 

@@ -1,7 +1,10 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-abstract class Types extends MY_Controller {
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
+abstract class Types extends MY_Controller
+{
 	protected $type = '';
 	protected $allowed_types = array('people', 'organizations', 'special', 'other');
 	protected $titles = array('Хора', 'Организации', 'Специални', 'Други');
