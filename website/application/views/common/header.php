@@ -36,7 +36,7 @@
 <div id="header-featured">
 	<div class="wide">
 		<div id="p_text">
-			Дарения чрез <span id="blue">SMS</span> в подкрепа на кампании за хора, каузи и инициативи на организации и на институции.
+			Дарения чрез <span id="bluesms">SMS</span> в подкрепа <br /> на кампании за хора, каузи <br /> и инициативи на организации <br /> и на институции.
 		</div>
 		<div class="clearfix"></div>
 	</div>

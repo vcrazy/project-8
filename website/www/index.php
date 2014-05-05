@@ -18,6 +18,8 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
+if(!defined('ENVIRONMENT'))
+{
 	if($_SERVER['HTTP_HOST'] !== 'project-8.loc')
 	{
 		define('ENVIRONMENT', 'production');
@@ -26,6 +28,7 @@
 	{
 		define('ENVIRONMENT', 'development');
 	}
+}
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

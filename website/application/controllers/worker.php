@@ -3,13 +3,13 @@
 if(!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class Worker extends MY_Controller
+require_once APPPATH . 'core/MY_Cron_Controller.php';
+
+class Worker extends MY_Cron_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-
-		set_time_limit(15 * 60);
 
 		$this->load->model('Model_campaigns');
 	}
@@ -104,28 +104,28 @@ class Worker extends MY_Controller
 		echo ':)';
 	}
 
-	public function worker_dms()
+	protected function worker_dms()
 	{
 		$this->load->library('dms');
 
 		return $this->dms->get();
 	}
 
-	public function worker_unicef()
+	protected function worker_unicef()
 	{
 		$this->load->library('unicef');
 
 		return $this->unicef->get();
 	}
 
-	public function worker_redcross()
+	protected function worker_redcross()
 	{
 		$this->load->library('redcross');
 
 		return $this->redcross->get();
 	}
 
-	public function worker_bgkoleda()
+	protected function worker_bgkoleda()
 	{
 		$this->load->library('bgkoleda');
 
