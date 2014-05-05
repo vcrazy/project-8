@@ -66,7 +66,7 @@ $db['default']['stricton'] = FALSE;
 
 if(ENVIRONMENT !== 'development')
 {
-	$db['default']['database'] = 't3stovet_dbosem';
+	$db['default']['database'] = 't3stovet_dbosem2';
 	$db['default']['username'] = 't3stovet_osemuse';
 	$db['default']['password'] = 'aI()}PQ{Uefq';
 }
