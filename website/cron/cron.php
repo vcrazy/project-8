@@ -14,4 +14,4 @@ else
 // time limit n minutes
 set_time_limit(15 * 60);
 
-require_once('../www/index.php');
+require_once(realpath(dirname(__FILE__)) . '/../www/index.php');
