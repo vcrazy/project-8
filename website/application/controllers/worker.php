@@ -3,9 +3,7 @@
 if(!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-require_once APPPATH . 'core/MY_Cron_Controller.php';
-
-class Worker extends MY_Cron_Controller
+class Worker extends MY_Controller
 {
 	public function __construct()
 	{
@@ -97,7 +95,7 @@ class Worker extends MY_Cron_Controller
 		$this->email->to('vihren.k.ganev@gmail.com');
 
 		$this->email->subject('Morning SMShelp report');
-		$this->email->message('Inserted: ' . count($data_to_insert) . '; Updated: ' . count($data_to_update) . '; Deleted: ' . count($data_to_delete) . '; Result: ' . (int) $result . '; Time: ' . ($end - $start) . 's.');
+		$this->email->message('Inserted: ' . count($data_to_insert) . '; Updated: ' . count($data_to_update) . '; Deleted: ' . count($data_to_delete) . '; Result: ' . (int) $result . '; Time: ' . $end . ', ' . ($end - $start) . 's.');
 
 		$this->email->send();
 
