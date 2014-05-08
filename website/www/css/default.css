@@ -188,7 +188,6 @@ a:hover
 {
 	color: #32637e;
 	background: #EBEBEB;
-	text-align: center;
 }
 
 #featured
@@ -201,7 +200,6 @@ a:hover
 .column1
 {
 	width: 190px;
-	height: 233px;
 	display: inline-block;
 	float: left;
 	margin-right: 13px;
@@ -214,12 +212,12 @@ a:hover
 
 .column1 .imgholder
 {
-	height: 190px;
 	text-align: center;
 }
 
 .column1 .imgholder img
 {
+	min-height: 140px;
 	max-height: 189px;
 	max-width: 189px;
 }
@@ -404,7 +402,7 @@ td
 
 .menucontent
 {
-	margin-top: 35px;
+	margin: 35px 0px 45px 0px;
 }
 
 .menutext
@@ -412,4 +410,38 @@ td
 	font-size: 24px;
 	line-height: 30px;
 	font-weight: normal;
+}
+
+.infoholder
+{
+	background-color: white;
+	font-size: 17px;
+	font-weight: normal;
+}
+
+.name
+{
+	padding: 10px 10px 0px 10px;
+	line-height: normal;
+}
+
+.subname
+{
+	padding: 0px 10px 5px 10px;
+	color: #4fc1e9;
+	font-weight: bold;
+	font-size: 19px;
+}
+
+.date_from
+{
+	font-size: 14px;
+	padding: 0px 10px;
+	background-color: #3f9fc2;
+	color: white;
+}
+
+.spacer
+{
+	margin: 20px;
 }

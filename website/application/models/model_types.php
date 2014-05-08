@@ -22,14 +22,11 @@ class Model_types extends MY_Model
 
 	public function get($id = FALSE)
 	{
+		$this->db->select('*');
+
 		if($id)
 		{
-			$this->db->select('*');
 			$this->db->where('id', $id);
-		}
-		else
-		{
-			$this->db->select('id, subname, picture');
 		}
 
 		$this->db->from('campaigns');
