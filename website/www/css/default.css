@@ -445,10 +445,11 @@ td
 
 .subname
 {
-	padding: 0px 10px 5px 10px;
+	padding: 5px 10px 5px 10px;
 	color: #4fc1e9;
 	font-weight: bold;
 	font-size: 19px;
+	line-height: 130%;
 }
 
 .date_from
