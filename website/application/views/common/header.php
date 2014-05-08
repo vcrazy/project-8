@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="/js/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="/js/highcharts.js"></script>
 	<script type="text/javascript" src="/js/exporting.js"></script>
+	<script type="text/javascript" src="/js/ga.js"></script>
 
 	<link href="/css/reset.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="/css/default.css" rel="stylesheet" type="text/css" media="all" />
