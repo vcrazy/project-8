@@ -18,7 +18,17 @@ class Model_campaigns extends MY_Model
 			$results = array();
 		}
 
-		return $results;
+		$new_results = array();
+
+		foreach($results as $result)
+		{
+			$new_results[$result['id']] = $result;
+			unset($new_results[$result['id']]['id']);
+		}
+
+		$this->format($new_results);
+
+		return $new_results;
 	}
 
 	public function get_subnames($types = array())
@@ -93,12 +103,14 @@ class Model_campaigns extends MY_Model
 
 			foreach($change as $change_key => $change_value)
 			{
-				if($change_value !== NULL && !isset($diff[$id][$change_key]))
+				if($change_value !== NULL && (!isset($diff[$id][$change_key]) || $change_key === 'status'))
 				{
 					$diff[$id][$change_key] = $change_value;
 				}
 			}
 		}
+
+		$this->format($diff);
 
 		return $diff;
 	}
@@ -168,5 +180,19 @@ class Model_campaigns extends MY_Model
 		}
 
 		return $result;
+	}
+
+	public function format(&$campaigns)
+	{
+		foreach($campaigns as &$campaign)
+		{
+			foreach(array('donation', 'sms_number', 'date_from') as $k)
+			{
+				if(isset($campaign[$k]))
+				{
+					$campaign[$k] = (int)$campaign[$k];
+				}
+			}
+		}
 	}
 }
