@@ -1,4 +1,4 @@
-<div class="itemcontent" id="detailed_info_<?php echo $data['id']; ?>">
+<div class="itemcontent">
 	<table>
 		<tr>
 			<td style="vertical-align: top;">
@@ -13,7 +13,7 @@
 									$year = date("Y", $whole_date);
 								?>
 								Стартирала на <br />
-								<?php echo date("j", $data['date_from']) . '. ' . $month . ' ' . $year; ?>
+								<?php echo date("j", $data['date_from']) . ' ' . $month . ' ' . $year . ' Г.'; ?>
 							</div>
 						</td>
 					</tr>
@@ -38,14 +38,14 @@
 					<tr>
 						<td>
 							<div class="ctxt">
-								<span>Номер -</span> <?php echo $data['sms_number']; ?>
+								Номер - <span><?php echo implode(' ', preg_split('/^(\d{2})/', $data['sms_number'], -1, PREG_SPLIT_DELIM_CAPTURE)); ?></span>
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<div class="ctxt">
-								<span>Стойност -</span> <?php echo $data['donation']; ?> <span class="ctxts" style="text-transform: none;">лв.</span>
+								Стойност - <span><?php echo $data['donation']; ?>лв.</span>
 							</div>
 						</td>
 					</tr>
