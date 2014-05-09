@@ -25,6 +25,8 @@ class Dmstxtreader
 			closedir($handle);
 		}
 
+		sort($files);
+
 		foreach($files as $file)
 		{
 			$date = explode(".txt", $file);
@@ -41,9 +43,9 @@ class Dmstxtreader
 		$file = explode("\n", $file);
 
 		$file = array_map(function($e)
-				{
-					return explode(' ', trim($e));
-				}, $file);
+		{
+			return explode(' ', trim($e));
+		}, $file);
 
 		foreach($file as $f)
 		{
