@@ -14,8 +14,6 @@ class Api extends MY_Controller
 
 	public function index()
 	{
-		$this->load->model('Model_ratings');
-
 		$user_version = (int) $this->input->get('version');
 		$current_version = (int) $this->Model_campaigns->get_version();
 
@@ -28,7 +26,7 @@ class Api extends MY_Controller
 			$campaigns_diff = $this->Model_campaigns->get_diff($user_version, $current_version);
 		}
 
-		$rating = $this->Model_ratings->get();
+		$rating = array();
 
 		$data = array('campaigns' => $campaigns_diff, 'ratings' => $rating, 'version' => $current_version);
 
