@@ -1,14 +1,17 @@
-package com.example.project_8;
+package com.sms.help;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.sms.help.R;
+import com.sms.help.types.FullInfo;
 
 public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 

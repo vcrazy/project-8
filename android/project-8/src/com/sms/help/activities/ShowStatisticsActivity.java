@@ -1,12 +1,17 @@
-package com.example.project_8;
+package com.sms.help.activities;
 
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
-import com.sms.help.R;
 
-public class ShowStatistics extends Activity {
+import com.sms.help.CustomAdapterStatistics;
+import com.sms.help.DatabaseHelper;
+import com.sms.help.R;
+import com.sms.help.types.FullInfo;
+
+public class ShowStatisticsActivity extends Activity {
 	private ListView mlistView;
 	private CustomAdapterStatistics adapter;
 	private ArrayList<FullInfo> list = new ArrayList<FullInfo>();
@@ -24,9 +29,10 @@ public class ShowStatistics extends Activity {
 	private void getBasicInfoFromDB() {
 
 		/* Get data from DB */
-		DatabaseHelper db = new DatabaseHelper(ShowStatistics.this);
+		DatabaseHelper db = DatabaseHelper
+				.getInstance(ShowStatisticsActivity.this);
 		list = db.getAllStatistics();
-		db.close();
+		// db.close();
 
 		if (list == null)
 			list = new ArrayList<FullInfo>();
@@ -51,7 +57,8 @@ public class ShowStatistics extends Activity {
 	public void onBackPressed() {
 		super.onBackPressed();
 
-		overridePendingTransition(R.anim.in_main, R.anim.out_campaign);
+		overridePendingTransition(R.anim.in_old_activity,
+				R.anim.out_new_activity);
 	}
 
 }

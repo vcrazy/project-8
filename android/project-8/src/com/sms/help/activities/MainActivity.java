@@ -1,6 +1,7 @@
-package com.example.project_8;
+package com.sms.help.activities;
 
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.sms.help.CustomAdapter;
+import com.sms.help.DatabaseHelper;
+import com.sms.help.Loader;
 import com.sms.help.R;
+import com.sms.help.Utils;
+import com.sms.help.tasks.GetDataTask;
+import com.sms.help.tasks.GetDataVersionTask;
+import com.sms.help.types.BasicInfo;
+import com.sms.help.types.FullInfo;
 
 public class MainActivity extends Activity {
 	// people, organizations, other, special
@@ -34,12 +44,17 @@ public class MainActivity extends Activity {
 
 	private Loader loader;
 
+	/* Database */
+	DatabaseHelper db;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
 		loader = new Loader(MainActivity.this);
+
+		db = DatabaseHelper.getInstance(this);
 
 		mlistView = (ListView) findViewById(R.id.list_view);
 
@@ -118,9 +133,10 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,
-						ShowStatistics.class);
+						ShowStatisticsActivity.class);
 				startActivity(intent);
-				overridePendingTransition(R.anim.in_campaign, R.anim.out_main);
+				overridePendingTransition(R.anim.in_new_activity,
+						R.anim.out_old_activity);
 			};
 		});
 
@@ -132,9 +148,10 @@ public class MainActivity extends Activity {
 
 				int campaignID = (Integer) view.getTag(R.id.item_image);
 
-				DatabaseHelper db = new DatabaseHelper(MainActivity.this);
+				// DatabaseHelper db = DatabaseHelper
+				// .getInstance(MainActivity.this);
 				FullInfo fullInfo = db.getCampaignByID(campaignID);
-				db.close();
+				// db.close();
 				if (fullInfo != null) {
 					Intent intent = new Intent(MainActivity.this,
 							CampaignProfileActivity.class);
@@ -142,8 +159,8 @@ public class MainActivity extends Activity {
 					startActivity(intent);
 					// first one pushes the new activity in
 					// second one pushes the old activity out
-					overridePendingTransition(R.anim.in_campaign,
-							R.anim.out_main);
+					overridePendingTransition(R.anim.in_new_activity,
+							R.anim.out_old_activity);
 				}
 
 			}
@@ -175,9 +192,9 @@ public class MainActivity extends Activity {
 
 	public void getData() {
 
-		DatabaseHelper db = new DatabaseHelper(this);
+		// DatabaseHelper db = DatabaseHelper.getInstance(this);
 		int count = db.getCount();
-		db.close();
+		// db.close();
 
 		if (Utils.haveNetworkConnection(this)) {
 
@@ -219,7 +236,7 @@ public class MainActivity extends Activity {
 
 	private void checkForNewDB() {
 
-		GetDataVersion task = new GetDataVersion(this) {
+		GetDataVersionTask task = new GetDataVersionTask(this) {
 
 			@Override
 			protected void onPostExecute(Boolean getData) {
@@ -249,9 +266,9 @@ public class MainActivity extends Activity {
 	private void getBasicInfoFromDB() {
 
 		/* Get data from DB */
-		DatabaseHelper db = new DatabaseHelper(MainActivity.this);
+
 		list = db.getBasicInfoByType(chosenType);
-		db.close();
+		// db.close();
 
 		if (list == null)
 			list = new ArrayList<BasicInfo>();
@@ -263,7 +280,7 @@ public class MainActivity extends Activity {
 		/* Get data from DB */
 		getBasicInfoFromDB();
 
-		this.adapter = new CustomAdapter(this, R.layout.list_item, list);
+		this.adapter = new CustomAdapter(this, R.layout.list_item_main, list);
 		mlistView.setAdapter(adapter);
 
 		if (loader.isShowing())

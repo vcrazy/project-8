@@ -1,4 +1,4 @@
-package com.example.project_8;
+package com.sms.help;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,26 +12,35 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.sms.help.types.BasicInfo;
+import com.sms.help.types.FullInfo;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	// Database Version
+	private static DatabaseHelper sInstance;
+
+	/** Database Version */
 	private static final int DATABASE_VERSION = 1;
 
-	// Database Name
+	/** Database Name */
 	private static final String DATABASE_NAME = "SMSHelpDB";
 
-	// Table Names
-	private static final String TABLE_CAMPAIGNS_INFO = "Campaigns";
-
+	/**
+	 * Table Names. Table Campaigns holds all of the information about the SMS
+	 * campaigns. Table Version holds the last updated version of the data that
+	 * this application has got from the API. Table Statistics holds the
+	 * information about all campaigns that were supported by the user of this
+	 * device.
+	 */
+	private static final String TABLE_CAMPAIGNS = "Campaigns";
 	private static final String TABLE_VERSION = "Version";
-
 	private static final String TABLE_STATISTICS = "Statistics";
 
-	// Common column names
+	/** Common column names */
 	private static final String KEY_ID = "id";
 	private static final String KEY_CREATED_AT = "created_at";
 
-	// Info Table - column names
+	/** Info Table - column names */
 	private static final String KEY_PHONE_NUMBER = "phone_number";// int
 	private static final String KEY_CAMPAIGN_ID = "campaign_id";// int
 	private static final String KEY_PRICE_SMS = "price_sms";// double
@@ -49,10 +58,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String KEY_STATISTICS_DATE = "statistic_date";
 	private static final String KEY_SEND_STATISTICS = "statistic_flag";
 
-	// Table Create Statements
-	// Campaigns table create statement
+	/** Table Create Statements */
 	private static final String CREATE_TABLE_CAMPAIGNS = "CREATE TABLE "
-			+ TABLE_CAMPAIGNS_INFO + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+			+ TABLE_CAMPAIGNS + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
 			+ KEY_PHONE_NUMBER + " INTEGER," + KEY_CAMPAIGN_ID + " INTEGER,"
 			+ KEY_PRICE_SMS + " DOUBLE," + KEY_TEXT_SMS + " TEXT,"
 			+ KEY_CAMPAIGN_NAME + " TEXT," + KEY_CAMPAIGN_SUBNAME + " TEXT,"
@@ -70,7 +78,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ KEY_STATISTICS_DATE + " LONG," + KEY_SEND_STATISTICS
 			+ " SMALLINT)";
 
-	public DatabaseHelper(Context context) {
+	public static DatabaseHelper getInstance(Context context) {
+
+		// Use the application context, which will ensure that you
+		// don't accidentally leak an Activity's context.
+		// See this article for more information: http://bit.ly/6LRzfx
+		if (sInstance == null) {
+			sInstance = new DatabaseHelper(context.getApplicationContext());
+		}
+		return sInstance;
+	}
+
+	private DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
@@ -87,7 +106,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
 		// on upgrade drop older tables
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAMPAIGNS_INFO);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CAMPAIGNS);
 
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_VERSION);
 
@@ -212,7 +231,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		if (update) {
-			db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CAMPAIGNS_INFO + "'");
+			db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CAMPAIGNS + "'");
 			db.execSQL(CREATE_TABLE_CAMPAIGNS);
 		}
 
@@ -238,7 +257,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			values.put(KEY_CREATED_AT, getDateTime());
 
 			// insert row
-			db.insert(TABLE_CAMPAIGNS_INFO, null, values);
+			db.insert(TABLE_CAMPAIGNS, null, values);
 		}
 
 		db.close();
@@ -252,8 +271,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		ArrayList<BasicInfo> list = new ArrayList<BasicInfo>();
 
-		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS_INFO
-				+ " WHERE " + KEY_CAMPAIGN_TYPE + " = '" + campaignType + "' "
+		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS + " WHERE "
+				+ KEY_CAMPAIGN_TYPE + " = '" + campaignType + "' "
 				+ "ORDER BY " + KEY_START_DATE + " DESC";
 
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -295,8 +314,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS_INFO
-				+ " WHERE " + KEY_CAMPAIGN_ID + " = " + campaignID;
+		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS + " WHERE "
+				+ KEY_CAMPAIGN_ID + " = " + campaignID;
 
 		Cursor c = db.rawQuery(selectQuery, null);
 
@@ -347,8 +366,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		ArrayList<FullInfo> list = new ArrayList<FullInfo>();
 
-		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS_INFO
-				+ " ORDER BY " + KEY_START_DATE + " DESC";
+		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS + " ORDER BY "
+				+ KEY_START_DATE + " DESC";
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
@@ -408,7 +427,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	public int getCount() {
 
-		String countQuery = "SELECT  * FROM " + TABLE_CAMPAIGNS_INFO;
+		String countQuery = "SELECT  * FROM " + TABLE_CAMPAIGNS;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 

@@ -1,37 +1,34 @@
-package com.example.project_8;
+package com.sms.help.tasks;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class GetDataTask extends AsyncTask<Boolean, Void, Boolean> {
+import com.sms.help.DatabaseHelper;
 
-	private static final String URL = "http://ganev.bg/project-8/api";
+public class GetDataVersionTask extends AsyncTask<Void, Void, Boolean> {
+
+	private static final String URL = "http://ganev.bg/project-8/api/version";
 	public Context context;
-	private ArrayList<FullInfo> list;
+	private String version;
 
-	public GetDataTask(Context context) {
+	public GetDataVersionTask(Context context) {
 
 		this.context = context;
-
 	}
 
 	@Override
-	protected Boolean doInBackground(Boolean... params) {
-
-		boolean update = params[0];
-
+	protected Boolean doInBackground(Void... params) {
+		boolean result = false;
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(URL);
 
@@ -39,20 +36,15 @@ public class GetDataTask extends AsyncTask<Boolean, Void, Boolean> {
 			HttpResponse response = client.execute(get);
 			String jsonResponse = EntityUtils.toString(response.getEntity());
 			JSONObject json = new JSONObject(jsonResponse);
+			version = json.getString("version");
 
-			JSONArray jsonData = json.getJSONArray("campaigns");
-			list = FullInfo.parseData(jsonData);
-
-			if (list != null) {
+			if (version != null) {
 				// insert in db
-				DatabaseHelper db = new DatabaseHelper(this.context);
+				DatabaseHelper db = DatabaseHelper.getInstance(context);
 
-				int count = db.getCount();
-				if (count <= 0) {
-					db.insertCampaigns(list, update);
-				}
+				result = db.insertVersion(version);
 
-				db.close();
+				// db.close();
 
 			} else {
 				return false;
@@ -69,7 +61,7 @@ public class GetDataTask extends AsyncTask<Boolean, Void, Boolean> {
 			return false;
 		}
 
-		return true;
+		return result;
 
 	}
 }

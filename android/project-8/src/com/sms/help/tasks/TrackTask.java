@@ -1,4 +1,4 @@
-package com.example.project_8;
+package com.sms.help.tasks;
 
 import java.io.IOException;
 
@@ -6,12 +6,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
+@Deprecated
 public class TrackTask extends AsyncTask<String, Void, Boolean> {
 
 	// ./track?phone_id=...&campaign_id=.
@@ -33,13 +31,13 @@ public class TrackTask extends AsyncTask<String, Void, Boolean> {
 
 		try {
 			HttpResponse response = client.execute(get);
-			String jsonResponse = EntityUtils.toString(response.getEntity());
+			// String jsonResponse = EntityUtils.toString(response.getEntity());
 
 			if (response.getStatusLine().getStatusCode() > 300) {
 				return false;
 			}
 
-			JSONObject json = new JSONObject(jsonResponse);
+			// JSONObject json = new JSONObject(jsonResponse);
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -47,10 +45,11 @@ public class TrackTask extends AsyncTask<String, Void, Boolean> {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return false;
 		}
+		// catch (JSONException e) {
+		// e.printStackTrace();
+		// return false;
+		// }
 
 		return true;
 	}

@@ -1,20 +1,23 @@
-package com.example.project_8;
+package com.sms.help.activities;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.sms.help.DatabaseHelper;
 import com.sms.help.R;
+import com.sms.help.Utils;
+import com.sms.help.types.FullInfo;
 
 public class CampaignProfileActivity extends Activity {
 
@@ -39,7 +42,7 @@ public class CampaignProfileActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.campaign_info_layout);
+		setContentView(R.layout.activity_campaign_profile);
 
 		/* Get full info */
 		if (getIntent().hasExtra("full")) {
@@ -91,13 +94,16 @@ public class CampaignProfileActivity extends Activity {
 
 		btnSendSms.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+
 				sendSMS(String.valueOf(campaignInfo.phoneNumber),
 						campaignInfo.txtSMS);
-				DatabaseHelper db = new DatabaseHelper(
-						CampaignProfileActivity.this);
 
+				DatabaseHelper db = DatabaseHelper
+						.getInstance(CampaignProfileActivity.this);
 				db.insertStatistics(System.currentTimeMillis(), 0,
 						campaignInfo.campaignId);
+				// db.close();
+
 			}
 		});
 	}
@@ -118,16 +124,18 @@ public class CampaignProfileActivity extends Activity {
 		return onlyDate;
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == REQUEST_CODE_SMS) {
-
-			sendTrackInfo(campaignInfo.campaignId);
-
-		}
-	}
+	/* Version 1.1. Remove tracking for campaigns. */
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent
+	// data) {
+	// super.onActivityResult(requestCode, resultCode, data);
+	//
+	// if (requestCode == REQUEST_CODE_SMS) {
+	//
+	// sendTrackInfo(campaignInfo.campaignId);
+	//
+	// }
+	// }
 
 	private void sendSMS(String formattedNumbers, String txtSms) {
 		try {
@@ -141,20 +149,22 @@ public class CampaignProfileActivity extends Activity {
 		}
 	}
 
-	private void sendTrackInfo(int campaignID) {
-
-		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		String deviceID = telephonyManager.getDeviceId();
-
-		TrackTask task = new TrackTask();
-		task.execute(deviceID, String.valueOf(campaignID));
-
-	}
+	// private void sendTrackInfo(int campaignID) {
+	//
+	// TelephonyManager telephonyManager = (TelephonyManager)
+	// getSystemService(Context.TELEPHONY_SERVICE);
+	// String deviceID = telephonyManager.getDeviceId();
+	//
+	// TrackTask task = new TrackTask();
+	// task.execute(deviceID, String.valueOf(campaignID));
+	//
+	// }
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
 
-		overridePendingTransition(R.anim.in_main, R.anim.out_campaign);
+		overridePendingTransition(R.anim.in_old_activity,
+				R.anim.out_new_activity);
 	}
 }

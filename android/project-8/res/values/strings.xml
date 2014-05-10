@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">SMS Help</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="image_user">Снимка на кампания</string>
     <string name="tab_people">ХОРА</string>
     <string name="tab_organisations">ОРГАНИЗАЦИИ</string>
@@ -35,7 +33,5 @@
         <item>Ноември</item>
         <item>Декември</item>
     </string-array>
-
-    <string name="title_activity_show_statistics">ShowStatistics</string>
 
 </resources>

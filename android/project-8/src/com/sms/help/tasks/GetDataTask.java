@@ -1,32 +1,40 @@
-package com.example.project_8;
+package com.sms.help.tasks;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-public class GetDataVersion extends AsyncTask<Void, Void, Boolean> {
+import com.sms.help.DatabaseHelper;
+import com.sms.help.types.FullInfo;
 
-	private static final String URL = "http://ganev.bg/project-8/api/version";
+public class GetDataTask extends AsyncTask<Boolean, Void, Boolean> {
+
+	private static final String URL = "http://ganev.bg/project-8/api";
 	public Context context;
-	private String version;
+	private ArrayList<FullInfo> list;
 
-	public GetDataVersion(Context context) {
+	public GetDataTask(Context context) {
 
 		this.context = context;
+
 	}
 
 	@Override
-	protected Boolean doInBackground(Void... params) {
-		boolean result = false;
+	protected Boolean doInBackground(Boolean... params) {
+
+		boolean update = params[0];
+
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(URL);
 
@@ -34,15 +42,20 @@ public class GetDataVersion extends AsyncTask<Void, Void, Boolean> {
 			HttpResponse response = client.execute(get);
 			String jsonResponse = EntityUtils.toString(response.getEntity());
 			JSONObject json = new JSONObject(jsonResponse);
-			version = json.getString("version");
 
-			if (version != null) {
+			JSONArray jsonData = json.getJSONArray("campaigns");
+			list = FullInfo.parseData(jsonData);
+
+			if (list != null) {
 				// insert in db
-				DatabaseHelper db = new DatabaseHelper(this.context);
+				DatabaseHelper db = DatabaseHelper.getInstance(context);
 
-				result = db.insertVersion(version);
+				int count = db.getCount();
+				if (count <= 0) {
+					db.insertCampaigns(list, update);
+				}
 
-				db.close();
+				// db.close();
 
 			} else {
 				return false;
@@ -59,7 +72,7 @@ public class GetDataVersion extends AsyncTask<Void, Void, Boolean> {
 			return false;
 		}
 
-		return result;
+		return true;
 
 	}
 }

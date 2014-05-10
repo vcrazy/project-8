@@ -1,4 +1,4 @@
-package com.example.project_8;
+package com.sms.help;
 
 import android.app.Dialog;
 import android.content.Context;

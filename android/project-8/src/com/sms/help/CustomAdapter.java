@@ -1,13 +1,16 @@
-package com.example.project_8;
+package com.sms.help;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.sms.help.R;
+import com.sms.help.types.BasicInfo;
 
 public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
@@ -43,7 +46,7 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 		if (convertView == null) {
 
-			convertView = View.inflate(context, R.layout.list_item, null);
+			convertView = View.inflate(context, R.layout.list_item_main, null);
 
 			viewHolder.imageView = (ImageView) convertView
 					.findViewById(R.id.item_image);

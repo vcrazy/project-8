@@ -1,4 +1,4 @@
-package com.example.project_8;
+package com.sms.help;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,7 +46,7 @@ public class Utils {
 
 	public static void noInternetDialog(final Context context) {
 
-		View customView = View.inflate(context, R.layout.custom_dialog, null);
+		View customView = View.inflate(context, R.layout.dialog_no_internet, null);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setCancelable(false);

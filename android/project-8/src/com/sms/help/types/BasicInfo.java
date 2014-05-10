@@ -1,4 +1,4 @@
-package com.example.project_8;
+package com.sms.help.types;
 
 import java.io.Serializable;
 
