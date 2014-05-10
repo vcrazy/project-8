@@ -64,15 +64,9 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-if($_SERVER['HTTP_HOST'] === 'hackfmi3.fmi.uni-sofia.bg')
+if(ENVIRONMENT !== 'development')
 {
-	$db['default']['database'] = 'eight';
-	$db['default']['username'] = 'eight';
-	$db['default']['password'] = 'WjV6M6hfrZ';
-}
-elseif($_SERVER['HTTP_HOST'] !== 'localhost')
-{
-	$db['default']['database'] = 't3stovet_dbosem';
+	$db['default']['database'] = 't3stovet_dbosem2';
 	$db['default']['username'] = 't3stovet_osemuse';
 	$db['default']['password'] = 'aI()}PQ{Uefq';
 }

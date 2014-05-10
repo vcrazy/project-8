@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class Dmstxtreader
 {
@@ -9,8 +12,10 @@ class Dmstxtreader
 		$data = array();
 		$files = array();
 
-		if ($handle = opendir('pdfdata')) {
-			while (false !== ($entry = readdir($handle))) {
+		if($handle = opendir('pdfdata'))
+		{
+			while(false !== ($entry = readdir($handle)))
+			{
 				if(strpos($entry, '.') !== 0)
 				{
 					$files[] = $entry;
@@ -19,6 +24,8 @@ class Dmstxtreader
 
 			closedir($handle);
 		}
+
+		sort($files);
 
 		foreach($files as $file)
 		{
@@ -43,7 +50,7 @@ class Dmstxtreader
 		foreach($file as $f)
 		{
 			$g = array_splice($f, -2);
-			$g[1] = (int)$g[1];
+			$g[1] = (int) $g[1];
 			$data[] = $g;
 		}
 

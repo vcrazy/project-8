@@ -1,4 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class Unicef
 {
@@ -36,7 +39,7 @@ Tвоите месечни дарения по програма БЛАГОДЕТ
 			'type' => 'special',
 			'text' => $text,
 			'donation' => 2,
-			'picture' => base64_encode(file_get_contents('http://www.unicef.bg/cache/e4534b1b1e70cc76de82f3e1585c556c.png')),
+			'picture' => 'http://sohip.org/wp-content/uploads/2012/09/unicef-logo1.jpeg',
 			'link' => 'http://www.unicef.bg/kampanii/Blagodetel-prez-mobilen-telefon/24',
 			'sms_text' => '2',
 			'sms_number' => 1021,
@@ -49,7 +52,7 @@ Tвоите месечни дарения по програма БЛАГОДЕТ
 			'type' => 'special',
 			'text' => $text,
 			'donation' => 5,
-			'picture' => base64_encode(file_get_contents('http://www.unicef.bg/cache/e4534b1b1e70cc76de82f3e1585c556c.png')),
+			'picture' => 'http://sohip.org/wp-content/uploads/2012/09/unicef-logo1.jpeg',
 			'link' => 'http://www.unicef.bg/kampanii/Blagodetel-prez-mobilen-telefon/24',
 			'sms_text' => '5',
 			'sms_number' => 1021,

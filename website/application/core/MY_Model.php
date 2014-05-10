@@ -1,10 +1,16 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if(!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class MY_Model extends CI_Model
 {
 	protected function results($query, $key_sort = FALSE)
 	{
-		if(!$query->num_rows()) return FALSE;
+		if(!$query->num_rows())
+		{
+			return FALSE;
+		}
 
 		$arr = array();
 
@@ -23,21 +29,30 @@ class MY_Model extends CI_Model
 
 	protected function single_result($query)
 	{
-		if(!$query->num_rows()) return FALSE;
+		if(!$query->num_rows())
+		{
+			return FALSE;
+		}
 
 		return $query->row_array();
 	}
-    
+
 	protected function single($query, $col)
 	{
-		if(!$query->num_rows()) return FALSE;
+		if(!$query->num_rows())
+		{
+			return FALSE;
+		}
 
 		return $query->row()->$col;
 	}
 
 	protected function to_array_single($query, $col)
 	{
-		if(!$query->num_rows()) return array();
+		if(!$query->num_rows())
+		{
+			return array();
+		}
 
 		$arr = array();
 
