@@ -2,13 +2,13 @@ package com.example.project_8;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.sms.help.R;
 
 public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 
@@ -66,9 +66,8 @@ public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 				.setImageBitmap(Utils.getImageBitmap(info.imageUri));
 		viewHolder.textViewTitle.setText(info.campaignName);
 		viewHolder.textViewSendDate.setText(context
-				.getString(R.string.send_sms_title));
-		// + " "
-		// + parseUnixTimeToDateStatistics(info.smsSendDate));
+				.getString(R.string.send_sms_title)
+				+ parseUnixTimeToDateStatistics(info.smsSendDate));
 
 		convertView.setTag(R.id.item_image, info.campaignId);
 
@@ -78,7 +77,7 @@ public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 
 	public String parseUnixTimeToDateStatistics(long unixTimeStamp) {
 
-		long time = unixTimeStamp * (long) 1000;
+		long time = unixTimeStamp;
 		java.util.Date date = new java.util.Date(time);
 		Calendar myCalendar = Calendar.getInstance();
 		myCalendar.setTime(date);

@@ -67,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_STATISTICS = "CREATE TABLE "
 			+ TABLE_STATISTICS + "(" + KEY_STATISTICS_ID
 			+ " INTEGER PRIMARY KEY," + KEY_CAMPAIGN_ID + " INTEGER,"
-			+ KEY_STATISTICS_DATE + " INTEGER," + KEY_SEND_STATISTICS
+			+ KEY_STATISTICS_DATE + " LONG," + KEY_SEND_STATISTICS
 			+ " SMALLINT)";
 
 	public DatabaseHelper(Context context) {
@@ -99,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/* ====== STATISTICS ====== */
-	public boolean insertStatistics(int statistics_date, int statistics_flag,
+	public boolean insertStatistics(long statistics_date, int statistics_flag,
 			int campaign_id) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
@@ -134,15 +134,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 
-		ArrayList<HashMap<String, Integer>> allList = new ArrayList<HashMap<String, Integer>>();
+		ArrayList<HashMap<String, Object>> allList = new ArrayList<HashMap<String, Object>>();
 
 		// looping through all rows and adding to list
 		if (c.moveToFirst()) {
 			do {
 				// 'id'
 				int campaignId = c.getInt(c.getColumnIndex(KEY_CAMPAIGN_ID));
-				int sendDate = c.getInt(c.getColumnIndex(KEY_STATISTICS_DATE));
-				HashMap<String, Integer> hm = new HashMap<String, Integer>();
+				long sendDate = c
+						.getLong(c.getColumnIndex(KEY_STATISTICS_DATE));
+				HashMap<String, Object> hm = new HashMap<String, Object>();
 				hm.put("id", campaignId);
 				hm.put("date", sendDate);
 				allList.add(hm);
@@ -152,8 +153,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.close();
 
 		for (int i = 0; i < allList.size(); i++) {
-			FullInfo getCompaignInfo = getCampaignByID(allList.get(i).get("id"));
-			getCompaignInfo.smsSendDate = allList.get(i).get("date");
+			FullInfo getCompaignInfo = getCampaignByID((Integer) allList.get(i)
+					.get("id"));
+			getCompaignInfo.smsSendDate = (Long) allList.get(i).get("date");
 			list.add(getCompaignInfo);
 		}
 

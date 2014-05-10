@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import com.sms.help.R;
 
 public class Utils {
 

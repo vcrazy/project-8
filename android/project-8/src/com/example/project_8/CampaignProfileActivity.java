@@ -2,7 +2,6 @@ package com.example.project_8;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -15,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.sms.help.R;
 
 public class CampaignProfileActivity extends Activity {
 
@@ -95,11 +95,8 @@ public class CampaignProfileActivity extends Activity {
 						campaignInfo.txtSMS);
 				DatabaseHelper db = new DatabaseHelper(
 						CampaignProfileActivity.this);
-				java.util.Date date = new java.util.Date();
-				// System.out.println(new Timestamp(date.getTime()));
 
-				// (int) System.currentTimeMillis()
-				db.insertStatistics((int) date.getTime(), 0,
+				db.insertStatistics(System.currentTimeMillis(), 0,
 						campaignInfo.campaignId);
 			}
 		});

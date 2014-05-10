@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.Window;
+import com.sms.help.R;
 
 public class Loader extends Dialog {
 

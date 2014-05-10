@@ -1,10 +1,10 @@
 package com.example.project_8;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
+import com.sms.help.R;
 
 public class ShowStatistics extends Activity {
 	private ListView mlistView;

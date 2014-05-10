@@ -19,7 +19,7 @@ public class FullInfo extends BasicInfo implements Serializable {
 	public String campaignType;
 	public String txtCampaign;
 	public String campaignLink;
-	public int smsSendDate;
+	public long smsSendDate;
 
 	public FullInfo(int phoneNumber, int campaignId, double priceSMS,
 			String txtSMS, String campaignName, String campaignSubName,

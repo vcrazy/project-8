@@ -1,7 +1,6 @@
 package com.example.project_8;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import com.sms.help.R;
 
 public class MainActivity extends Activity {
 	// people, organizations, other, special
