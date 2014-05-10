@@ -13,11 +13,13 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.sms.help.Constants;
 import com.sms.help.DatabaseHelper;
 
 public class GetDataVersionTask extends AsyncTask<Void, Void, Boolean> {
 
-	private static final String URL = "http://ganev.bg/project-8/api/version";
+	// private static final String URL =
+	// "http://ganev.bg/project-8/api/version";
 	public Context context;
 	private String version;
 
@@ -30,13 +32,13 @@ public class GetDataVersionTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... params) {
 		boolean result = false;
 		DefaultHttpClient client = new DefaultHttpClient();
-		HttpGet get = new HttpGet(URL);
+		HttpGet get = new HttpGet(Constants.URL_VERSION);
 
 		try {
 			HttpResponse response = client.execute(get);
 			String jsonResponse = EntityUtils.toString(response.getEntity());
 			JSONObject json = new JSONObject(jsonResponse);
-			version = json.getString("version");
+			version = json.getString(Constants.VERSION);
 
 			if (version != null) {
 				// insert in db
