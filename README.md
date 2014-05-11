@@ -13,17 +13,16 @@ Basic usage from client:
 ```
 current version = currently saved version || 0;
 
-
 if (current version > 0)
 {
 	1.) GET: /api/version
 	new version = [version from 1.]
 }
 
-if (current version == 0 OR currently version < new version)
+if (current version == 0 OR current version < new version)
 {
 	2.) GET: /api?version=[current version]
-	currently saved version = new version
+	current version = new version
 }
 ```
 
