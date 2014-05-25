@@ -31,9 +31,10 @@ class Worker extends MY_Controller
 		}
 
 		$old_data_transformed = array();
-		foreach($old_data as $e)
+		foreach($old_data as $e_id => $e)
 		{
 			$old_data_transformed[$e['subname']] = $e;
+			$old_data_transformed[$e['subname']]['id'] = $e_id;
 		}
 
 		$data_to_insert = array();
