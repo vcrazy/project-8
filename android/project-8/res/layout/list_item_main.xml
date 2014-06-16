@@ -2,19 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:orientation="horizontal"
     android:padding="15dp" >
 
-    <ImageView
-        android:id="@+id/item_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginRight="10dp"
-        android:contentDescription="@string/image_user" />
+    <FrameLayout
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp" >
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:contentDescription="@string/image_user" />
+
+        <ImageView
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:contentDescription="@string/image_user"
+            android:src="@drawable/mask_114" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical"

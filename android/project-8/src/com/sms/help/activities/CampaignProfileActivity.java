@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.sms.help.DatabaseHelper;
 import com.sms.help.R;
-import com.sms.help.Utils;
 import com.sms.help.types.FullInfo;
+import com.squareup.picasso.Picasso;
 
 public class CampaignProfileActivity extends Activity {
 
@@ -70,7 +70,8 @@ public class CampaignProfileActivity extends Activity {
 		textViewPriceSMS.setText(moneyConverted + " "
 				+ getString(R.string.bg_money));
 
-		imageView.setImageBitmap(Utils.getImageBitmap(campaignInfo.imageUri));
+		// imageView.setImageBitmap(Utils.getImageBitmap(campaignInfo.imageUri));
+		Picasso.with(this).load(campaignInfo.imageUri).into(imageView);
 
 		textViewDescription.setText(campaignInfo.txtCampaign);
 

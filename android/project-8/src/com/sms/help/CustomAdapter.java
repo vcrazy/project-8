@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sms.help.R;
 import com.sms.help.types.BasicInfo;
+import com.squareup.picasso.Picasso;
 
 public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
@@ -63,8 +63,9 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 
 		BasicInfo info = this.data.get(position);
 
-		viewHolder.imageView
-				.setImageBitmap(Utils.getImageBitmap(info.imageUri));
+		Picasso.with(context).load(info.imageUri).into(viewHolder.imageView);
+		// viewHolder.imageView.setImageURI(Uri.parse(info.imageUri));
+		// .setImageBitmap(Utils.getImageBitmap(info.imageUri));
 		viewHolder.textViewTitle.setText(info.campaignName);
 		viewHolder.textViewInfo.setText(info.campaignSubName);
 
