@@ -194,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		String selectQuery = "SELECT * FROM " + TABLE_VERSION;
 
-		SQLiteDatabase db = this.getReadableDatabase();
+		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 
 		if (c != null && c.getCount() > 0) {
@@ -221,19 +221,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return false;
 	}
 
+	public String getVersion() {
+
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT * FROM " + TABLE_VERSION;
+
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c != null && c.getCount() > 0)
+			c.moveToFirst();
+		else
+			return null;
+
+		return c.getString(c.getColumnIndex(KEY_VERSION));
+
+	}
+
 	/* ====== Campaign info ====== */
 
 	/**
 	 * Creating a campaign
 	 */
-	public void insertCampaigns(ArrayList<FullInfo> list, boolean update) {
+	public void initCampaigns(ArrayList<FullInfo> list) {
 
 		SQLiteDatabase db = this.getWritableDatabase();
 
-		if (update) {
-			db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CAMPAIGNS + "'");
-			db.execSQL(CREATE_TABLE_CAMPAIGNS);
-		}
+		// if (update) {
+		// db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CAMPAIGNS + "'");
+		// db.execSQL(CREATE_TABLE_CAMPAIGNS);
+		// }
 
 		for (int i = 0; i < list.size(); i++) {
 			FullInfo info = list.get(i);
@@ -352,7 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// create new object
 		FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS, txtSms,
 				campaignName, campaignSubname, startDate, endDate,
-				campaignType, txtCampaign, image, campaignLink);
+				campaignType, txtCampaign, image, campaignLink, null);
 		c.close();
 		db.close();
 		return info;
@@ -408,7 +425,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				// create new object
 				FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS,
 						txtSms, campaignName, campaignSubname, startDate,
-						endDate, campaignType, txtCampaign, image, campaignLink);
+						endDate, campaignType, txtCampaign, image,
+						campaignLink, null);
 
 				// adding to list
 				list.add(info);
@@ -437,6 +455,68 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// return count
 		return count;
 
+	}
+
+	/** delete campaign */
+	public void deleteCampaign(int campaignID) {
+
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		db.delete(TABLE_CAMPAIGNS, KEY_CAMPAIGN_ID + " = ?",
+				new String[] { String.valueOf(campaignID) });
+
+		db.close();
+
+	}
+
+	/** update campaign */
+
+	public void updateCampaign(FullInfo campaign) {
+
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+
+		if (campaign.phoneNumber > 0)
+			values.put(KEY_PHONE_NUMBER, campaign.phoneNumber);
+
+		if (campaign.priceSMS > 0.0)
+			values.put(KEY_PRICE_SMS, campaign.priceSMS);
+
+		if (campaign.txtCampaign != null)
+			values.put(KEY_TEXT_SMS, campaign.txtSMS);
+
+		if (campaign.campaignName != null)
+			values.put(KEY_CAMPAIGN_NAME, campaign.campaignName);
+
+		if (campaign.campaignSubName != null)
+			values.put(KEY_CAMPAIGN_SUBNAME, campaign.campaignSubName);
+
+		if (campaign.startDate > 0)
+			values.put(KEY_START_DATE, campaign.startDate);
+
+		if (campaign.endDate > 0)
+			values.put(KEY_END_DATE, campaign.endDate);
+
+		if (campaign.campaignType != null)
+			values.put(KEY_CAMPAIGN_TYPE, campaign.campaignType);
+
+		if (campaign.txtCampaign != null)
+			values.put(KEY_TEXT_CAMPAIGN, campaign.txtCampaign);
+
+		if (campaign.imageUri != null)
+			values.put(KEY_IMAGE, campaign.imageUri);
+
+		if (campaign.campaignLink != null)
+			values.put(KEY_CAMPAIGN_LINK, campaign.campaignLink);
+
+		// insert row
+		db.update(TABLE_CAMPAIGNS, values, KEY_CAMPAIGN_ID + " = ?",
+				new String[] { String.valueOf(campaign.campaignId) });
+		db.insert(TABLE_CAMPAIGNS, null, values);
+
+		db.close();
+		return;
 	}
 
 	/**
