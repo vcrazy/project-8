@@ -43,10 +43,7 @@ public class GetDataVersionTask extends AsyncTask<Void, Void, Boolean> {
 			if (version != null) {
 				// insert in db
 				DatabaseHelper db = DatabaseHelper.getInstance(context);
-
 				result = db.insertVersion(version);
-
-				// db.close();
 
 			} else {
 				return false;
