@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -12,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.sms.help.Constants;
 import com.sms.help.CustomAdapter;
 import com.sms.help.DatabaseHelper;
 import com.sms.help.Loader;
@@ -22,14 +25,9 @@ import com.sms.help.tasks.GetDataVersionTask;
 import com.sms.help.types.BasicInfo;
 import com.sms.help.types.FullInfo;
 
-public class MainActivity extends Activity {
-	// people, organizations, other, special
-	String TYPE_PEOPLE = "people";
-	String TYPE_ORGANIZATION = "organizations";
-	String TYPE_OTHER = "other";
-	String TYPE_SPECIAL = "special";
+public class AllCampaignsActivity extends Activity implements OnClickListener {
 
-	private String chosenType = TYPE_PEOPLE;
+	private String chosenType = Constants.TYPE_PEOPLE;
 
 	private ListView mlistView;
 	private CustomAdapter adapter;
@@ -52,94 +50,57 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		loader = new Loader(MainActivity.this);
+		/* Loader */
+		loader = new Loader(AllCampaignsActivity.this);
 
-		db = DatabaseHelper.getInstance(this);
-
+		/* Init wiidgets */
 		mlistView = (ListView) findViewById(R.id.list_view);
 
 		textViewPeople = (LinearLayout) findViewById(R.id.tab_people);
 		textViewPeople.setSelected(true);
-		textViewPeople.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				textViewOther.setSelected(false);
-				textViewSpecial.setSelected(false);
-				textViewOrganisation.setSelected(false);
-				textViewPeople.setSelected(true);
-				textViewMore.setSelected(false);
-
-				chosenType = TYPE_PEOPLE;
-				loadData();
-			};
-		});
-
 		textViewOrganisation = (LinearLayout) findViewById(R.id.tab_organisations);
-		textViewOrganisation.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				textViewOther.setSelected(false);
-				textViewSpecial.setSelected(false);
-				textViewOrganisation.setSelected(true);
-				textViewPeople.setSelected(false);
-				textViewMore.setSelected(false);
-
-				chosenType = TYPE_ORGANIZATION;
-				loadData();
-			};
-		});
-
 		textViewSpecial = (LinearLayout) findViewById(R.id.tab_special);
-		textViewSpecial.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				textViewOther.setSelected(false);
-				textViewSpecial.setSelected(true);
-				textViewOrganisation.setSelected(false);
-				textViewPeople.setSelected(false);
-				textViewMore.setSelected(false);
-
-				chosenType = TYPE_SPECIAL;
-				loadData();
-			};
-		});
-
 		textViewOther = (LinearLayout) findViewById(R.id.tab_other);
-		textViewOther.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				textViewOther.setSelected(true);
-				textViewSpecial.setSelected(false);
-				textViewOrganisation.setSelected(false);
-				textViewPeople.setSelected(false);
-				textViewMore.setSelected(false);
-
-				chosenType = TYPE_OTHER;
-				loadData();
-			};
-		});
-
 		textViewMore = (LinearLayout) findViewById(R.id.tab_more);
-		textViewMore.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this,
-						ShowStatisticsActivity.class);
-				startActivity(intent);
-				overridePendingTransition(R.anim.in_new_activity,
-						R.anim.out_old_activity);
-			};
-		});
+		/* Database instance */
+		db = DatabaseHelper.getInstance(this);
 
+		Log.e("Version", "version now is " + db.getVersion());
+
+		SharedPreferences prefs = getSharedPreferences(Constants.SMSHELP_PREFS,
+				Activity.MODE_PRIVATE);
+		if (prefs.getBoolean(Constants.FIRST_START, true)) {
+
+			if (Utils.haveNetworkConnection(this)) {
+
+				// insert 0 as start version number
+				db.insertVersion("0");
+				// get the whole data here - version 0
+				getDataAndLoad(false);
+				// get the last version
+				new GetDataVersionTask(this).execute();
+
+				prefs.edit().putBoolean(Constants.FIRST_START, false).commit();
+
+			} else {
+				// work the old way
+				getData();
+			}
+
+		} else {
+			// work the old way
+			getData();
+		}
+
+		/* On click listeners for tabs */
+		textViewPeople.setOnClickListener(this);
+		textViewOrganisation.setOnClickListener(this);
+		textViewSpecial.setOnClickListener(this);
+		textViewOther.setOnClickListener(this);
+		textViewMore.setOnClickListener(this);
+
+		/* On item click listener for the list view elements */
 		mlistView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -148,12 +109,10 @@ public class MainActivity extends Activity {
 
 				int campaignID = (Integer) view.getTag(R.id.item_image);
 
-				// DatabaseHelper db = DatabaseHelper
-				// .getInstance(MainActivity.this);
 				FullInfo fullInfo = db.getCampaignByID(campaignID);
-				// db.close();
+
 				if (fullInfo != null) {
-					Intent intent = new Intent(MainActivity.this,
+					Intent intent = new Intent(AllCampaignsActivity.this,
 							CampaignProfileActivity.class);
 					intent.putExtra("full", fullInfo);
 					startActivity(intent);
@@ -166,7 +125,66 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		getData();
+	}
+
+	/** On click listener for tabs */
+	@Override
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+
+		case R.id.tab_people:
+			textViewOther.setSelected(false);
+			textViewSpecial.setSelected(false);
+			textViewOrganisation.setSelected(false);
+			textViewPeople.setSelected(true);
+			textViewMore.setSelected(false);
+
+			chosenType = Constants.TYPE_PEOPLE;
+			loadData();
+			break;
+		case R.id.tab_organisations:
+			textViewOther.setSelected(false);
+			textViewSpecial.setSelected(false);
+			textViewOrganisation.setSelected(true);
+			textViewPeople.setSelected(false);
+			textViewMore.setSelected(false);
+
+			chosenType = Constants.TYPE_ORGANIZATION;
+			loadData();
+			break;
+		case R.id.tab_special:
+			textViewOther.setSelected(false);
+			textViewSpecial.setSelected(true);
+			textViewOrganisation.setSelected(false);
+			textViewPeople.setSelected(false);
+			textViewMore.setSelected(false);
+
+			chosenType = Constants.TYPE_SPECIAL;
+			loadData();
+			break;
+		case R.id.tab_other:
+			textViewOther.setSelected(true);
+			textViewSpecial.setSelected(false);
+			textViewOrganisation.setSelected(false);
+			textViewPeople.setSelected(false);
+			textViewMore.setSelected(false);
+
+			chosenType = Constants.TYPE_OTHER;
+			loadData();
+			break;
+		case R.id.tab_more:
+
+			Intent intent = new Intent(AllCampaignsActivity.this,
+					ShowStatisticsActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.in_new_activity,
+					R.anim.out_old_activity);
+			break;
+		default:
+			break;
+
+		}
 
 	}
 
@@ -186,7 +204,7 @@ public class MainActivity extends Activity {
 		if (!loader.isShowing())
 			loader.show();
 
-		task.execute(update);
+		task.execute();
 
 	}
 
@@ -222,7 +240,7 @@ public class MainActivity extends Activity {
 				if (loader.isShowing())
 					loader.dismiss();
 
-				Utils.noInternetDialog(MainActivity.this);
+				Utils.noInternetDialog(AllCampaignsActivity.this);
 
 			} else {
 
