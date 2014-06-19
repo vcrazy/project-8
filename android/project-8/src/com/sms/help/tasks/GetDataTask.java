@@ -44,6 +44,8 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 		if (!version.equals("0"))
 			url += Constants.VERSION_PARAM + version;
 
+		Log.e("Test", url);
+
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(url);
 
@@ -102,19 +104,16 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 			// delete
 			if (status.equalsIgnoreCase("delete")) {
 				db.deleteCampaign(item.campaignId);
-				Log.e("Test", "delete id " + item.campaignId);
 			}
 			// insert
 			else if (status.equalsIgnoreCase("insert")) {
 				ArrayList<FullInfo> l = new ArrayList<FullInfo>();
 				l.add(item);
 				db.initCampaigns(l);
-				Log.e("Test", "insert id " + item.campaignId);
 			}
 			// update
 			else if (status.equalsIgnoreCase("update")) {
 				db.updateCampaign(item);
-				Log.e("Test", "update id " + item.campaignId);
 			}
 
 		}

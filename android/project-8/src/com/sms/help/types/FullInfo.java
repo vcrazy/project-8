@@ -61,30 +61,42 @@ public class FullInfo extends BasicInfo implements Serializable {
 				// 'id'
 				final int campaignId = Integer.valueOf(key);
 				// 'name'
-				final String campaignName = jsonData.getString("name");
+				String campaignName = jsonData.isNull("name") ? "" : jsonData
+						.getString("name");
 				// 'subname'
-				final String campaignSubname = jsonData.getString("subname");
+				String campaignSubname = jsonData.isNull("subname") ? ""
+						: jsonData.getString("subname");
 				// 'type'
-				final String campaignType = jsonData.getString("type");
+				String campaignType = jsonData.isNull("type") ? "" : jsonData
+						.getString("type");
+
 				// 'text'
-				final String txtCampaign = jsonData.getString("text");
+				String txtCampaign = jsonData.isNull("text") ? "" : jsonData
+						.getString("text");
+
 				// 'donation'
-				final double priceSMS = Double.valueOf(jsonData
-						.getInt("donation"));
+				double priceSMS = jsonData.isNull("donation") ? 0.0 : Double
+						.valueOf(jsonData.getInt("donation"));
 				// 'picture'
-				final String image = jsonData.getString("picture");
+				String image = jsonData.isNull("picture") ? "" : jsonData
+						.getString("picture");
 				// 'link'
-				final String link = jsonData.getString("link");
+				String link = jsonData.isNull("link") ? "" : jsonData
+						.getString("link");
 				// 'sms_text'
-				final String txtSms = jsonData.getString("sms_text");
+				String txtSms = jsonData.isNull("sms_text") ? "" : jsonData
+						.getString("sms_text");
 				// 'sms_number'
-				final int phoneNumber = jsonData.getInt("sms_number");
+				int phoneNumber = jsonData.isNull("sms_number") ? 0 : jsonData
+						.getInt("sms_number");
 				// 'date_from'
-				final int startDate = jsonData.getInt("date_from");
+				final int startDate = jsonData.isNull("date_from") ? 0
+						: jsonData.getInt("date_from");
 				final int endDate = 0;
 
 				// 'status'
-				final String status = jsonData.getString("status");
+				String status = jsonData.isNull("status") ? "" : jsonData
+						.getString("status");
 
 				// create new object
 				FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS,

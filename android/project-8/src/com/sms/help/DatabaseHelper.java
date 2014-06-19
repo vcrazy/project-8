@@ -274,7 +274,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			values.put(KEY_CREATED_AT, getDateTime());
 
 			// insert row
-			db.insert(TABLE_CAMPAIGNS, null, values);
+			if (getCampaignByID(info.campaignId) == null) {
+				db.insert(TABLE_CAMPAIGNS, null, values);
+			} else {
+				db.close();
+				updateCampaign(info);
+			}
+
 		}
 
 		db.close();
@@ -510,10 +516,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (campaign.campaignLink != null)
 			values.put(KEY_CAMPAIGN_LINK, campaign.campaignLink);
 
-		// insert row
 		db.update(TABLE_CAMPAIGNS, values, KEY_CAMPAIGN_ID + " = ?",
 				new String[] { String.valueOf(campaign.campaignId) });
-		db.insert(TABLE_CAMPAIGNS, null, values);
 
 		db.close();
 		return;

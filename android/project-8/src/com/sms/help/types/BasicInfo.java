@@ -6,9 +6,9 @@ public class BasicInfo implements Serializable {
 	private static final long serialVersionUID = 7112406630921673067L;
 
 	public int campaignId;
-	public String imageUri;
-	public String campaignName;
-	public String campaignSubName;
+	public String imageUri = "";
+	public String campaignName = "";
+	public String campaignSubName = "";
 
 	public BasicInfo(int campaignId, String imageUri, String campaignName,
 			String campaignSubName) {
