@@ -198,8 +198,8 @@ public class CampaignProfileActivity extends Activity implements
 			 */
 			DatabaseHelper db = DatabaseHelper
 					.getInstance(CampaignProfileActivity.this);
-			db.insertStatistics(System.currentTimeMillis(), 0,
-					campaign.campaignID);
+			campaign.SMSSentDate = System.currentTimeMillis();
+			db.insertStatistics(System.currentTimeMillis(), campaign);
 
 		} catch (ActivityNotFoundException e) {
 

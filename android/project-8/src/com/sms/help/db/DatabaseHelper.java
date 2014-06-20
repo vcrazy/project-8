@@ -3,7 +3,6 @@ package com.sms.help.db;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 
 import android.content.ContentValues;
@@ -20,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static DatabaseHelper sInstance;
 
 	/** Database Version */
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	/** Database Name */
 	private static final String DATABASE_NAME = "SMSHelpDB";
@@ -55,8 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String KEY_CAMPAIGN_LINK = "campaign_link";
 	private static final String KEY_VERSION = "version";
 	private static final String KEY_STATISTICS_ID = "statistic_id";
-	private static final String KEY_STATISTICS_DATE = "statistic_date";
-	private static final String KEY_SEND_STATISTICS = "statistic_flag";
+	private static final String KEY_STATISTICS_DATE = "statistics_date";
 
 	/** Table Create Statements */
 	private static final String CREATE_TABLE_CAMPAIGNS = "CREATE TABLE "
@@ -75,8 +73,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_STATISTICS = "CREATE TABLE "
 			+ TABLE_STATISTICS + "(" + KEY_STATISTICS_ID
 			+ " INTEGER PRIMARY KEY," + KEY_CAMPAIGN_ID + " INTEGER,"
-			+ KEY_STATISTICS_DATE + " LONG," + KEY_SEND_STATISTICS
-			+ " SMALLINT)";
+			+ KEY_PHONE_NUMBER + " INTEGER," + KEY_PRICE_SMS + " DOUBLE,"
+			+ KEY_TEXT_SMS + " TEXT," + KEY_CAMPAIGN_NAME + " TEXT,"
+			+ KEY_CAMPAIGN_SUBNAME + " TEXT," + KEY_START_DATE + " INTEGER,"
+			+ KEY_END_DATE + " INTEGER," + KEY_CAMPAIGN_TYPE + " TEXT,"
+			+ KEY_TEXT_CAMPAIGN + " TEXT," + KEY_IMAGE + " MEDIUMTEXT,"
+			+ KEY_CAMPAIGN_LINK + " TEXT," + KEY_STATISTICS_DATE + " LONG)";
 
 	public static DatabaseHelper getInstance(Context context) {
 
@@ -118,29 +120,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	/* ====== STATISTICS ====== */
-	public boolean insertStatistics(long statistics_date, int statistics_flag,
-			int campaign_id) {
+	public void insertStatistics(long date, CampaignFullInfo campaign) {
+
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(KEY_STATISTICS_DATE, statistics_date);
-		values.put(KEY_CAMPAIGN_ID, campaign_id);
-		values.put(KEY_SEND_STATISTICS, statistics_flag);
+
+		values.put(KEY_STATISTICS_DATE, date);
+
+		values.put(KEY_PHONE_NUMBER, campaign.SMSNumber);
+		values.put(KEY_CAMPAIGN_ID, campaign.campaignID);
+		values.put(KEY_PRICE_SMS, campaign.SMSPrice);
+		values.put(KEY_TEXT_SMS, campaign.SMSText);
+		values.put(KEY_CAMPAIGN_NAME, campaign.campaignName);
+		values.put(KEY_CAMPAIGN_SUBNAME, campaign.campaignSubname);
+		values.put(KEY_START_DATE, campaign.campaignStartDate);
+		values.put(KEY_END_DATE, campaign.campaignEndDate);
+		values.put(KEY_CAMPAIGN_TYPE, campaign.campaignType);
+		values.put(KEY_TEXT_CAMPAIGN, campaign.campaignDescription);
+
+		values.put(KEY_IMAGE, campaign.campaignImageURL);
+		values.put(KEY_CAMPAIGN_LINK, campaign.campaignLink);
+
 		db.insert(TABLE_STATISTICS, null, values);
 		db.close();
-		return true;
-	}
 
-	public boolean updateStatistics(int statistics_id, int statistics_date,
-			int statistics_flag) {
-		String whereId = KEY_STATISTICS_ID + "=?";
-
-		SQLiteDatabase db = this.getWritableDatabase();
-		ContentValues values = new ContentValues();
-		values.put(KEY_SEND_STATISTICS, statistics_flag);
-		db.update(TABLE_STATISTICS, values, whereId,
-				new String[] { String.valueOf(statistics_id) });
-		db.close();
-		return true;
 	}
 
 	public ArrayList<CampaignFullInfo> getAllStatistics() {
@@ -153,38 +156,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 
-		ArrayList<HashMap<String, Object>> allList = new ArrayList<HashMap<String, Object>>();
-
 		// looping through all rows and adding to list
 		if (c.moveToFirst()) {
 			do {
+
 				// 'id'
 				int campaignId = c.getInt(c.getColumnIndex(KEY_CAMPAIGN_ID));
-				long sendDate = c
+				// 'name'
+				String campaignName = c.getString(c
+						.getColumnIndex(KEY_CAMPAIGN_NAME));
+				// 'subname'
+				String campaignSubname = c.getString(c
+						.getColumnIndex(KEY_CAMPAIGN_SUBNAME));
+				// 'type'
+				String campaignType = c.getString(c
+						.getColumnIndex(KEY_CAMPAIGN_TYPE));
+				// 'text'
+				String txtCampaign = c.getString(c
+						.getColumnIndex(KEY_TEXT_CAMPAIGN));
+				// 'donation'
+				double priceSMS = c.getDouble(c.getColumnIndex(KEY_PRICE_SMS));
+				// 'picture'
+				String image = c.getString(c.getColumnIndex(KEY_IMAGE));
+				// 'link'
+				String campaignLink = c.getString(c
+						.getColumnIndex(KEY_CAMPAIGN_LINK));
+				// 'sms_text'
+				String txtSms = c.getString(c.getColumnIndex(KEY_TEXT_SMS));
+				// 'sms_number'
+				int phoneNumber = c.getInt(c.getColumnIndex(KEY_PHONE_NUMBER));
+				// 'date_from'
+				int startDate = c.getInt(c.getColumnIndex(KEY_START_DATE));
+				int endDate = c.getInt(c.getColumnIndex(KEY_END_DATE));
+
+				long sentDate = c
 						.getLong(c.getColumnIndex(KEY_STATISTICS_DATE));
-				HashMap<String, Object> hm = new HashMap<String, Object>();
-				hm.put("id", campaignId);
-				hm.put("date", sendDate);
-				allList.add(hm);
+
+				// create new object
+				CampaignFullInfo info = new CampaignFullInfo(phoneNumber,
+						campaignId, priceSMS, txtSms, campaignName,
+						campaignSubname, startDate, endDate, campaignType,
+						txtCampaign, image, campaignLink, sentDate, null);
+
+				// adding to list
+				list.add(info);
+
 			} while (c.moveToNext());
 		}
+
 		c.close();
 		db.close();
 
-		for (int i = 0; i < allList.size(); i++) {
-			CampaignFullInfo getCompaignInfo = getCampaignByID((Integer) allList.get(i)
-					.get("id"));
-			getCompaignInfo.SMSSendDate = (Long) allList.get(i).get("date");
-			list.add(getCompaignInfo);
-		}
-
-		// Iterator<HashMap<String, Integer>> it = allList.iterator();
-		// while (it.hasNext()) {
-		// HashMap<String, Integer> obj = it.next();
-		// FullInfo getCompaignInfo = getCampaignByID(obj.get("id"));
-		// getCompaignInfo.smsSendDate = obj.get("date");
-		// list.add(getCompaignInfo);
-		// }
 		return list;
 
 	}
@@ -246,11 +268,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void initCampaigns(ArrayList<CampaignFullInfo> list) {
 
 		SQLiteDatabase db = this.getWritableDatabase();
-
-		// if (update) {
-		// db.execSQL("DROP TABLE IF EXISTS '" + TABLE_CAMPAIGNS + "'");
-		// db.execSQL(CREATE_TABLE_CAMPAIGNS);
-		// }
 
 		for (int i = 0; i < list.size(); i++) {
 			CampaignFullInfo info = list.get(i);
@@ -316,8 +333,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				// 'picture'
 				String image = c.getString(c.getColumnIndex(KEY_IMAGE));
 
-				CampaignBasicInfo info = new CampaignBasicInfo(campaignId, image, campaignName,
-						campaignSubname);
+				CampaignBasicInfo info = new CampaignBasicInfo(campaignId,
+						image, campaignName, campaignSubname);
 				// adding to list
 				list.add(info);
 
@@ -373,9 +390,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		int endDate = c.getInt(c.getColumnIndex(KEY_END_DATE));
 
 		// create new object
-		CampaignFullInfo info = new CampaignFullInfo(phoneNumber, campaignId, priceSMS, txtSms,
-				campaignName, campaignSubname, startDate, endDate,
-				campaignType, txtCampaign, image, campaignLink, null);
+		CampaignFullInfo info = new CampaignFullInfo(phoneNumber, campaignId,
+				priceSMS, txtSms, campaignName, campaignSubname, startDate,
+				endDate, campaignType, txtCampaign, image, campaignLink, 0,
+				null);
 		c.close();
 		db.close();
 		return info;
@@ -429,10 +447,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				int endDate = c.getInt(c.getColumnIndex(KEY_END_DATE));
 
 				// create new object
-				CampaignFullInfo info = new CampaignFullInfo(phoneNumber, campaignId, priceSMS,
-						txtSms, campaignName, campaignSubname, startDate,
-						endDate, campaignType, txtCampaign, image,
-						campaignLink, null);
+				CampaignFullInfo info = new CampaignFullInfo(phoneNumber,
+						campaignId, priceSMS, txtSms, campaignName,
+						campaignSubname, startDate, endDate, campaignType,
+						txtCampaign, image, campaignLink, 0, null);
 
 				// adding to list
 				list.add(info);

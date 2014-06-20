@@ -20,14 +20,14 @@ public class CampaignFullInfo extends CampaignBasicInfo implements Serializable 
 	public String campaignType;
 	public String campaignDescription;
 	public String campaignLink;
-	public long SMSSendDate;
+	public long SMSSentDate;
 
 	public String status;
 
 	public CampaignFullInfo(int number, int id, double price, String text,
 			String name, String subname, int startDate, int endDate,
 			String type, String description, String image, String link,
-			String status) {
+			long sentDate, String status) {
 
 		super(id, image, name, subname);
 
@@ -39,6 +39,7 @@ public class CampaignFullInfo extends CampaignBasicInfo implements Serializable 
 		this.campaignType = type;
 		this.campaignDescription = description;
 		this.campaignLink = link;
+		this.SMSSentDate = sentDate;
 
 		this.status = status;
 
@@ -100,7 +101,7 @@ public class CampaignFullInfo extends CampaignBasicInfo implements Serializable 
 				CampaignFullInfo info = new CampaignFullInfo(phoneNumber,
 						campaignId, priceSMS, txtSms, campaignName,
 						campaignSubname, startDate, endDate, campaignType,
-						txtCampaign, image, link, status);
+						txtCampaign, image, link, 0, status);
 
 				list.add(info);
 

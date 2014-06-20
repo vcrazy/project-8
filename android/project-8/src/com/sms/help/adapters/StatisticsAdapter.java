@@ -76,7 +76,7 @@ public class StatisticsAdapter extends ArrayAdapter<CampaignFullInfo> {
 		viewHolder.textViewCampaignName.setText(campaign.campaignName);
 		viewHolder.textViewSMSSentDate.setText(context
 				.getString(R.string.sent_sms_date)
-				+ parseUnixTimeToDateStatistics(campaign.SMSSendDate));
+				+ parseUnixTimeToDateStatistics(campaign.SMSSentDate));
 
 		convertView.setTag(R.id.imageview_picture, campaign.campaignID);
 
