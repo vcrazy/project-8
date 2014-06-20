@@ -6,38 +6,40 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.sms.help.DatabaseHelper;
 import com.sms.help.R;
-import com.sms.help.types.FullInfo;
-import com.squareup.picasso.Picasso;
+import com.sms.help.Utils;
+import com.sms.help.db.DatabaseHelper;
+import com.sms.help.types.CampaignFullInfo;
 
-public class CampaignProfileActivity extends Activity {
+public class CampaignProfileActivity extends Activity implements
+		OnClickListener {
 
 	private static final int REQUEST_CODE_SMS = 10;
 
 	/* Widgets */
-	private ImageView imageView;
-	private TextView textViewName;
-	private TextView textViewcampaignSubName;
-	private TextView textViewDescription;
-	private TextView textViewStartDate;
-	private TextView textViewEndDate;
-	private TextView textViewStartDateTitle;
-	private TextView textViewPriceSMS;
-	private TextView textViewNumberSMS;
-	private TextView textViewLinkToWeb;
-	private Button btnSendSms;
+	private ImageView imageViewPicture;
+	private TextView textViewCampaignName;
+	private TextView textViewCampaignSubname;
+	private TextView textViewCampaignDescription;
+	private LinearLayout layoutCampaignStartDate;
+	private TextView textViewCampaignStartDate;
+	private TextView textViewSMSPrice;
+	private TextView textViewSMSNumber;
+	private TextView textViewCampaignLink;
+	private Button buttonSendSMS;
 
 	/* Full data */
-	private FullInfo campaignInfo;
+	private CampaignFullInfo campaign;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,69 +48,79 @@ public class CampaignProfileActivity extends Activity {
 
 		/* Get full info */
 		if (getIntent().hasExtra("full")) {
-			campaignInfo = (FullInfo) getIntent().getSerializableExtra("full");
+			campaign = (CampaignFullInfo) getIntent().getSerializableExtra(
+					"full");
 		}
 
 		/* Get widgets */
-		imageView = (ImageView) findViewById(R.id.imageView);
-		textViewName = (TextView) findViewById(R.id.name);
-		textViewcampaignSubName = (TextView) findViewById(R.id.campaignSubName);
-		textViewDescription = (TextView) findViewById(R.id.description);
-		textViewStartDate = (TextView) findViewById(R.id.startDate);
-		textViewStartDateTitle = (TextView) findViewById(R.id.startDateTitle);
+		initWidgets();
 
-		textViewPriceSMS = (TextView) findViewById(R.id.pricesms);
-		textViewNumberSMS = (TextView) findViewById(R.id.numbersms);
-		textViewLinkToWeb = (TextView) findViewById(R.id.link_to_web);
-		btnSendSms = (Button) findViewById(R.id.send_sms);
+		/* Load campaign information */
+		loadCampaignInformation();
 
-		textViewName.setText(campaignInfo.campaignName);
-		textViewcampaignSubName.setText(campaignInfo.campaignSubName);
-		DecimalFormat df = new DecimalFormat("#.##");
-		String moneyConverted = String
-				.valueOf(df.format(campaignInfo.priceSMS));
-		textViewPriceSMS.setText(moneyConverted + " "
-				+ getString(R.string.bg_money));
-
-		// imageView.setImageBitmap(Utils.getImageBitmap(campaignInfo.imageUri));
-		Picasso.with(this).load(campaignInfo.imageUri).into(imageView);
-
-		textViewDescription.setText(campaignInfo.txtCampaign);
-
-		textViewNumberSMS.setText(Integer.toString(campaignInfo.phoneNumber));
-
-		textViewLinkToWeb.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri
-						.parse(campaignInfo.campaignLink));
-				startActivity(browserIntent);
-			}
-		});
-		if (campaignInfo.startDate != 0) {
-			textViewStartDate
-					.setText(parseUnixTimeToDate(campaignInfo.startDate));
-		} else {
-			textViewStartDate.setVisibility(View.GONE);
-			textViewStartDateTitle.setVisibility(View.GONE);
-		}
-
-		btnSendSms.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-
-				sendSMS(String.valueOf(campaignInfo.phoneNumber),
-						campaignInfo.txtSMS);
-
-				DatabaseHelper db = DatabaseHelper
-						.getInstance(CampaignProfileActivity.this);
-				db.insertStatistics(System.currentTimeMillis(), 0,
-						campaignInfo.campaignId);
-				// db.close();
-
-			}
-		});
+		/* On Click Listeners */
+		textViewCampaignLink.setOnClickListener(this);
+		buttonSendSMS.setOnClickListener(this);
 	}
 
+	/** On Back Pressed */
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		overridePendingTransition(R.anim.in_old_activity,
+				R.anim.out_new_activity);
+	}
+
+	/** Get all widgets */
+	private void initWidgets() {
+
+		imageViewPicture = (ImageView) findViewById(R.id.imageview_picture);
+		textViewCampaignName = (TextView) findViewById(R.id.textview_campaign_name);
+		textViewCampaignSubname = (TextView) findViewById(R.id.textview_campaign_subname);
+		layoutCampaignStartDate = (LinearLayout) findViewById(R.id.layout_camapign_startdate);
+		textViewCampaignStartDate = (TextView) findViewById(R.id.textview_campaign_startdate);
+		textViewCampaignDescription = (TextView) findViewById(R.id.textview_campaign_description);
+		textViewCampaignLink = (TextView) findViewById(R.id.textview_campaign_link);
+
+		textViewSMSPrice = (TextView) findViewById(R.id.textview_sms_price);
+		textViewSMSNumber = (TextView) findViewById(R.id.textview_sms_number);
+
+		buttonSendSMS = (Button) findViewById(R.id.button_send_sms);
+
+	}
+
+	/** Load campaign information */
+	private void loadCampaignInformation() {
+
+		Bitmap image = Utils
+				.readImageFromCache(this, campaign.campaignImageURL);
+		if (image != null)
+			imageViewPicture.setImageBitmap(image);
+
+		textViewCampaignName.setText(campaign.campaignName);
+		textViewCampaignSubname.setText(campaign.campaignSubname);
+
+		if (campaign.campaignStartDate != 0) {
+			textViewCampaignStartDate
+					.setText(parseUnixTimeToDate(campaign.campaignStartDate));
+		} else {
+			layoutCampaignStartDate.setVisibility(View.GONE);
+
+		}
+
+		textViewCampaignDescription.setText(campaign.campaignDescription);
+
+		DecimalFormat df = new DecimalFormat("#.##");
+		String moneyConverted = String.valueOf(df.format(campaign.SMSPrice));
+		textViewSMSPrice.setText(moneyConverted + " "
+				+ getString(R.string.bg_money));
+
+		textViewSMSNumber.setText(Integer.toString(campaign.SMSNumber));
+
+	}
+
+	/** Parse unix time stamp from database to date */
 	public String parseUnixTimeToDate(long unixTimeStamp) {
 
 		long time = unixTimeStamp * (long) 1000;
@@ -125,47 +137,55 @@ public class CampaignProfileActivity extends Activity {
 		return onlyDate;
 	}
 
-	/* Version 1.1. Remove tracking for campaigns. */
-	// @Override
-	// protected void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	// super.onActivityResult(requestCode, resultCode, data);
-	//
-	// if (requestCode == REQUEST_CODE_SMS) {
-	//
-	// sendTrackInfo(campaignInfo.campaignId);
-	//
-	// }
-	// }
+	/** On Click Listener for campaign link and send sms button */
+	@Override
+	public void onClick(View v) {
 
-	private void sendSMS(String formattedNumbers, String txtSms) {
+		if (v.equals(textViewCampaignLink)) {
+
+			openLink();
+
+		} else if (v.equals(buttonSendSMS)) {
+
+			sendSMS();
+
+		}
+
+	}
+
+	/** Open link in browser */
+	private void openLink() {
+
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(campaign.campaignLink));
+		startActivity(browserIntent);
+
+	}
+
+	/** Send SMS */
+	private void sendSMS() {
+
 		try {
-			String uri = "smsto:" + formattedNumbers;
+
+			String uri = "smsto:" + String.valueOf(campaign.SMSNumber);
 			Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse(uri));
-			smsIntent.putExtra("sms_body", txtSms);
+			smsIntent.putExtra("sms_body", campaign.SMSText);
 			smsIntent.putExtra("compose_mode", true);
 			startActivityForResult(smsIntent, REQUEST_CODE_SMS);
+
+			/*
+			 * if SMS composer opened with success, insert into database for
+			 * statistics
+			 */
+			DatabaseHelper db = DatabaseHelper
+					.getInstance(CampaignProfileActivity.this);
+			db.insertStatistics(System.currentTimeMillis(), 0,
+					campaign.campaignID);
+
 		} catch (ActivityNotFoundException e) {
 
 		}
+
 	}
 
-	// private void sendTrackInfo(int campaignID) {
-	//
-	// TelephonyManager telephonyManager = (TelephonyManager)
-	// getSystemService(Context.TELEPHONY_SERVICE);
-	// String deviceID = telephonyManager.getDeviceId();
-	//
-	// TrackTask task = new TrackTask();
-	// task.execute(deviceID, String.valueOf(campaignID));
-	//
-	// }
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-
-		overridePendingTransition(R.anim.in_old_activity,
-				R.anim.out_new_activity);
-	}
 }

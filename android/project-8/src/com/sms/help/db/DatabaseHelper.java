@@ -1,4 +1,4 @@
-package com.sms.help;
+package com.sms.help.db;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.sms.help.types.BasicInfo;
-import com.sms.help.types.FullInfo;
+import com.sms.help.types.CampaignBasicInfo;
+import com.sms.help.types.CampaignFullInfo;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -143,9 +143,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return true;
 	}
 
-	public ArrayList<FullInfo> getAllStatistics() {
+	public ArrayList<CampaignFullInfo> getAllStatistics() {
 
-		ArrayList<FullInfo> list = new ArrayList<FullInfo>();
+		ArrayList<CampaignFullInfo> list = new ArrayList<CampaignFullInfo>();
 
 		String selectQuery = "SELECT * FROM " + TABLE_STATISTICS + " ORDER BY "
 				+ KEY_STATISTICS_DATE + " DESC";
@@ -172,9 +172,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.close();
 
 		for (int i = 0; i < allList.size(); i++) {
-			FullInfo getCompaignInfo = getCampaignByID((Integer) allList.get(i)
+			CampaignFullInfo getCompaignInfo = getCampaignByID((Integer) allList.get(i)
 					.get("id"));
-			getCompaignInfo.smsSendDate = (Long) allList.get(i).get("date");
+			getCompaignInfo.SMSSendDate = (Long) allList.get(i).get("date");
 			list.add(getCompaignInfo);
 		}
 
@@ -243,7 +243,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * Creating a campaign
 	 */
-	public void initCampaigns(ArrayList<FullInfo> list) {
+	public void initCampaigns(ArrayList<CampaignFullInfo> list) {
 
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -253,28 +253,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// }
 
 		for (int i = 0; i < list.size(); i++) {
-			FullInfo info = list.get(i);
+			CampaignFullInfo info = list.get(i);
 
 			ContentValues values = new ContentValues();
-			values.put(KEY_PHONE_NUMBER, info.phoneNumber);
-			values.put(KEY_CAMPAIGN_ID, info.campaignId);
-			values.put(KEY_PRICE_SMS, info.priceSMS);
-			values.put(KEY_TEXT_SMS, info.txtSMS);
+			values.put(KEY_PHONE_NUMBER, info.SMSNumber);
+			values.put(KEY_CAMPAIGN_ID, info.campaignID);
+			values.put(KEY_PRICE_SMS, info.SMSPrice);
+			values.put(KEY_TEXT_SMS, info.SMSText);
 			values.put(KEY_CAMPAIGN_NAME, info.campaignName);
 
-			values.put(KEY_CAMPAIGN_SUBNAME, info.campaignSubName);
-			values.put(KEY_START_DATE, info.startDate);
-			values.put(KEY_END_DATE, info.endDate);
+			values.put(KEY_CAMPAIGN_SUBNAME, info.campaignSubname);
+			values.put(KEY_START_DATE, info.campaignStartDate);
+			values.put(KEY_END_DATE, info.campaignEndDate);
 			values.put(KEY_CAMPAIGN_TYPE, info.campaignType);
-			values.put(KEY_TEXT_CAMPAIGN, info.txtCampaign);
+			values.put(KEY_TEXT_CAMPAIGN, info.campaignDescription);
 
-			values.put(KEY_IMAGE, info.imageUri);
+			values.put(KEY_IMAGE, info.campaignImageURL);
 			values.put(KEY_CAMPAIGN_LINK, info.campaignLink);
 
 			values.put(KEY_CREATED_AT, getDateTime());
 
 			// insert row
-			if (getCampaignByID(info.campaignId) == null) {
+			if (getCampaignByID(info.campaignID) == null) {
 				db.insert(TABLE_CAMPAIGNS, null, values);
 			} else {
 				db.close();
@@ -290,9 +290,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * getting basic info
 	 * */
-	public ArrayList<BasicInfo> getBasicInfoByType(String campaignType) {
+	public ArrayList<CampaignBasicInfo> getBasicInfoByType(String campaignType) {
 
-		ArrayList<BasicInfo> list = new ArrayList<BasicInfo>();
+		ArrayList<CampaignBasicInfo> list = new ArrayList<CampaignBasicInfo>();
 
 		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS + " WHERE "
 				+ KEY_CAMPAIGN_TYPE + " = '" + campaignType + "' "
@@ -316,7 +316,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				// 'picture'
 				String image = c.getString(c.getColumnIndex(KEY_IMAGE));
 
-				BasicInfo info = new BasicInfo(campaignId, image, campaignName,
+				CampaignBasicInfo info = new CampaignBasicInfo(campaignId, image, campaignName,
 						campaignSubname);
 				// adding to list
 				list.add(info);
@@ -333,7 +333,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * get single codeset
 	 */
-	public FullInfo getCampaignByID(int campaignID) {
+	public CampaignFullInfo getCampaignByID(int campaignID) {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 
@@ -373,7 +373,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		int endDate = c.getInt(c.getColumnIndex(KEY_END_DATE));
 
 		// create new object
-		FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS, txtSms,
+		CampaignFullInfo info = new CampaignFullInfo(phoneNumber, campaignId, priceSMS, txtSms,
 				campaignName, campaignSubname, startDate, endDate,
 				campaignType, txtCampaign, image, campaignLink, null);
 		c.close();
@@ -385,9 +385,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * getting all campaigns
 	 * */
-	public ArrayList<FullInfo> getAllCampaigns() {
+	public ArrayList<CampaignFullInfo> getAllCampaigns() {
 
-		ArrayList<FullInfo> list = new ArrayList<FullInfo>();
+		ArrayList<CampaignFullInfo> list = new ArrayList<CampaignFullInfo>();
 
 		String selectQuery = "SELECT * FROM " + TABLE_CAMPAIGNS + " ORDER BY "
 				+ KEY_START_DATE + " DESC";
@@ -429,7 +429,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				int endDate = c.getInt(c.getColumnIndex(KEY_END_DATE));
 
 				// create new object
-				FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS,
+				CampaignFullInfo info = new CampaignFullInfo(phoneNumber, campaignId, priceSMS,
 						txtSms, campaignName, campaignSubname, startDate,
 						endDate, campaignType, txtCampaign, image,
 						campaignLink, null);
@@ -477,47 +477,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/** update campaign */
 
-	public void updateCampaign(FullInfo campaign) {
+	public void updateCampaign(CampaignFullInfo campaign) {
 
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
 
-		if (campaign.phoneNumber > 0)
-			values.put(KEY_PHONE_NUMBER, campaign.phoneNumber);
+		if (campaign.SMSNumber > 0)
+			values.put(KEY_PHONE_NUMBER, campaign.SMSNumber);
 
-		if (campaign.priceSMS > 0.0)
-			values.put(KEY_PRICE_SMS, campaign.priceSMS);
+		if (campaign.SMSPrice > 0.0)
+			values.put(KEY_PRICE_SMS, campaign.SMSPrice);
 
-		if (campaign.txtCampaign != null)
-			values.put(KEY_TEXT_SMS, campaign.txtSMS);
+		if (campaign.campaignDescription != null)
+			values.put(KEY_TEXT_SMS, campaign.SMSText);
 
 		if (campaign.campaignName != null)
 			values.put(KEY_CAMPAIGN_NAME, campaign.campaignName);
 
-		if (campaign.campaignSubName != null)
-			values.put(KEY_CAMPAIGN_SUBNAME, campaign.campaignSubName);
+		if (campaign.campaignSubname != null)
+			values.put(KEY_CAMPAIGN_SUBNAME, campaign.campaignSubname);
 
-		if (campaign.startDate > 0)
-			values.put(KEY_START_DATE, campaign.startDate);
+		if (campaign.campaignStartDate > 0)
+			values.put(KEY_START_DATE, campaign.campaignStartDate);
 
-		if (campaign.endDate > 0)
-			values.put(KEY_END_DATE, campaign.endDate);
+		if (campaign.campaignEndDate > 0)
+			values.put(KEY_END_DATE, campaign.campaignEndDate);
 
 		if (campaign.campaignType != null)
 			values.put(KEY_CAMPAIGN_TYPE, campaign.campaignType);
 
-		if (campaign.txtCampaign != null)
-			values.put(KEY_TEXT_CAMPAIGN, campaign.txtCampaign);
+		if (campaign.campaignDescription != null)
+			values.put(KEY_TEXT_CAMPAIGN, campaign.campaignDescription);
 
-		if (campaign.imageUri != null)
-			values.put(KEY_IMAGE, campaign.imageUri);
+		if (campaign.campaignImageURL != null)
+			values.put(KEY_IMAGE, campaign.campaignImageURL);
 
 		if (campaign.campaignLink != null)
 			values.put(KEY_CAMPAIGN_LINK, campaign.campaignLink);
 
 		db.update(TABLE_CAMPAIGNS, values, KEY_CAMPAIGN_ID + " = ?",
-				new String[] { String.valueOf(campaign.campaignId) });
+				new String[] { String.valueOf(campaign.campaignID) });
 
 		db.close();
 		return;

@@ -14,7 +14,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.sms.help.Constants;
-import com.sms.help.DatabaseHelper;
+import com.sms.help.db.DatabaseHelper;
 
 public class GetDataVersionTask extends AsyncTask<Void, Void, Boolean> {
 

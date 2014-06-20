@@ -1,4 +1,4 @@
-package com.sms.help;
+package com.sms.help.adapters;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,16 +10,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sms.help.types.FullInfo;
+import com.sms.help.R;
+import com.sms.help.R.array;
+import com.sms.help.R.id;
+import com.sms.help.R.layout;
+import com.sms.help.R.string;
+import com.sms.help.types.CampaignFullInfo;
 import com.squareup.picasso.Picasso;
 
-public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
+public class StatisticsAdapter extends ArrayAdapter<CampaignFullInfo> {
 
 	private Context context;
-	private ArrayList<FullInfo> data;
+	private ArrayList<CampaignFullInfo> data;
 
-	public CustomAdapterStatistics(Context context, int resource,
-			ArrayList<FullInfo> objects) {
+	public StatisticsAdapter(Context context, int resource,
+			ArrayList<CampaignFullInfo> objects) {
 		super(context, resource, objects);
 		this.context = context;
 		this.data = objects;
@@ -31,7 +36,7 @@ public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 	}
 
 	@Override
-	public FullInfo getItem(int position) {
+	public CampaignFullInfo getItem(int position) {
 		return this.data.get(position);
 	}
 
@@ -63,17 +68,17 @@ public class CustomAdapterStatistics extends ArrayAdapter<FullInfo> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		FullInfo info = this.data.get(position);
+		CampaignFullInfo info = this.data.get(position);
 
-		Picasso.with(context).load(info.imageUri).into(viewHolder.imageView);
+		Picasso.with(context).load(info.campaignImageURL).into(viewHolder.imageView);
 		// viewHolder.imageView
 		// .setImageBitmap(Utils.getImageBitmap(info.imageUri));
 		viewHolder.textViewTitle.setText(info.campaignName);
 		viewHolder.textViewSendDate.setText(context
 				.getString(R.string.send_sms_title)
-				+ parseUnixTimeToDateStatistics(info.smsSendDate));
+				+ parseUnixTimeToDateStatistics(info.SMSSendDate));
 
-		convertView.setTag(R.id.item_image, info.campaignId);
+		convertView.setTag(R.id.item_image, info.campaignID);
 
 		return convertView;
 

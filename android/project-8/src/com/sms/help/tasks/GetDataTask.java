@@ -16,13 +16,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.sms.help.Constants;
-import com.sms.help.DatabaseHelper;
-import com.sms.help.types.FullInfo;
+import com.sms.help.db.DatabaseHelper;
+import com.sms.help.types.CampaignFullInfo;
 
 public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 	public Context context;
-	private ArrayList<FullInfo> list;
+	private ArrayList<CampaignFullInfo> list;
 
 	public GetDataTask(Context context) {
 
@@ -56,7 +56,7 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 			JSONObject jsonData = json.getJSONObject("campaigns");
 
-			list = FullInfo.parseData(this.context, jsonData);
+			list = CampaignFullInfo.parseData(this.context, jsonData);
 
 			if (list != null) {
 
@@ -96,20 +96,21 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 		for (int i = 0; i < list.size(); i++) {
 
-			FullInfo item = list.get(i);
+			CampaignFullInfo item = list.get(i);
 			String status = list.get(i).status;
 
 			DatabaseHelper db = DatabaseHelper.getInstance(context);
 
 			// delete
 			if (status.equalsIgnoreCase("delete")) {
-				db.deleteCampaign(item.campaignId);
+				db.deleteCampaign(item.campaignID);
 			}
 			// insert
 			else if (status.equalsIgnoreCase("insert")) {
-				ArrayList<FullInfo> l = new ArrayList<FullInfo>();
+				ArrayList<CampaignFullInfo> l = new ArrayList<CampaignFullInfo>();
 				l.add(item);
 				db.initCampaigns(l);
+
 			}
 			// update
 			else if (status.equalsIgnoreCase("update")) {

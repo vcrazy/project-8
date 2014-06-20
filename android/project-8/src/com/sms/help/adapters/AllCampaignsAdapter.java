@@ -1,24 +1,26 @@
-package com.sms.help;
+package com.sms.help.adapters;
 
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sms.help.types.BasicInfo;
-import com.squareup.picasso.Picasso;
+import com.sms.help.R;
+import com.sms.help.Utils;
+import com.sms.help.types.CampaignBasicInfo;
 
-public class CustomAdapter extends ArrayAdapter<BasicInfo> {
+public class AllCampaignsAdapter extends ArrayAdapter<CampaignBasicInfo> {
 
 	private Context context;
-	private ArrayList<BasicInfo> data;
+	private ArrayList<CampaignBasicInfo> data;
 
-	public CustomAdapter(Context context, int resource,
-			ArrayList<BasicInfo> objects) {
+	public AllCampaignsAdapter(Context context, int resource,
+			ArrayList<CampaignBasicInfo> objects) {
 		super(context, resource, objects);
 		this.context = context;
 		this.data = objects;
@@ -30,7 +32,7 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 	}
 
 	@Override
-	public BasicInfo getItem(int position) {
+	public CampaignBasicInfo getItem(int position) {
 		return this.data.get(position);
 	}
 
@@ -61,15 +63,21 @@ public class CustomAdapter extends ArrayAdapter<BasicInfo> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		BasicInfo info = this.data.get(position);
+		CampaignBasicInfo info = this.data.get(position);
 
-		Picasso.with(context).load(info.imageUri).into(viewHolder.imageView);
+		// Picasso.with(context).load(info.imageUri).into(viewHolder.imageView);
+
 		// viewHolder.imageView.setImageURI(Uri.parse(info.imageUri));
 		// .setImageBitmap(Utils.getImageBitmap(info.imageUri));
 		viewHolder.textViewTitle.setText(info.campaignName);
-		viewHolder.textViewInfo.setText(info.campaignSubName);
+		viewHolder.textViewInfo.setText(info.campaignSubname);
 
-		convertView.setTag(R.id.item_image, info.campaignId);
+		// load images from cache
+		Bitmap image = Utils.readImageFromCache(context, info.campaignImageURL);
+		if (image != null)
+			viewHolder.imageView.setImageBitmap(image);
+
+		convertView.setTag(R.id.item_image, info.campaignID);
 
 		return convertView;
 

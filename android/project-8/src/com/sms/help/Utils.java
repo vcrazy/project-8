@@ -1,5 +1,10 @@
 package com.sms.help;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,7 +16,6 @@ import android.util.Base64;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import com.sms.help.R;
 
 public class Utils {
 
@@ -46,7 +50,8 @@ public class Utils {
 
 	public static void noInternetDialog(final Context context) {
 
-		View customView = View.inflate(context, R.layout.dialog_no_internet, null);
+		View customView = View.inflate(context, R.layout.dialog_no_internet,
+				null);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setCancelable(false);
@@ -69,6 +74,33 @@ public class Utils {
 		});
 
 		dialog.show();
+
+	}
+
+	public static Bitmap readImageFromCache(Context context, String name) {
+
+		Bitmap returnBitmap = null;
+
+		String path = context.getExternalCacheDir().toString();
+
+		try {
+
+			File file = new File(path, URLEncoder.encode(name, "utf-8"));
+
+			if (file.exists()) {
+
+				FileInputStream streamIn = new FileInputStream(file);
+
+				returnBitmap = BitmapFactory.decodeStream(streamIn);
+
+				streamIn.close();
+			}
+
+		} catch (IOException e) {
+
+		}
+
+		return returnBitmap;
 
 	}
 }

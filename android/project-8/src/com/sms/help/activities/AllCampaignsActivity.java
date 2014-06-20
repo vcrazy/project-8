@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,22 +16,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.sms.help.Constants;
-import com.sms.help.CustomAdapter;
-import com.sms.help.DatabaseHelper;
 import com.sms.help.Loader;
 import com.sms.help.R;
 import com.sms.help.Utils;
+import com.sms.help.adapters.AllCampaignsAdapter;
+import com.sms.help.db.DatabaseHelper;
+import com.sms.help.tasks.DownloadImages;
 import com.sms.help.tasks.GetDataTask;
 import com.sms.help.tasks.GetDataVersionTask;
-import com.sms.help.types.BasicInfo;
-import com.sms.help.types.FullInfo;
+import com.sms.help.types.CampaignBasicInfo;
+import com.sms.help.types.CampaignFullInfo;
 
 public class AllCampaignsActivity extends Activity implements OnClickListener {
 
 	private String chosenType = Constants.TYPE_PEOPLE;
 
 	private ListView mlistView;
-	private CustomAdapter adapter;
+	private AllCampaignsAdapter adapter;
 
 	private LinearLayout textViewPeople;
 	private LinearLayout textViewOrganisation;
@@ -38,7 +40,7 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 	private LinearLayout textViewOther;
 	private LinearLayout textViewMore;
 
-	private ArrayList<BasicInfo> list = new ArrayList<BasicInfo>();
+	private ArrayList<CampaignBasicInfo> list = new ArrayList<CampaignBasicInfo>();
 
 	private Loader loader;
 
@@ -48,7 +50,7 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_all_campaigns);
 
 		/* Loader */
 		loader = new Loader(AllCampaignsActivity.this);
@@ -109,7 +111,7 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 
 				int campaignID = (Integer) view.getTag(R.id.item_image);
 
-				FullInfo fullInfo = db.getCampaignByID(campaignID);
+				CampaignFullInfo fullInfo = db.getCampaignByID(campaignID);
 
 				if (fullInfo != null) {
 					Intent intent = new Intent(AllCampaignsActivity.this,
@@ -196,7 +198,8 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 			protected void onPostExecute(Boolean result) {
 				super.onPostExecute(result);
 
-				loadData();
+				// start threads to download images and write them to cache
+				downloadAllImages();
 			}
 
 		};
@@ -289,7 +292,7 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		// db.close();
 
 		if (list == null)
-			list = new ArrayList<BasicInfo>();
+			list = new ArrayList<CampaignBasicInfo>();
 
 	}
 
@@ -298,11 +301,38 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		/* Get data from DB */
 		getBasicInfoFromDB();
 
-		this.adapter = new CustomAdapter(this, R.layout.list_item_main, list);
+		this.adapter = new AllCampaignsAdapter(this, R.layout.list_item_main,
+				list);
 		mlistView.setAdapter(adapter);
 
 		if (loader.isShowing())
 			loader.dismiss();
+
+	}
+
+	private void downloadAllImages() {
+
+		// get all campaigns from db
+		DatabaseHelper db = DatabaseHelper.getInstance(this);
+		ArrayList<CampaignFullInfo> allCampaigns = db.getAllCampaigns();
+
+		// TEST download images
+		ArrayList<String> urls = new ArrayList<String>();
+		for (CampaignFullInfo info : allCampaigns)
+			urls.add(info.campaignImageURL);
+
+		DownloadImages downloadTask = new DownloadImages(this) {
+
+			@Override
+			protected void onPostExecute(ArrayList<Bitmap> bitmaps) {
+
+				// images are available now, load campaigns
+				loadData();
+
+			}
+		};
+
+		downloadTask.execute(urls);
 
 	}
 

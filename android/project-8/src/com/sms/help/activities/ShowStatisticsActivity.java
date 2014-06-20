@@ -6,15 +6,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-import com.sms.help.CustomAdapterStatistics;
-import com.sms.help.DatabaseHelper;
 import com.sms.help.R;
-import com.sms.help.types.FullInfo;
+import com.sms.help.adapters.StatisticsAdapter;
+import com.sms.help.db.DatabaseHelper;
+import com.sms.help.types.CampaignFullInfo;
 
 public class ShowStatisticsActivity extends Activity {
 	private ListView mlistView;
-	private CustomAdapterStatistics adapter;
-	private ArrayList<FullInfo> list = new ArrayList<FullInfo>();
+	private StatisticsAdapter adapter;
+	private ArrayList<CampaignFullInfo> list = new ArrayList<CampaignFullInfo>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class ShowStatisticsActivity extends Activity {
 		// db.close();
 
 		if (list == null)
-			list = new ArrayList<FullInfo>();
+			list = new ArrayList<CampaignFullInfo>();
 
 	}
 
@@ -44,7 +44,7 @@ public class ShowStatisticsActivity extends Activity {
 		/* Get data from DB */
 		getBasicInfoFromDB();
 
-		this.adapter = new CustomAdapterStatistics(this,
+		this.adapter = new StatisticsAdapter(this,
 				R.layout.list_item_statistics, list);
 		mlistView.setAdapter(adapter);
 

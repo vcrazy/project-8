@@ -9,50 +9,48 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-public class FullInfo extends BasicInfo implements Serializable {
+public class CampaignFullInfo extends CampaignBasicInfo implements Serializable {
 	private static final long serialVersionUID = -997713783095087974L;
 
-	public int phoneNumber = 0;
-	// public int campaignId;
-	public double priceSMS = 0.0;
-	public String txtSMS;
-	public int startDate = 0;
-	public int endDate = 0;
+	public int SMSNumber = 0;
+	public double SMSPrice = 0.0;
+	public String SMSText;
+	public int campaignStartDate = 0;
+	public int campaignEndDate = 0;
 	public String campaignType;
-	public String txtCampaign;
+	public String campaignDescription;
 	public String campaignLink;
-	public long smsSendDate;
+	public long SMSSendDate;
 
 	public String status;
 
-	public FullInfo(int phoneNumber, int campaignId, double priceSMS,
-			String txtSMS, String campaignName, String campaignSubName,
-			int startDate, int endDate, String campaignType,
-			String txtCampaign, String image, String campaignLink, String status) {
+	public CampaignFullInfo(int number, int id, double price, String text,
+			String name, String subname, int startDate, int endDate,
+			String type, String description, String image, String link,
+			String status) {
 
-		super(campaignId, image, campaignName, campaignSubName);
+		super(id, image, name, subname);
 
-		this.phoneNumber = phoneNumber;
-		// this.campaignId = campaignId;
-		this.priceSMS = priceSMS;
-		this.txtSMS = txtSMS;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.campaignType = campaignType;
-		this.txtCampaign = txtCampaign;
-		this.campaignLink = campaignLink;
+		this.SMSNumber = number;
+		this.SMSPrice = price;
+		this.SMSText = text;
+		this.campaignStartDate = startDate;
+		this.campaignEndDate = endDate;
+		this.campaignType = type;
+		this.campaignDescription = description;
+		this.campaignLink = link;
 
 		this.status = status;
 
 	}
 
-	public static ArrayList<FullInfo> parseData(Context context, JSONObject json) {
+	public static ArrayList<CampaignFullInfo> parseData(Context context,
+			JSONObject json) {
 
 		Iterator keys = json.keys();
 
-		final ArrayList<FullInfo> list = new ArrayList<FullInfo>();
+		final ArrayList<CampaignFullInfo> list = new ArrayList<CampaignFullInfo>();
 
-		// get json object from json array
 		while (keys.hasNext()) {
 
 			try {
@@ -99,9 +97,10 @@ public class FullInfo extends BasicInfo implements Serializable {
 						.getString("status");
 
 				// create new object
-				FullInfo info = new FullInfo(phoneNumber, campaignId, priceSMS,
-						txtSms, campaignName, campaignSubname, startDate,
-						endDate, campaignType, txtCampaign, image, link, status);
+				CampaignFullInfo info = new CampaignFullInfo(phoneNumber,
+						campaignId, priceSMS, txtSms, campaignName,
+						campaignSubname, startDate, endDate, campaignType,
+						txtCampaign, image, link, status);
 
 				list.add(info);
 
