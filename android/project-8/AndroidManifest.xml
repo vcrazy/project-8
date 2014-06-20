@@ -33,7 +33,7 @@
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.sms.help.activities.ShowStatisticsActivity"
+            android:name="com.sms.help.activities.StatisticsActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
     </application>

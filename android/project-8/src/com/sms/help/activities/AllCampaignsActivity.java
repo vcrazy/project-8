@@ -287,8 +287,8 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		/* Get data from DB */
 		getBasicInfoFromDB();
 
-		this.adapter = new AllCampaignsAdapter(this, R.layout.list_item_campaign,
-				list);
+		this.adapter = new AllCampaignsAdapter(this,
+				R.layout.list_item_campaign, list);
 		mlistView.setAdapter(adapter);
 
 		if (loader.isShowing())
@@ -322,4 +322,31 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 
 	}
 
+	/** On Back Click */
+	public void onBackClick(View v) {
+
+		onBackPressed();
+
+	}
+
+	/** On Back Pressed */
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+
+		overridePendingTransition(R.anim.in_old_activity,
+				R.anim.out_new_activity);
+	}
+
+	/** On Statistics Click */
+	public void onStatisticsClick(View v) {
+
+		Intent intent = new Intent(AllCampaignsActivity.this,
+				StatisticsActivity.class);
+		startActivity(intent);
+
+		overridePendingTransition(R.anim.in_new_activity,
+				R.anim.out_old_activity);
+
+	}
 }

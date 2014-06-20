@@ -11,7 +11,7 @@ import com.sms.help.adapters.StatisticsAdapter;
 import com.sms.help.db.DatabaseHelper;
 import com.sms.help.types.CampaignFullInfo;
 
-public class ShowStatisticsActivity extends Activity {
+public class StatisticsActivity extends Activity {
 	private ListView mlistView;
 	private StatisticsAdapter adapter;
 	private ArrayList<CampaignFullInfo> list = new ArrayList<CampaignFullInfo>();
@@ -30,7 +30,7 @@ public class ShowStatisticsActivity extends Activity {
 
 		/* Get data from DB */
 		DatabaseHelper db = DatabaseHelper
-				.getInstance(ShowStatisticsActivity.this);
+				.getInstance(StatisticsActivity.this);
 		list = db.getAllStatistics();
 		// db.close();
 

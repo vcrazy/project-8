@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_all_campaigns"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -48,7 +49,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="15dp" >
+            android:paddingTop="10dp" >
 
             <ImageView
                 android:layout_width="29dp"
@@ -62,8 +63,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:text="@string/people"
@@ -82,7 +81,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="15dp" >
+            android:paddingTop="10dp" >
 
             <ImageView
                 android:layout_width="29dp"
@@ -96,8 +95,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:text="@string/organisations"
@@ -116,7 +113,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="15dp" >
+            android:paddingTop="10dp" >
 
             <ImageView
                 android:layout_width="29dp"
@@ -130,8 +127,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:text="@string/specials"
@@ -150,7 +145,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingTop="15dp" >
+            android:paddingTop="10dp" >
 
             <ImageView
                 android:layout_width="29dp"
@@ -164,8 +159,6 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:text="@string/other"

@@ -63,6 +63,13 @@ public class CampaignProfileActivity extends Activity implements
 		buttonSendSMS.setOnClickListener(this);
 	}
 
+	/** On Back Click */
+	public void onBackClick(View v) {
+
+		onBackPressed();
+
+	}
+
 	/** On Back Pressed */
 	@Override
 	public void onBackPressed() {
@@ -70,6 +77,18 @@ public class CampaignProfileActivity extends Activity implements
 
 		overridePendingTransition(R.anim.in_old_activity,
 				R.anim.out_new_activity);
+	}
+
+	/** On Statistics Click */
+	public void onStatisticsClick(View v) {
+
+		Intent intent = new Intent(CampaignProfileActivity.this,
+				StatisticsActivity.class);
+		startActivity(intent);
+
+		overridePendingTransition(R.anim.in_new_activity,
+				R.anim.out_old_activity);
+
 	}
 
 	/** Get all widgets */
