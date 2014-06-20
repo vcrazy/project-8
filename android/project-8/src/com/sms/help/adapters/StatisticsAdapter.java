@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -11,38 +12,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sms.help.R;
-import com.sms.help.R.array;
-import com.sms.help.R.id;
-import com.sms.help.R.layout;
-import com.sms.help.R.string;
+import com.sms.help.Utils;
 import com.sms.help.types.CampaignFullInfo;
-import com.squareup.picasso.Picasso;
 
 public class StatisticsAdapter extends ArrayAdapter<CampaignFullInfo> {
 
 	private Context context;
-	private ArrayList<CampaignFullInfo> data;
+	private ArrayList<CampaignFullInfo> listCampaigns;
 
 	public StatisticsAdapter(Context context, int resource,
 			ArrayList<CampaignFullInfo> objects) {
 		super(context, resource, objects);
+
 		this.context = context;
-		this.data = objects;
+		this.listCampaigns = objects;
 	}
 
 	@Override
 	public int getCount() {
-		return this.data.size();
+		return this.listCampaigns.size();
 	}
 
 	@Override
 	public CampaignFullInfo getItem(int position) {
-		return this.data.get(position);
+		return this.listCampaigns.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return this.data.get(position).hashCode();
+		return this.listCampaigns.get(position).hashCode();
 	}
 
 	@Override
@@ -55,12 +53,12 @@ public class StatisticsAdapter extends ArrayAdapter<CampaignFullInfo> {
 			convertView = View.inflate(context, R.layout.list_item_statistics,
 					null);
 
-			viewHolder.imageView = (ImageView) convertView
-					.findViewById(R.id.item_image);
-			viewHolder.textViewTitle = (TextView) convertView
-					.findViewById(R.id.item_name);
-			viewHolder.textViewSendDate = (TextView) convertView
-					.findViewById(R.id.send_date);
+			viewHolder.imageViewPicture = (ImageView) convertView
+					.findViewById(R.id.imageview_picture);
+			viewHolder.textViewCampaignName = (TextView) convertView
+					.findViewById(R.id.textview_campaign_name);
+			viewHolder.textViewSMSSentDate = (TextView) convertView
+					.findViewById(R.id.textview_sms_sentdate);
 
 			convertView.setTag(viewHolder);
 
@@ -68,17 +66,19 @@ public class StatisticsAdapter extends ArrayAdapter<CampaignFullInfo> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		CampaignFullInfo info = this.data.get(position);
+		CampaignFullInfo campaign = getItem(position);
 
-		Picasso.with(context).load(info.campaignImageURL).into(viewHolder.imageView);
-		// viewHolder.imageView
-		// .setImageBitmap(Utils.getImageBitmap(info.imageUri));
-		viewHolder.textViewTitle.setText(info.campaignName);
-		viewHolder.textViewSendDate.setText(context
-				.getString(R.string.send_sms_title)
-				+ parseUnixTimeToDateStatistics(info.SMSSendDate));
+		Bitmap image = Utils.readImageFromCache(context,
+				campaign.campaignImageURL);
+		if (image != null)
+			viewHolder.imageViewPicture.setImageBitmap(image);
 
-		convertView.setTag(R.id.item_image, info.campaignID);
+		viewHolder.textViewCampaignName.setText(campaign.campaignName);
+		viewHolder.textViewSMSSentDate.setText(context
+				.getString(R.string.sent_sms_date)
+				+ parseUnixTimeToDateStatistics(campaign.SMSSendDate));
+
+		convertView.setTag(R.id.imageview_picture, campaign.campaignID);
 
 		return convertView;
 
@@ -103,9 +103,9 @@ public class StatisticsAdapter extends ArrayAdapter<CampaignFullInfo> {
 
 	static class ViewHolder {
 
-		protected ImageView imageView;
-		protected TextView textViewTitle;
-		protected TextView textViewSendDate;
+		protected ImageView imageViewPicture;
+		protected TextView textViewCampaignName;
+		protected TextView textViewSMSSentDate;
 
 	}
 

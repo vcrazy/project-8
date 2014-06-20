@@ -2,28 +2,21 @@
 <resources>
 
     <string name="app_name">SMS Help</string>
-    
     <string name="people">ХОРА</string>
     <string name="organisations">ОРГАНИЗАЦИИ</string>
     <string name="specials">СПЕЦИАЛНИ</string>
     <string name="other">ДРУГИ</string>
-    
     <string name="send_sms_button">ПОМОГНИ</string>
-    
     <string name="startdate">СТАРТИРАЛА</string>
     <string name="bg_money">лв.</string>
     <string name="pricesms">СТОЙНОСТ</string>
     <string name="number">НОМЕР</string>
-    
     <string name="campaign_link">Линк към страницата</string>
-    
     <string name="internet_title">Необходима е връзка с Интернет</string>
-    
     <string name="ok">Добре</string>
     <string name="new_data">Изтеглят се нови данни</string>
-    
-    <string name="send_sms_title">SMS изпратен на &#160;</string>
-    <string name="history">Изпратени SMS-и</string>
+    <string name="sent_sms_date">SMS изпратен на &#160;</string>
+    <string name="sent_sms">Вие помогнахте на</string>
 
     <string-array name="months_names">
         <item>Януари</item>

@@ -106,7 +106,7 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-				int campaignID = (Integer) view.getTag(R.id.item_image);
+				int campaignID = (Integer) view.getTag(R.id.imageview_picture);
 
 				CampaignFullInfo fullInfo = db.getCampaignByID(campaignID);
 

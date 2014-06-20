@@ -75,7 +75,7 @@ public class AllCampaignsAdapter extends ArrayAdapter<CampaignBasicInfo> {
 		viewHolder.textViewCampaignName.setText(info.campaignName);
 		viewHolder.textViewCampaignSubname.setText(info.campaignSubname);
 
-		convertView.setTag(R.id.item_image, info.campaignID);
+		convertView.setTag(R.id.imageview_picture, info.campaignID);
 
 		return convertView;
 

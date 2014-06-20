@@ -35,13 +35,14 @@
         android:layout_weight="1" />
 
     <ImageView
+        android:id="@+id/imageview_statistics"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
         android:clickable="true"
-        android:onClick="onStatisticsClick"
         android:contentDescription="@drawable/statistics_icon"
+        android:onClick="onStatisticsClick"
         android:padding="10dp"
         android:scaleType="centerInside"
         android:src="@drawable/statistics_icon" />

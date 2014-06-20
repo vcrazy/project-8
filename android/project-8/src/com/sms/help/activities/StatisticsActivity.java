@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import com.sms.help.R;
@@ -12,47 +13,53 @@ import com.sms.help.db.DatabaseHelper;
 import com.sms.help.types.CampaignFullInfo;
 
 public class StatisticsActivity extends Activity {
-	private ListView mlistView;
-	private StatisticsAdapter adapter;
-	private ArrayList<CampaignFullInfo> list = new ArrayList<CampaignFullInfo>();
+
+	private ListView listViewStatistics;
+	private StatisticsAdapter adapterStatistics;
+	private ArrayList<CampaignFullInfo> listCampaigns = new ArrayList<CampaignFullInfo>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_show_statistics);
+		setContentView(R.layout.activity_statistics);
 
-		mlistView = (ListView) findViewById(R.id.list_view_statistics);
+		listViewStatistics = (ListView) findViewById(R.id.listview);
+		findViewById(R.id.imageview_statistics).setVisibility(View.GONE);
 
 		loadData();
-	}
-
-	private void getBasicInfoFromDB() {
-
-		/* Get data from DB */
-		DatabaseHelper db = DatabaseHelper
-				.getInstance(StatisticsActivity.this);
-		list = db.getAllStatistics();
-		// db.close();
-
-		if (list == null)
-			list = new ArrayList<CampaignFullInfo>();
 
 	}
 
+	/** Get list of campaigns from database */
+	private void getCampaignsFromDB() {
+
+		DatabaseHelper db = DatabaseHelper.getInstance(StatisticsActivity.this);
+		listCampaigns = db.getAllStatistics();
+
+		if (listCampaigns == null)
+			listCampaigns = new ArrayList<CampaignFullInfo>();
+
+	}
+
+	/** Load data */
 	private void loadData() {
 
-		/* Get data from DB */
-		getBasicInfoFromDB();
+		getCampaignsFromDB();
 
-		this.adapter = new StatisticsAdapter(this,
-				R.layout.list_item_statistics, list);
-		mlistView.setAdapter(adapter);
-
-		// if (loader.isShowing())
-		// loader.dismiss();
+		this.adapterStatistics = new StatisticsAdapter(this,
+				R.layout.list_item_statistics, listCampaigns);
+		listViewStatistics.setAdapter(adapterStatistics);
 
 	}
 
+	/** On Back Click */
+	public void onBackClick(View v) {
+
+		onBackPressed();
+
+	}
+
+	/** On Back Pressed */
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
