@@ -16,12 +16,12 @@
             android:id="@+id/item_image"
             android:layout_width="57dp"
             android:layout_height="57dp"
-            android:contentDescription="@string/image_user" />
+            android:contentDescription="@string/imageview" />
 
         <ImageView
             android:layout_width="57dp"
             android:layout_height="57dp"
-            android:contentDescription="@string/image_user"
+            android:contentDescription="@string/imageview"
             android:src="@drawable/mask_114" />
     </FrameLayout>
 

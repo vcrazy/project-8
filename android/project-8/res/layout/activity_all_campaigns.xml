@@ -36,8 +36,8 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="@string/tab_people"
-                android:textColor="@color/white"
+                android:text="@string/people"
+                android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -73,8 +73,8 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="@string/tab_organisations"
-                android:textColor="@color/white"
+                android:text="@string/organisations"
+                android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -110,8 +110,8 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="@string/tab_specials"
-                android:textColor="@color/white"
+                android:text="@string/specials"
+                android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -147,8 +147,8 @@
                 android:gravity="center"
                 android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:text="@string/tab_other"
-                android:textColor="@color/white"
+                android:text="@string/other"
+                android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -173,7 +173,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_action_overflow" />
+                android:src="@drawable/statistics_icon" />
         </LinearLayout>
     </LinearLayout>
 

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="light_blue">#4fc1e9</color>
-	<color name="dark_blue">#3bafda</color>
-	<color name="white">#ffffff</color>
-	<color name="dark_grey">#6A7381</color>
-	<color name="shady_blue">#43A7C9</color>
-	<color name="separator_color">#2FA9D3</color>
-	<color name="separator_list_color">#C5CFDB</color>
-	<color name="white_grey">#EAEAEE</color>
-	<color name="details_title">#2E6182</color>
-	<color name="date_title">#32637E</color>
-	<color name="details_background">#EAEAEE</color>
-	<color name="pricesms_title">#2C5F80</color>
-	<color name="pricesms_price">#40A5C9</color>
-	<color name="separator_details_top">#C5CFDB</color>
+
+   
+    <color name="dark_grey">#6A7381</color>
+    <color name="shady_blue">#43A7C9</color>
+    <color name="separator_color">#2FA9D3</color>
+    <color name="separator_list_color">#C5CFDB</color>
+    <color name="white_grey">#EAEAEE</color>
+    <color name="details_title">#2E6182</color>
+    <color name="date_title">#32637E</color>
+    <color name="details_background">#EAEAEE</color>
+    <color name="pricesms_title">#2C5F80</color>
+    <color name="pricesms_price">#40A5C9</color>
+    <color name="separator_details_top">#C5CFDB</color>
+    <color name="tab_light_color">#0FBEF2</color>
+    <color name="tab_dark_color">#286388</color>
+
 </resources>
