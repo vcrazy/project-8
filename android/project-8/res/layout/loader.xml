@@ -15,8 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="10dp"
         android:text="@string/new_data"
-        android:textColor="@color/shady_blue"
-        android:textSize="23sp" />
+        android:textColor="#286388"
+        android:textSize="22sp" />
 
 </LinearLayout>
