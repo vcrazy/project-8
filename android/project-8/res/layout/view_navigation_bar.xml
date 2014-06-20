@@ -39,11 +39,13 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
         android:clickable="true"
         android:contentDescription="@drawable/statistics_icon"
         android:onClick="onStatisticsClick"
-        android:padding="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
         android:scaleType="centerInside"
         android:src="@drawable/statistics_icon" />
 

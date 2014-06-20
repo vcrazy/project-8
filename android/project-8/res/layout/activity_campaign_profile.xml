@@ -21,11 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#0FBEF2"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
             android:text="@string/send_sms_button"
             android:textColor="@android:color/white"
-            android:textSize="23sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -79,16 +79,16 @@
                         android:id="@+id/textview_campaign_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
                         android:textColor="@android:color/white"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="19sp" />
 
                     <TextView
                         android:id="@+id/textview_campaign_subname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#24BFEF"
-                        android:textSize="27sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -126,7 +126,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/startdate"
                         android:textColor="#0FBEF2"
-                        android:textSize="15sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -137,7 +137,7 @@
                         android:gravity="center_horizontal"
                         android:padding="10dp"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -170,7 +170,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/number"
                         android:textColor="#0FBEF2"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -182,7 +182,7 @@
                         android:gravity="center"
                         android:padding="10dp"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -215,7 +215,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/pricesms"
                         android:textColor="#0FBEF2"
-                        android:textSize="15sp"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -227,7 +227,7 @@
                         android:gravity="center"
                         android:padding="10dp"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
@@ -241,7 +241,7 @@
                 android:layout_marginTop="30dp"
                 android:lineSpacingExtra="4dp"
                 android:textColor="#999"
-                android:textSize="19sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textview_campaign_link"
@@ -257,7 +257,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/campaign_link"
                 android:textColor="#286388"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>

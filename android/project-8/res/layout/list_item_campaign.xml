@@ -4,12 +4,15 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="horizontal"
-    android:padding="10dp" >
+    android:paddingBottom="16dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="16dp" >
 
     <FrameLayout
         android:layout_width="57dp"
         android:layout_height="57dp"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="top"
         android:layout_marginRight="10dp" >
 
         <ImageView
@@ -28,28 +31,28 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="top"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="top"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textview_campaign_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
             android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:lines="2"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textColor="#286388"
-            android:textSize="22sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textview_campaign_subname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#24BFEF"
-            android:textSize="23sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -57,7 +60,7 @@
         android:layout_width="11dp"
         android:layout_height="22dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="15dp"
         android:contentDescription="@drawable/arrow"
         android:scaleType="centerInside"
         android:src="@drawable/arrow" />

@@ -68,7 +68,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/people"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -99,7 +99,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/organisations"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +130,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/specials"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -161,7 +161,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/other"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 

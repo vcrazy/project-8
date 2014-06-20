@@ -5,12 +5,15 @@
     android:background="@android:color/white"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:padding="10dp" >
+    android:paddingBottom="16dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="16dp" >
 
     <FrameLayout
         android:layout_width="57dp"
         android:layout_height="57dp"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="top"
         android:layout_marginRight="10dp" >
 
         <ImageView
@@ -29,21 +32,22 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="top"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
+        android:gravity="top"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textview_campaign_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:lines="2"
-            android:maxLines="2"
+            android:maxLines="3"
             android:textColor="#286388"
-            android:textSize="22sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textview_sms_sentdate"
@@ -51,7 +55,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:textColor="#24BFEF"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 

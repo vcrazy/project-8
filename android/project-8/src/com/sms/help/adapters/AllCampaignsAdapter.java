@@ -25,6 +25,7 @@ public class AllCampaignsAdapter extends ArrayAdapter<CampaignBasicInfo> {
 
 		this.context = context;
 		this.listCampaigns = objects;
+
 	}
 
 	@Override
