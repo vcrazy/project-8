@@ -38,7 +38,6 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 	private LinearLayout textViewOrganisation;
 	private LinearLayout textViewSpecial;
 	private LinearLayout textViewOther;
-	private LinearLayout textViewMore;
 
 	private ArrayList<CampaignBasicInfo> list = new ArrayList<CampaignBasicInfo>();
 
@@ -63,7 +62,6 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		textViewOrganisation = (LinearLayout) findViewById(R.id.tab_organisations);
 		textViewSpecial = (LinearLayout) findViewById(R.id.tab_special);
 		textViewOther = (LinearLayout) findViewById(R.id.tab_other);
-		textViewMore = (LinearLayout) findViewById(R.id.tab_more);
 
 		/* Database instance */
 		db = DatabaseHelper.getInstance(this);
@@ -100,7 +98,6 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		textViewOrganisation.setOnClickListener(this);
 		textViewSpecial.setOnClickListener(this);
 		textViewOther.setOnClickListener(this);
-		textViewMore.setOnClickListener(this);
 
 		/* On item click listener for the list view elements */
 		mlistView.setOnItemClickListener(new OnItemClickListener() {
@@ -140,7 +137,6 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 			textViewSpecial.setSelected(false);
 			textViewOrganisation.setSelected(false);
 			textViewPeople.setSelected(true);
-			textViewMore.setSelected(false);
 
 			chosenType = Constants.TYPE_PEOPLE;
 			loadData();
@@ -150,7 +146,6 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 			textViewSpecial.setSelected(false);
 			textViewOrganisation.setSelected(true);
 			textViewPeople.setSelected(false);
-			textViewMore.setSelected(false);
 
 			chosenType = Constants.TYPE_ORGANIZATION;
 			loadData();
@@ -160,7 +155,6 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 			textViewSpecial.setSelected(true);
 			textViewOrganisation.setSelected(false);
 			textViewPeople.setSelected(false);
-			textViewMore.setSelected(false);
 
 			chosenType = Constants.TYPE_SPECIAL;
 			loadData();
@@ -170,19 +164,11 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 			textViewSpecial.setSelected(false);
 			textViewOrganisation.setSelected(false);
 			textViewPeople.setSelected(false);
-			textViewMore.setSelected(false);
 
 			chosenType = Constants.TYPE_OTHER;
 			loadData();
 			break;
-		case R.id.tab_more:
 
-			Intent intent = new Intent(AllCampaignsActivity.this,
-					ShowStatisticsActivity.class);
-			startActivity(intent);
-			overridePendingTransition(R.anim.in_new_activity,
-					R.anim.out_old_activity);
-			break;
 		default:
 			break;
 
@@ -301,7 +287,7 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		/* Get data from DB */
 		getBasicInfoFromDB();
 
-		this.adapter = new AllCampaignsAdapter(this, R.layout.list_item_main,
+		this.adapter = new AllCampaignsAdapter(this, R.layout.list_item_campaign,
 				list);
 		mlistView.setAdapter(adapter);
 
