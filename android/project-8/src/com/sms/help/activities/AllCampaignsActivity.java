@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -27,24 +26,25 @@ import com.sms.help.tasks.GetDataVersionTask;
 import com.sms.help.types.CampaignBasicInfo;
 import com.sms.help.types.CampaignFullInfo;
 
-public class AllCampaignsActivity extends Activity implements OnClickListener {
+public class AllCampaignsActivity extends Activity implements OnClickListener,
+		OnItemClickListener {
 
-	private String chosenType = Constants.TYPE_PEOPLE;
+	private String currentCampaignType = Constants.TYPE_PEOPLE;
 
-	private ListView mlistView;
-	private AllCampaignsAdapter adapter;
+	private ListView listViewCampaigns;
+	private AllCampaignsAdapter adapterCampaigns;
 
 	private LinearLayout textViewPeople;
 	private LinearLayout textViewOrganisation;
 	private LinearLayout textViewSpecial;
 	private LinearLayout textViewOther;
 
-	private ArrayList<CampaignBasicInfo> list = new ArrayList<CampaignBasicInfo>();
+	private ArrayList<CampaignBasicInfo> listCampaigns = new ArrayList<CampaignBasicInfo>();
 
 	private Loader loader;
 
 	/* Database */
-	DatabaseHelper db;
+	DatabaseHelper databaseHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,19 +54,11 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		/* Loader */
 		loader = new Loader(AllCampaignsActivity.this);
 
-		/* Init wiidgets */
-		mlistView = (ListView) findViewById(R.id.list_view);
-
-		textViewPeople = (LinearLayout) findViewById(R.id.tab_people);
-		textViewPeople.setSelected(true);
-		textViewOrganisation = (LinearLayout) findViewById(R.id.tab_organisations);
-		textViewSpecial = (LinearLayout) findViewById(R.id.tab_special);
-		textViewOther = (LinearLayout) findViewById(R.id.tab_other);
-
 		/* Database instance */
-		db = DatabaseHelper.getInstance(this);
+		databaseHelper = DatabaseHelper.getInstance(this);
 
-		Log.e("Version", "version now is " + db.getVersion());
+		/* Get all widgets */
+		initWidgets();
 
 		SharedPreferences prefs = getSharedPreferences(Constants.SMSHELP_PREFS,
 				Activity.MODE_PRIVATE);
@@ -74,22 +66,17 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 
 			if (Utils.haveNetworkConnection(this)) {
 
-				// insert 0 as start version number
-				db.insertVersion("0");
-				// get the whole data here - version 0
-				getDataAndLoad(false);
-				// get the last version
-				new GetDataVersionTask(this).execute();
+				onFirstStart();
 
 				prefs.edit().putBoolean(Constants.FIRST_START, false).commit();
 
 			} else {
-				// work the old way
+
 				getData();
 			}
 
 		} else {
-			// work the old way
+
 			getData();
 		}
 
@@ -100,225 +87,31 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 		textViewOther.setOnClickListener(this);
 
 		/* On item click listener for the list view elements */
-		mlistView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-
-				int campaignID = (Integer) view.getTag(R.id.imageview_picture);
-
-				CampaignFullInfo fullInfo = db.getCampaignByID(campaignID);
-
-				if (fullInfo != null) {
-					Intent intent = new Intent(AllCampaignsActivity.this,
-							CampaignProfileActivity.class);
-					intent.putExtra("full", fullInfo);
-					startActivity(intent);
-					// first one pushes the new activity in
-					// second one pushes the old activity out
-					overridePendingTransition(R.anim.in_new_activity,
-							R.anim.out_old_activity);
-				}
-
-			}
-		});
+		listViewCampaigns.setOnItemClickListener(this);
 
 	}
 
-	/** On click listener for tabs */
-	@Override
-	public void onClick(View v) {
+	/** Get all widgets */
+	private void initWidgets() {
 
-		switch (v.getId()) {
+		listViewCampaigns = (ListView) findViewById(R.id.list_view);
 
-		case R.id.tab_people:
-			textViewOther.setSelected(false);
-			textViewSpecial.setSelected(false);
-			textViewOrganisation.setSelected(false);
-			textViewPeople.setSelected(true);
-
-			chosenType = Constants.TYPE_PEOPLE;
-			loadData();
-			break;
-		case R.id.tab_organisations:
-			textViewOther.setSelected(false);
-			textViewSpecial.setSelected(false);
-			textViewOrganisation.setSelected(true);
-			textViewPeople.setSelected(false);
-
-			chosenType = Constants.TYPE_ORGANIZATION;
-			loadData();
-			break;
-		case R.id.tab_special:
-			textViewOther.setSelected(false);
-			textViewSpecial.setSelected(true);
-			textViewOrganisation.setSelected(false);
-			textViewPeople.setSelected(false);
-
-			chosenType = Constants.TYPE_SPECIAL;
-			loadData();
-			break;
-		case R.id.tab_other:
-			textViewOther.setSelected(true);
-			textViewSpecial.setSelected(false);
-			textViewOrganisation.setSelected(false);
-			textViewPeople.setSelected(false);
-
-			chosenType = Constants.TYPE_OTHER;
-			loadData();
-			break;
-
-		default:
-			break;
-
-		}
+		textViewPeople = (LinearLayout) findViewById(R.id.tab_people);
+		textViewPeople.setSelected(true);
+		textViewOrganisation = (LinearLayout) findViewById(R.id.tab_organisations);
+		textViewSpecial = (LinearLayout) findViewById(R.id.tab_special);
+		textViewOther = (LinearLayout) findViewById(R.id.tab_other);
 
 	}
 
-	public void getDataAndLoad(boolean update) {
+	/** On First Start */
+	private void onFirstStart() {
 
-		GetDataTask task = new GetDataTask(this) {
+		databaseHelper.insertVersion("0");
 
-			@Override
-			protected void onPostExecute(Boolean result) {
-				super.onPostExecute(result);
+		getCampaignsFromAPI();
 
-				// start threads to download images and write them to cache
-				downloadAllImages();
-			}
-
-		};
-
-		if (!loader.isShowing())
-			loader.show();
-
-		task.execute();
-
-	}
-
-	public void getData() {
-
-		// DatabaseHelper db = DatabaseHelper.getInstance(this);
-		int count = db.getCount();
-		// db.close();
-
-		if (Utils.haveNetworkConnection(this)) {
-
-			/* Internet YES, Check DB */
-
-			if (count == 0) {
-
-				/* DB is EMPTY, Get DB from API */
-				getDataAndLoad(false);
-
-			} else {
-
-				/* DB is NOT EMPTY, Check for new version */
-				checkForNewDB();
-
-			}
-
-		} else {
-
-			/* Internet NO, Check DB */
-
-			if (count == 0) {
-
-				/* DB is EMPTY, Show Internet Message */
-				if (loader.isShowing())
-					loader.dismiss();
-
-				Utils.noInternetDialog(AllCampaignsActivity.this);
-
-			} else {
-
-				/* DB is NOT EMPTY, Load data from DB */
-				loadData();
-			}
-
-		}
-
-	}
-
-	private void checkForNewDB() {
-
-		GetDataVersionTask task = new GetDataVersionTask(this) {
-
-			@Override
-			protected void onPostExecute(Boolean getData) {
-
-				/* DB is NOT EMPTY, Check for new DB */
-				if (getData) {
-
-					/* NEW DB, Update DB */
-					getDataAndLoad(true);
-				} else {
-
-					/* NO NEW DB, Load data from DB */
-					loadData();
-
-				}
-
-			}
-
-		};
-
-		if (!loader.isShowing())
-			loader.show();
-		task.execute();
-
-	}
-
-	private void getBasicInfoFromDB() {
-
-		/* Get data from DB */
-
-		list = db.getBasicInfoByType(chosenType);
-		// db.close();
-
-		if (list == null)
-			list = new ArrayList<CampaignBasicInfo>();
-
-	}
-
-	private void loadData() {
-
-		/* Get data from DB */
-		getBasicInfoFromDB();
-
-		this.adapter = new AllCampaignsAdapter(this,
-				R.layout.list_item_campaign, list);
-		mlistView.setAdapter(adapter);
-
-		if (loader.isShowing())
-			loader.dismiss();
-
-	}
-
-	private void downloadAllImages() {
-
-		// get all campaigns from db
-		DatabaseHelper db = DatabaseHelper.getInstance(this);
-		ArrayList<CampaignFullInfo> allCampaigns = db.getAllCampaigns();
-
-		// TEST download images
-		ArrayList<String> urls = new ArrayList<String>();
-		for (CampaignFullInfo info : allCampaigns)
-			urls.add(info.campaignImageURL);
-
-		DownloadImages downloadTask = new DownloadImages(this) {
-
-			@Override
-			protected void onPostExecute(ArrayList<Bitmap> bitmaps) {
-
-				// images are available now, load campaigns
-				loadData();
-
-			}
-		};
-
-		downloadTask.execute(urls);
+		new GetDataVersionTask(this).execute();
 
 	}
 
@@ -349,4 +142,226 @@ public class AllCampaignsActivity extends Activity implements OnClickListener {
 				R.anim.out_old_activity);
 
 	}
+
+	/** On click listener for tabs */
+	@Override
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+
+		case R.id.tab_people:
+			textViewOther.setSelected(false);
+			textViewSpecial.setSelected(false);
+			textViewOrganisation.setSelected(false);
+			textViewPeople.setSelected(true);
+
+			currentCampaignType = Constants.TYPE_PEOPLE;
+			loadCampaigns();
+			break;
+		case R.id.tab_organisations:
+			textViewOther.setSelected(false);
+			textViewSpecial.setSelected(false);
+			textViewOrganisation.setSelected(true);
+			textViewPeople.setSelected(false);
+
+			currentCampaignType = Constants.TYPE_ORGANIZATION;
+			loadCampaigns();
+			break;
+		case R.id.tab_special:
+			textViewOther.setSelected(false);
+			textViewSpecial.setSelected(true);
+			textViewOrganisation.setSelected(false);
+			textViewPeople.setSelected(false);
+
+			currentCampaignType = Constants.TYPE_SPECIAL;
+			loadCampaigns();
+			break;
+		case R.id.tab_other:
+			textViewOther.setSelected(true);
+			textViewSpecial.setSelected(false);
+			textViewOrganisation.setSelected(false);
+			textViewPeople.setSelected(false);
+
+			currentCampaignType = Constants.TYPE_OTHER;
+			loadCampaigns();
+			break;
+
+		default:
+			break;
+
+		}
+
+	}
+
+	/** On Item Click Listener for the ListView */
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+
+		int campaignID = (Integer) view.getTag(R.id.imageview_picture);
+
+		CampaignFullInfo fullInfo = databaseHelper.getCampaignByID(campaignID);
+
+		if (fullInfo != null) {
+			Intent intent = new Intent(AllCampaignsActivity.this,
+					CampaignProfileActivity.class);
+			intent.putExtra("full", fullInfo);
+			startActivity(intent);
+			/*
+			 * first one pushes the new activity in, second one pushes the old
+			 * activity out
+			 */
+			overridePendingTransition(R.anim.in_new_activity,
+					R.anim.out_old_activity);
+		}
+
+	}
+
+	/** Get campaigns from API */
+	public void getCampaignsFromAPI() {
+
+		GetDataTask task = new GetDataTask(this) {
+
+			@Override
+			protected void onPostExecute(Boolean result) {
+				super.onPostExecute(result);
+
+				/* start threads to download images and write them to cache */
+				downloadAllImages();
+			}
+
+		};
+
+		if (!loader.isShowing())
+			loader.show();
+
+		task.execute();
+
+	}
+
+	/** Get data */
+	public void getData() {
+
+		int count = databaseHelper.getCount();
+
+		if (Utils.haveNetworkConnection(this)) {
+
+			/* Internet YES, Check DB */
+
+			if (count == 0) {
+
+				/* DB is EMPTY, Get DB from API */
+				getCampaignsFromAPI();
+
+			} else {
+
+				/* DB is NOT EMPTY, Check for new version */
+				checkForNewVersion();
+
+			}
+
+		} else {
+
+			/* Internet NO, Check DB */
+
+			if (count == 0) {
+
+				/* DB is EMPTY, Show Internet Message */
+				if (loader.isShowing())
+					loader.dismiss();
+
+				Utils.noInternetDialog(AllCampaignsActivity.this);
+
+			} else {
+
+				/* DB is NOT EMPTY, Load data from DB */
+				loadCampaigns();
+			}
+
+		}
+
+	}
+
+	/** Check for new version of the API */
+	private void checkForNewVersion() {
+
+		GetDataVersionTask task = new GetDataVersionTask(this) {
+
+			@Override
+			protected void onPostExecute(Boolean getData) {
+
+				/* DB is NOT EMPTY, Check for new DB */
+				if (getData) {
+
+					/* NEW DB, Update DB */
+					getCampaignsFromAPI();
+				} else {
+
+					/* NO NEW DB, Load data from DB */
+					loadCampaigns();
+
+				}
+
+			}
+
+		};
+
+		if (!loader.isShowing())
+			loader.show();
+		task.execute();
+
+	}
+
+	/** Get campaigns from database by type */
+	private void getCampaignsFromDB() {
+
+		/* Get data from DB */
+		listCampaigns = databaseHelper.getBasicInfoByType(currentCampaignType);
+
+		if (listCampaigns == null)
+			listCampaigns = new ArrayList<CampaignBasicInfo>();
+
+	}
+
+	/** Load campaigns */
+	private void loadCampaigns() {
+
+		/* Get data from DB */
+		getCampaignsFromDB();
+
+		this.adapterCampaigns = new AllCampaignsAdapter(this,
+				R.layout.list_item_campaign, listCampaigns);
+		listViewCampaigns.setAdapter(adapterCampaigns);
+
+		if (loader.isShowing())
+			loader.dismiss();
+
+	}
+
+	/** Download all images and save them to cache folder */
+	private void downloadAllImages() {
+
+		// get all campaigns from db
+		DatabaseHelper db = DatabaseHelper.getInstance(this);
+		ArrayList<CampaignFullInfo> allCampaigns = db.getAllCampaigns();
+
+		ArrayList<String> urls = new ArrayList<String>();
+		for (CampaignFullInfo info : allCampaigns)
+			urls.add(info.campaignImageURL);
+
+		DownloadImages downloadTask = new DownloadImages(this) {
+
+			@Override
+			protected void onPostExecute(ArrayList<Bitmap> bitmaps) {
+
+				// images are available now, load campaigns
+				loadCampaigns();
+
+			}
+		};
+
+		downloadTask.execute(urls);
+
+	}
+
 }
