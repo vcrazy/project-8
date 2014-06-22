@@ -24,8 +24,7 @@
             android:layout_height="wrap_content"
             android:divider="@color/separator_list_color"
             android:dividerHeight="1dp"
-            android:listSelector="@android:color/transparent"
-            android:scrollbarThumbVertical="@android:color/black" />
+            android:listSelector="@android:color/transparent" />
 
         <View
             android:layout_width="match_parent"
@@ -99,7 +98,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/organisations"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +129,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/specials"
                 android:textColor="@android:color/white"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
         <LinearLayout

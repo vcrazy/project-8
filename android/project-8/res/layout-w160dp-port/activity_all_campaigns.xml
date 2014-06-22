@@ -24,8 +24,7 @@
             android:layout_height="wrap_content"
             android:divider="@color/separator_list_color"
             android:dividerHeight="1dp"
-            android:listSelector="@android:color/transparent"
-            android:scrollbarThumbVertical="@android:color/black" />
+            android:listSelector="@android:color/transparent" />
 
         <View
             android:layout_width="match_parent"
@@ -45,7 +44,7 @@
             android:id="@+id/tab_people"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.05"
             android:background="@drawable/text_state"
             android:clickable="true"
             android:gravity="center"
@@ -68,7 +67,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/people"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="8sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
-            android:layout_weight="1"
+            android:layout_weight="0.95"
             android:background="@drawable/text_state"
             android:clickable="true"
             android:gravity="center"
@@ -99,7 +98,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/organisations"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="8sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -107,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
-            android:layout_weight="1"
+            android:layout_weight="0.95"
             android:background="@drawable/text_state"
             android:clickable="true"
             android:gravity="center"
@@ -130,7 +129,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/specials"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="8sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -138,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
-            android:layout_weight="1"
+            android:layout_weight="1.05"
             android:background="@drawable/text_state"
             android:clickable="true"
             android:gravity="center"
@@ -161,7 +160,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/other"
                 android:textColor="@android:color/white"
-                android:textSize="10sp" />
+                android:textSize="8sp" />
         </LinearLayout>
     </LinearLayout>
 
