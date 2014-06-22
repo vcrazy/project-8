@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.sms.help.types.CampaignBasicInfo;
 import com.sms.help.types.CampaignFullInfo;
@@ -222,6 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (c != null && c.getCount() > 0) {
 			c.moveToFirst();
 			String currentVersion = c.getString(c.getColumnIndex(KEY_VERSION));
+
 			if (!currentVersion.equals(version)) {
 				ContentValues values = new ContentValues();
 				values.put(KEY_VERSION, version);
@@ -240,6 +242,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		c.close();
 		db.close();
+		Log.e("Test", "return false");
 		return false;
 	}
 
@@ -507,13 +510,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (campaign.SMSPrice > 0.0)
 			values.put(KEY_PRICE_SMS, campaign.SMSPrice);
 
-		if (campaign.campaignDescription != null)
+		if (campaign.SMSText != null && !campaign.SMSText.equals(""))
 			values.put(KEY_TEXT_SMS, campaign.SMSText);
 
-		if (campaign.campaignName != null)
+		if (campaign.campaignName != null && !campaign.campaignName.equals(""))
 			values.put(KEY_CAMPAIGN_NAME, campaign.campaignName);
 
-		if (campaign.campaignSubname != null)
+		if (campaign.campaignSubname != null
+				&& !campaign.campaignSubname.equals(""))
 			values.put(KEY_CAMPAIGN_SUBNAME, campaign.campaignSubname);
 
 		if (campaign.campaignStartDate > 0)
@@ -522,16 +526,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (campaign.campaignEndDate > 0)
 			values.put(KEY_END_DATE, campaign.campaignEndDate);
 
-		if (campaign.campaignType != null)
+		if (campaign.campaignType != null && !campaign.campaignType.equals(""))
 			values.put(KEY_CAMPAIGN_TYPE, campaign.campaignType);
 
-		if (campaign.campaignDescription != null)
+		if (campaign.campaignDescription != null
+				&& !campaign.campaignDescription.equals(""))
 			values.put(KEY_TEXT_CAMPAIGN, campaign.campaignDescription);
 
-		if (campaign.campaignImageURL != null)
+		if (campaign.campaignImageURL != null
+				&& !campaign.campaignImageURL.equals(""))
 			values.put(KEY_IMAGE, campaign.campaignImageURL);
 
-		if (campaign.campaignLink != null)
+		if (campaign.campaignLink != null && !campaign.campaignLink.equals(""))
 			values.put(KEY_CAMPAIGN_LINK, campaign.campaignLink);
 
 		db.update(TABLE_CAMPAIGNS, values, KEY_CAMPAIGN_ID + " = ?",

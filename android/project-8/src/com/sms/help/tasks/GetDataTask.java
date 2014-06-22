@@ -60,11 +60,6 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 			if (list != null) {
 
-				// int count = db.getCount();
-				// if (count <= 0) {
-				// db.insertCampaigns(list, update);
-				// }
-
 				if (version.equals("0")) {
 					db.initCampaigns(list);
 				} else {
@@ -104,17 +99,20 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 			// delete
 			if (status.equalsIgnoreCase("delete")) {
 				db.deleteCampaign(item.campaignID);
+				Log.e("Test", "Delete campaign " + item.campaignID);
 			}
 			// insert
 			else if (status.equalsIgnoreCase("insert")) {
 				ArrayList<CampaignFullInfo> l = new ArrayList<CampaignFullInfo>();
 				l.add(item);
 				db.initCampaigns(l);
+				Log.e("Test", "Insert campaign " + item.campaignID);
 
 			}
 			// update
 			else if (status.equalsIgnoreCase("update")) {
 				db.updateCampaign(item);
+				Log.e("Test", "Update campaign " + item.campaignID);
 			}
 
 		}

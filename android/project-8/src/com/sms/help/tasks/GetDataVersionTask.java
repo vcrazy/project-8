@@ -14,9 +14,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.sms.help.Constants;
-import com.sms.help.db.DatabaseHelper;
 
-public class GetDataVersionTask extends AsyncTask<Void, Void, Boolean> {
+public class GetDataVersionTask extends AsyncTask<Void, Void, String> {
 
 	// private static final String URL =
 	// "http://ganev.bg/project-8/api/version";
@@ -29,38 +28,30 @@ public class GetDataVersionTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected Boolean doInBackground(Void... params) {
-		boolean result = false;
+	protected String doInBackground(Void... params) {
+
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(Constants.URL_VERSION);
 
 		try {
+
 			HttpResponse response = client.execute(get);
 			String jsonResponse = EntityUtils.toString(response.getEntity());
 			JSONObject json = new JSONObject(jsonResponse);
 			version = json.getString(Constants.VERSION);
 
-			if (version != null) {
-				// insert in db
-				DatabaseHelper db = DatabaseHelper.getInstance(context);
-				result = db.insertVersion(version);
-
-			} else {
-				return false;
-			}
-
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 
-		return result;
+		return version;
 
 	}
 }

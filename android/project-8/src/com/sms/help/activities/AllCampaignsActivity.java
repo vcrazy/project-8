@@ -46,6 +46,9 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 	/* Database */
 	DatabaseHelper databaseHelper;
 
+	private String currentVersion;
+	private String newVersion;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +59,8 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 
 		/* Database instance */
 		databaseHelper = DatabaseHelper.getInstance(this);
+
+		currentVersion = databaseHelper.getVersion();
 
 		/* Get all widgets */
 		initWidgets();
@@ -228,6 +233,10 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 
 				/* start threads to download images and write them to cache */
 				downloadAllImages();
+
+				/* Insert new version after successful update. */
+				if (result)
+					databaseHelper.insertVersion(newVersion);
 			}
 
 		};
@@ -288,17 +297,34 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 		GetDataVersionTask task = new GetDataVersionTask(this) {
 
 			@Override
-			protected void onPostExecute(Boolean getData) {
+			protected void onPostExecute(String version) {
 
-				/* DB is NOT EMPTY, Check for new DB */
-				if (getData) {
+				/*
+				 * The task returns the new version from the API. Check if the
+				 * new version is greater than the current one.
+				 */
 
-					/* NEW DB, Update DB */
-					getCampaignsFromAPI();
-				} else {
+				currentVersion = databaseHelper.getVersion();
+				newVersion = version;
 
-					/* NO NEW DB, Load data from DB */
-					loadCampaigns();
+				if (newVersion != null) {
+
+					if (Integer.valueOf(currentVersion) < Integer
+							.valueOf(newVersion)) {
+
+						/*
+						 * Get new data from the API. Then insert the new
+						 * version in the database.
+						 */
+						/* NEW DB, Update DB */
+						getCampaignsFromAPI();
+
+					} else {
+
+						/* NO NEW DB, Load data from DB */
+						loadCampaigns();
+
+					}
 
 				}
 
