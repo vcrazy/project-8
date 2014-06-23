@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -259,8 +258,6 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 				if (result)
 					databaseHelper.insertVersion(newVersion);
 
-				Log.e("Test", "Current version " + currentVersion
-						+ "; new version " + newVersion);
 			}
 
 		};
@@ -396,8 +393,11 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 		ArrayList<CampaignFullInfo> allCampaigns = db.getAllCampaigns();
 
 		ArrayList<String> urls = new ArrayList<String>();
-		for (CampaignFullInfo info : allCampaigns)
+		for (CampaignFullInfo info : allCampaigns) {
+
 			urls.add(info.campaignImageURL);
+
+		}
 
 		DownloadImages downloadTask = new DownloadImages(this) {
 

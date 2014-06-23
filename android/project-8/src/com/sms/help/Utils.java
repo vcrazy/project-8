@@ -103,4 +103,23 @@ public class Utils {
 		return returnBitmap;
 
 	}
+
+	public static void deleteImageFromCache(Context context, String name) {
+
+		String path = context.getExternalCacheDir().toString();
+
+		try {
+
+			File file = new File(path, URLEncoder.encode(name, "utf-8"));
+
+			if (file.exists()) {
+
+				file.delete();
+			}
+
+		} catch (IOException e) {
+
+		}
+
+	}
 }

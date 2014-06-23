@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.sms.help.Constants;
+import com.sms.help.Utils;
 import com.sms.help.db.DatabaseHelper;
 import com.sms.help.types.CampaignFullInfo;
 
@@ -98,7 +99,16 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 			// delete
 			if (status.equalsIgnoreCase("delete")) {
+
+				CampaignFullInfo campaignToBeDeleted = db
+						.getCampaignByID(item.campaignID);
+				if (campaignToBeDeleted != null
+						&& campaignToBeDeleted.campaignImageURL != null)
+					Utils.deleteImageFromCache(context,
+							campaignToBeDeleted.campaignImageURL);
+
 				db.deleteCampaign(item.campaignID);
+
 				Log.e("Test", "Delete campaign " + item.campaignID);
 			}
 			// insert
