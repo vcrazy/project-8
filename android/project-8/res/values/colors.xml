@@ -4,5 +4,7 @@
     <color name="separator_list_color">#EEEEEE</color>
     <color name="tab_light_color">#0FBEF2</color>
     <color name="tab_dark_color">#286388</color>
+    <color name="scrollbar_color">#24BFEF</color>
+   
 
 </resources>

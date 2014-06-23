@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -113,10 +114,30 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 	private void onFirstStart() {
 
 		databaseHelper.insertVersion("0");
+		currentVersion = databaseHelper.getVersion();
 
-		getCampaignsFromAPI();
+		// new GetDataVersionTask(this).execute();
 
-		new GetDataVersionTask(this).execute();
+		GetDataVersionTask task = new GetDataVersionTask(this) {
+
+			@Override
+			protected void onPostExecute(String version) {
+
+				/*
+				 * The task returns the new version from the API. Check if the
+				 * new version is greater than the current one.
+				 */
+
+				currentVersion = databaseHelper.getVersion();
+				newVersion = version;
+
+				getCampaignsFromAPI();
+
+			}
+
+		};
+
+		task.execute();
 
 	}
 
@@ -237,6 +258,9 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 				/* Insert new version after successful update. */
 				if (result)
 					databaseHelper.insertVersion(newVersion);
+
+				Log.e("Test", "Current version " + currentVersion
+						+ "; new version " + newVersion);
 			}
 
 		};

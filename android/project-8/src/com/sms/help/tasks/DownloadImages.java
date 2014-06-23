@@ -41,9 +41,11 @@ public class DownloadImages extends
 
 				Bitmap bitmap = BitmapFactory
 						.decodeStream((InputStream) connection.getContent());
-				bitmaps.add(bitmap);
 
-				saveImageToCache(urls.get(i), bitmap);
+				if (bitmap != null) {
+					bitmaps.add(bitmap);
+					saveImageToCache(urls.get(i), bitmap);
+				}
 
 			} catch (MalformedURLException e) {
 				e.printStackTrace();

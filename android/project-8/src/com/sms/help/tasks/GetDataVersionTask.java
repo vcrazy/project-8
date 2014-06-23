@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.sms.help.Constants;
 
@@ -39,6 +40,8 @@ public class GetDataVersionTask extends AsyncTask<Void, Void, String> {
 			String jsonResponse = EntityUtils.toString(response.getEntity());
 			JSONObject json = new JSONObject(jsonResponse);
 			version = json.getString(Constants.VERSION);
+
+			Log.e("Test", "In get version, version is " + version);
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

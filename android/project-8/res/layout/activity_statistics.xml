@@ -31,7 +31,9 @@
         android:layout_height="wrap_content"
         android:divider="@color/separator_list_color"
         android:dividerHeight="1dp"
-        android:listSelector="@android:color/transparent" />
+        android:listSelector="@android:color/transparent"
+        android:scrollbarFadeDuration="450"
+        android:scrollbarThumbVertical="@color/scrollbar_color" />
 
     <View
         android:layout_width="match_parent"
