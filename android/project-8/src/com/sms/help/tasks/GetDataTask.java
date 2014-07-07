@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.sms.help.Constants;
 import com.sms.help.Utils;
@@ -44,8 +43,6 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 		if (!version.equals("0"))
 			url += Constants.VERSION_PARAM + version;
-
-		Log.e("Test", url);
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpGet get = new HttpGet(url);
@@ -109,20 +106,18 @@ public class GetDataTask extends AsyncTask<Void, Void, Boolean> {
 
 				db.deleteCampaign(item.campaignID);
 
-				Log.e("Test", "Delete campaign " + item.campaignID);
 			}
 			// insert
 			else if (status.equalsIgnoreCase("insert")) {
 				ArrayList<CampaignFullInfo> l = new ArrayList<CampaignFullInfo>();
 				l.add(item);
 				db.initCampaigns(l);
-				Log.e("Test", "Insert campaign " + item.campaignID);
 
 			}
 			// update
 			else if (status.equalsIgnoreCase("update")) {
 				db.updateCampaign(item);
-				Log.e("Test", "Update campaign " + item.campaignID);
+
 			}
 
 		}

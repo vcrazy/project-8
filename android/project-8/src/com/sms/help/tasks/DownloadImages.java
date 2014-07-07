@@ -61,7 +61,7 @@ public class DownloadImages extends
 	private void saveImageToCache(String name, Bitmap bitmap)
 			throws IOException {
 
-		String path = context.getExternalCacheDir().toString();
+		String path = context.getExternalFilesDir(null).toString();
 
 		OutputStream fOut = null;
 		File file = new File(path, URLEncoder.encode(name, "utf-8"));

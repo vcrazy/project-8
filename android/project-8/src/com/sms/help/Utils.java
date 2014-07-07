@@ -81,7 +81,7 @@ public class Utils {
 
 		Bitmap returnBitmap = null;
 
-		String path = context.getExternalCacheDir().toString();
+		String path = context.getExternalFilesDir(null).toString();
 
 		try {
 
@@ -106,7 +106,7 @@ public class Utils {
 
 	public static void deleteImageFromCache(Context context, String name) {
 
-		String path = context.getExternalCacheDir().toString();
+		String path = context.getExternalFilesDir(null).toString();
 
 		try {
 

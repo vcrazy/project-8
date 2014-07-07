@@ -10,7 +10,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.sms.help.types.CampaignBasicInfo;
 import com.sms.help.types.CampaignFullInfo;
@@ -215,34 +214,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/* ====== VERSION ====== */
 	public boolean insertVersion(String version) {
 
-		String selectQuery = "SELECT * FROM " + TABLE_VERSION;
+		String currentVersion = getVersion();
+
+		// String selectQuery = "SELECT * FROM " + TABLE_VERSION;
 
 		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor c = db.rawQuery(selectQuery, null);
+		// Cursor c = db.rawQuery(selectQuery, null);
 
-		if (c != null && c.getCount() > 0) {
-			c.moveToFirst();
-			String currentVersion = c.getString(c.getColumnIndex(KEY_VERSION));
+		// if (c != null && c.getCount() > 0) {
+		// c.moveToFirst();
+		// String currentVersion = c.getString(c.getColumnIndex(KEY_VERSION));
 
-			if (!currentVersion.equals(version)) {
-				ContentValues values = new ContentValues();
-				values.put(KEY_VERSION, version);
-				int result = db.update(TABLE_VERSION, values, null, null);
-				if (result > 0)
-					return true;
-			}
-		} else {
+		if (!currentVersion.equals(version)) {
 			ContentValues values = new ContentValues();
 			values.put(KEY_VERSION, version);
-			long result = -1;
-			result = db.insert(TABLE_VERSION, null, values);
-			if (result > -1)
+			int result = db.update(TABLE_VERSION, values, null, null);
+			if (result > 0)
 				return true;
 		}
+		// } else {
+		// ContentValues values = new ContentValues();
+		// values.put(KEY_VERSION, version);
+		// long result = -1;
+		// result = db.insert(TABLE_VERSION, null, values);
+		// if (result > -1)
+		// return true;
+		// }
 
-		c.close();
+		// c.close();
 		db.close();
-		Log.e("Test", "return false");
+
 		return false;
 	}
 
@@ -254,12 +255,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		Cursor c = db.rawQuery(selectQuery, null);
 
-		if (c != null && c.getCount() > 0)
+		if (c != null && c.getCount() > 0) {
 			c.moveToFirst();
-		else
-			return null;
+		} else {
+			return "0";
+		}
 
-		return c.getString(c.getColumnIndex(KEY_VERSION));
+		String returnValue = c.getString(c.getColumnIndex(KEY_VERSION)) == null ? "0"
+				: c.getString(c.getColumnIndex(KEY_VERSION));
+
+		return returnValue;
 
 	}
 
