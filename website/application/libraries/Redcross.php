@@ -39,6 +39,8 @@ class Redcross
 			'date_from' => 0
 		);
 
+		$this->data = array_merge($this->data, $data);
+
 		$this->get_special_info();
 	}
 
