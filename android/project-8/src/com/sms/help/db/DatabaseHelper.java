@@ -214,36 +214,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/* ====== VERSION ====== */
 	public boolean insertVersion(String version) {
 
-		String currentVersion = getVersion();
+		// String currentVersion = getVersion();
 
-		// String selectQuery = "SELECT * FROM " + TABLE_VERSION;
-
+		String selectQuery = "SELECT * FROM " + TABLE_VERSION;
 		SQLiteDatabase db = this.getWritableDatabase();
-		// Cursor c = db.rawQuery(selectQuery, null);
+		Cursor c = db.rawQuery(selectQuery, null);
 
-		// if (c != null && c.getCount() > 0) {
-		// c.moveToFirst();
-		// String currentVersion = c.getString(c.getColumnIndex(KEY_VERSION));
-
-		if (!currentVersion.equals(version)) {
+		if (c == null || c.getCount() == 0) {
 			ContentValues values = new ContentValues();
 			values.put(KEY_VERSION, version);
-			int result = db.update(TABLE_VERSION, values, null, null);
-			if (result > 0)
+			long result = db.insert(TABLE_VERSION, null, values);
+			if (result > -1) {
+				c.close();
+				db.close();
 				return true;
+			}
+		} else {
+
+			c.moveToFirst();
+			String currentVersion = c.getString(c.getColumnIndex(KEY_VERSION));
+
+			if (!currentVersion.equals(version)) {
+				ContentValues values = new ContentValues();
+				values.put(KEY_VERSION, version);
+				int result = db.update(TABLE_VERSION, values, null, null);
+				if (result > 0) {
+					c.close();
+					db.close();
+					return true;
+				}
+			}
 		}
+
+		// if (currentVersion.equals("0")) {
+		// if (!currentVersion.equals(version)) {
+		// ContentValues values = new ContentValues();
+		// values.put(KEY_VERSION, version);
+		// long result = db.insert(TABLE_VERSION, null, values);
+		//
+		// if (result > 0) {
+		// db.close();
+		// return true;
+		// }
+		// }
 		// } else {
 		// ContentValues values = new ContentValues();
 		// values.put(KEY_VERSION, version);
-		// long result = -1;
-		// result = db.insert(TABLE_VERSION, null, values);
-		// if (result > -1)
+		// long result = db.insert(TABLE_VERSION, null, values);
+		// if (result > -1) {
+		// db.close();
 		// return true;
+		// }
+		//
 		// }
 
 		// c.close();
 		db.close();
-
 		return false;
 	}
 

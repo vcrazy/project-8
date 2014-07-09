@@ -251,12 +251,12 @@ public class AllCampaignsActivity extends Activity implements OnClickListener,
 			protected void onPostExecute(Boolean result) {
 				super.onPostExecute(result);
 
-				/* start threads to download images and write them to cache */
-				downloadAllImages();
-
 				/* Insert new version after successful update. */
-				if (result)
+				if (result) {
+					/* start threads to download images and write them to cache */
+					downloadAllImages();
 					databaseHelper.insertVersion(newVersion);
+				}
 
 			}
 
