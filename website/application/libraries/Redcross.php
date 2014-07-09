@@ -5,6 +5,8 @@ if(!defined('BASEPATH'))
 
 class Redcross
 {
+	private $url = 'http://www.redcross.bg';
+
 	protected $data = array();
 
 	public function __construct()
@@ -37,20 +39,115 @@ class Redcross
 			'date_from' => 0
 		);
 
-		$data[] = array(
-			'name' => 'Подкрепа на бежанците в България',
-			'subname' => 'Бежанци',
-			'type' => 'special',
-			'text' => "Национална благотворителна кампания в подкрепа на бежанците в България
-Кампанията се организира в подкрепа на усилията на държавните институции за преодоляване на кризисната ситуация и осигуряване на хуманитарна подкрепа от първа необходимост за стотици бежански семейства, останали без дом и препитание.",
-			'donation' => 1,
-			'picture' => 'http://www.redcross.bg/images/RMS_Donations/2014_04_RFL_01.JPG',
-			'link' => 'http://www.redcross.bg/campaign/refujees_campaign.html',
-			'sms_text' => '',
-			'sms_number' => 1466,
-			'date_from' => 0
-		);
+		$this->get_special_info();
+	}
 
-		$this->data = $data;
+	protected function get_special_info()
+	{
+		require_once 'phpQuery.php';
+
+		$url_content = file_get_contents($this->url . '/campaign.html');
+
+		if($url_content === FALSE)
+		{
+			return;
+		}
+
+		phpQuery::newDocumentHTML($url_content);
+
+		$links = $this->get_links();
+
+		$data = $this->get_data($links, 'special');
+
+		$this->data = array_merge($this->data, $data);
+	}
+
+	protected function get_links()
+	{
+		$all_links = array();
+
+		foreach(pq('#info .title a') as $a)
+		{
+			$href = '';
+
+			foreach($a->attributes as $att_k => $att_v)
+			{
+				if($att_k === 'href')
+				{
+					$href = $att_v->value;
+					break;
+				}
+			}
+
+			if($href)
+			{
+				$all_links[] = $href;
+			}
+		}
+
+		return $all_links;
+	}
+
+	protected function get_data($links, $campaign_type)
+	{
+		$data = array();
+
+		foreach($links as $link)
+		{
+			$link_content = file_get_contents($this->url . $link);
+
+			if($link_content === FALSE)
+			{
+				continue;
+			}
+
+			if(!preg_match('/1466/', $link_content))
+			{
+				continue;
+			}
+
+			phpQuery::newDocumentHTML($link_content);
+
+			foreach(pq('.title2') as $c)
+			{
+				$campaign_name = trim($c->nodeValue);
+				break;
+			}
+
+			foreach(pq('#info img') as $c)
+			{
+				$picture = '';
+
+				foreach($c->attributes as $att_k => $att_v)
+				{
+					if($att_k === 'src')
+					{
+						$picture = preg_replace('/^\.{2}/', $this->url, $att_v->value);
+
+						list($width, $height) = getimagesize($picture);
+
+						if($width > 100)
+						{
+							break 2;
+						}
+					}
+				}
+			}
+
+			$data[] = array(
+				'name' => $campaign_name,
+				'subname' => $campaign_name,
+				'type' => $campaign_type,
+				'text' => $campaign_name . "\n" . 'Специална кампания на Български Червен Кръст',
+				'donation' => 1,
+				'picture' => $picture,
+				'link' => $this->url . $link,
+				'sms_text' => '',
+				'sms_number' => 1466,
+				'date_from' => 0
+			);
+		}
+
+		return $data;
 	}
 }
