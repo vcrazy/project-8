@@ -1,0 +1,44 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+	#import <UIKit/UIKit.h>
+	#import <Foundation/Foundation.h>
+	#import "UIView+VPGExtensions.h"
+	#import "SMSHNotifications.h"
+	#import "SMSHConstants.h"
+	#import "SMSHImages.h"
+
+#ifdef DEBUG
+#define DBG(x...) NSLog(x)
+#else
+#define DBG(x...)
+#endif
+
+#define cgp(_X_, _Y_) CGPointMake((_X_), (_Y_))
+#define cgr(_X_, _Y_, _W_, _H_) CGRectMake((_X_), (_Y_), (_W_), (_H_))
+#define cgs(_W_, _H_) CGSizeMake((_W_), (_H_))
+
+#define is_string_valid(_str_) ((_str_) != nil && NO == [[(_str_) stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""])
+
+#define trim_string(_str_) [(_str_) stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]
+
+static __inline__ __attribute__((always_inline)) CGFloat normalizedLengthFromLength(CGFloat length)
+{
+	return roundf([UIScreen mainScreen].bounds.size.width * length / (720.0f / 2.0f));
+}
+
+#endif
+
+
